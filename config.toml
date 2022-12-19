@@ -1,0 +1,40 @@
+# The URL the site will be built for
+base_url = "https://mushogenshin.com"
+
+# Whether to automatically compile all Sass files in the sass directory
+compile_sass = true
+
+# Whether to build a search index to be used later on by a JavaScript library
+build_search_index = false
+
+theme = "float"
+
+taxonomies = [{ name = "tags", paginate_by = 10 }]
+
+[markdown]
+# Whether to do syntax highlighting
+# Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
+highlight_code = true
+
+[extra]
+# Put all your custom variables here
+
+main_section = ""
+
+copyright = "© Mushōgenshin 2023"
+
+web_fonts = "<link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&display=swap'>"
+
+google_analytics = false
+# google_analytics_id = "UA-XXXXXX-X"
+
+google_adsense = false
+# google_adsense_id = "ca-pub-XXXXXXXXXXXXXXXX"
+
+twitter_account = "@mushogenshin"
+
+likecoin = false
+# likecoin_name = "xxx"
+
+utterances = false
+# utterances_repo = "xxx/xxx"
