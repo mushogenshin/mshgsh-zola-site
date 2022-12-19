@@ -1,3 +1,7 @@
+title = "Anpu theme"
+description = "A clean blogging theme"
+generate_feed = true
+
 # The URL the site will be built for
 base_url = "https://mushogenshin.com"
 
@@ -9,7 +13,14 @@ build_search_index = false
 
 theme = "float"
 
+# Float theme
 taxonomies = [{ name = "tags", paginate_by = 10 }]
+
+# Anpu theme
+# taxonomies = [
+#     { name = "tags", rss = true },
+#     { name = "categories", rss = true },
+# ]
 
 [markdown]
 # Whether to do syntax highlighting
@@ -19,22 +30,18 @@ highlight_code = true
 [extra]
 # Put all your custom variables here
 
-main_section = ""
+# Anpu theme
+# anpu_date_format = "%e %B %Y"
+# anpu_menu_links = [
+#     { url = "$BASE_URL/about/", name = "About" },
+#     { url = "$BASE_URL/tags/", name = "Tags" },
+# ]
 
+# Float theme
 copyright = "© Mushōgenshin 2023"
-
 web_fonts = "<link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&display=swap'>"
-
 google_analytics = false
 # google_analytics_id = "UA-XXXXXX-X"
-
 google_adsense = false
 # google_adsense_id = "ca-pub-XXXXXXXXXXXXXXXX"
-
 twitter_account = "@mushogenshin"
-
-likecoin = false
-# likecoin_name = "xxx"
-
-utterances = false
-# utterances_repo = "xxx/xxx"
