@@ -1,9 +1,10 @@
-title = "Anpu theme"
-description = "A clean blogging theme"
-generate_feed = true
+title = "Mushōgenshin"
+description = "My thoughts on Art and Programming"
 
 # The URL the site will be built for
 base_url = "https://mushogenshin.com"
+
+# generate_feed = true
 
 # Whether to automatically compile all Sass files in the sass directory
 compile_sass = true
@@ -11,12 +12,14 @@ compile_sass = true
 # Whether to build a search index to be used later on by a JavaScript library
 build_search_index = false
 
-theme = "float"
+theme = "anatole"
 
-# Float theme
-taxonomies = [{ name = "tags", paginate_by = 10 }]
+# Anatole
+default_language = "en"
 
-# Anpu theme
+taxonomies = [{ name = "tags" }]
+
+# # Anpu theme
 # taxonomies = [
 #     { name = "tags", rss = true },
 #     { name = "categories", rss = true },
@@ -30,18 +33,46 @@ highlight_code = true
 [extra]
 # Put all your custom variables here
 
-# Anpu theme
+# Anatole
+tags = true
+links = true
+
+# # Anpu theme
 # anpu_date_format = "%e %B %Y"
 # anpu_menu_links = [
 #     { url = "$BASE_URL/about/", name = "About" },
 #     { url = "$BASE_URL/tags/", name = "Tags" },
 # ]
 
-# Float theme
-copyright = "© Mushōgenshin 2023"
-web_fonts = "<link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&display=swap'>"
-google_analytics = false
-# google_analytics_id = "UA-XXXXXX-X"
-google_adsense = false
-# google_adsense_id = "ca-pub-XXXXXXXXXXXXXXXX"
-twitter_account = "@mushogenshin"
+# # Float theme
+# copyright = "© Mushōgenshin 2023"
+# web_fonts = "<link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&display=swap'>"
+# google_analytics = false
+# # google_analytics_id = "UA-XXXXXX-X"
+# google_adsense = false
+# # google_adsense_id = "ca-pub-XXXXXXXXXXXXXXXX"
+# twitter_account = "@mushogenshin"
+
+# Anatole
+[extra.social]
+github = "mushogenshin"
+# stackoverflow = ""         # use user_id
+twitter = "mushogenshin"
+# facebook = ""
+instagram = "mushogenshin"
+# dribbble = ""
+# weibo = ""
+linkedin = ""
+# flickr = ""
+
+# Anatole
+[languages.en.translations]
+language_name = "English"
+about = "About"
+home = "Home"
+tags = "Tags"
+archive = "Archive"
+links = "Links"
+date_format = "%Y-%m-%d"
+next_page = "Next Page"
+last_page = "Last Page"

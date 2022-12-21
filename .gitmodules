@@ -4,6 +4,6 @@
 [submodule "themes/anpu"]
 	path = themes/anpu
 	url = https://github.com/zbrox/anpu-zola-theme
-[submodule "themes/anatole-zola"]
-	path = themes/anatole-zola
+[submodule "themes/anatole"]
+	path = themes/anatole
 	url = https://github.com/longfangsong/anatole-zola.git
