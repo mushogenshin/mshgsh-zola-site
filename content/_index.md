@@ -1,5 +1,5 @@
 +++
-title = "index"
+# title = "index"
 template = "index.html"
 transparent = true
 sort_by = "date"

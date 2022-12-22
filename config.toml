@@ -1,10 +1,10 @@
-title = "Mushōgenshin"
-description = "My thoughts on Art and Programming"
+# title = ""
+# description = ""
 
 # The URL the site will be built for
 base_url = "https://mushogenshin.com"
 
-# generate_feed = true
+generate_feed = true
 
 # Whether to automatically compile all Sass files in the sass directory
 compile_sass = true
@@ -19,6 +19,8 @@ default_language = "en"
 
 taxonomies = [{ name = "tags" }]
 
+highlight_theme = "base16-ocean-light"
+
 # # Anpu theme
 # taxonomies = [
 #     { name = "tags", rss = true },
@@ -32,10 +34,6 @@ highlight_code = true
 
 [extra]
 # Put all your custom variables here
-
-# Anatole
-tags = true
-links = true
 
 # # Anpu theme
 # anpu_date_format = "%e %B %Y"
@@ -54,6 +52,11 @@ links = true
 # twitter_account = "@mushogenshin"
 
 # Anatole
+[extra.show]
+tags = true
+links = true
+
+# Anatole
 [extra.social]
 github = "mushogenshin"
 # stackoverflow = ""         # use user_id
@@ -66,6 +69,12 @@ linkedin = ""
 # flickr = ""
 
 # Anatole
+[languages.en]
+title = "Mushōgenshin"
+description = "My thoughts on Art and Programming"
+generate_feed = true
+taxonomies = [{ name = "tags" }]
+
 [languages.en.translations]
 language_name = "English"
 about = "About"
