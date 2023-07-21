@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+	<title>Hoan Nguyen</title>
+	<subtitle>My thoughts on Art and Programming</subtitle>
+	<link href="https://mushogenshin.com/atom.xml" rel="self" type="application/atom+xml"/>
+  <link href="https://mushogenshin.com"/>
+	<generator uri="https://www.getzola.org/">Zola</generator>
+	<updated>2023-02-06T20:52:00+00:00</updated>
+	<id>https://mushogenshin.com/atom.xml</id>
+	<entry xml:lang="en">
+		<title>My Start on &quot;Battle of Cascina (3D)&quot;</title>
+		<published>2023-02-06T20:52:00+00:00</published>
+		<updated>2023-02-06T20:52:00+00:00</updated>
+		<link rel="alternate" href="https://mushogenshin.com/cascina/" type="text/html"/>
+		<id>https://mushogenshin.com/cascina/</id>
+		<content type="html">&lt;p&gt;In hindsight I slowly realized this was too ambitious and would take forever to complete.&lt;&#x2F;p&gt;
+&lt;!-- ## My original turntable references
+&lt;div &gt;
+    &lt;iframe src=&quot;https:&#x2F;&#x2F;www.youtube-nocookie.com&#x2F;embed&#x2F;RFrn4V_giIs&quot; webkitallowfullscreen mozallowfullscreen allowfullscreen&gt;&lt;&#x2F;iframe&gt;
+&lt;&#x2F;div&gt;
+ --&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;attachments&#x2F;cascina-2016-1.jpeg&quot; alt=&quot;WIP (2016) render&quot; &#x2F;&gt;
+&lt;img src=&quot;&#x2F;attachments&#x2F;cascina-2016-2.jpeg&quot; alt=&quot;WIP (2016) render&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;For other aspects, please see more renderings on &lt;a href=&quot;https:&#x2F;&#x2F;www.artstation.com&#x2F;artwork&#x2F;EbYkn&quot;&gt;ArtStation&lt;&#x2F;a&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;A relatively low resolution 3D model is also available to view at &lt;a href=&quot;https:&#x2F;&#x2F;skfb.ly&#x2F;JHGN&quot;&gt;Sketchfab&lt;&#x2F;a&gt;.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;What&#x27;s next (2023): I&#x27;m resuming on the project.&lt;&#x2F;p&gt;
+</content>
+	</entry>
+</feed>
