@@ -65,12 +65,12 @@ twitter = "mushogenshin"
 instagram = "mushogenshin"
 # dribbble = ""
 # weibo = ""
-linkedin = "mushō-genshin-客星無所懸心-b1720669"
+linkedin = "hoan-trong-nguyen"
 # flickr = ""
 
 # Anatole
 [languages.en]
-title = "Mushōgenshin"
+title = "Hoan Nguyen"
 description = "My thoughts on Art and Programming"
 generate_feed = true
 taxonomies = [{ name = "tags" }]

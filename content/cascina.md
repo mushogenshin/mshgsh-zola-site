@@ -5,7 +5,7 @@ date = 2023-02-06T20:52:00Z
 [taxonomies]
 tags = ["battle-of-cascina"]
 [extra]
-summary = "How NOT to start a huge project"
+summary = "How NOT to start a project comprising of 19 figurative sculptures"
 +++
 
 In hindsight I slowly realized this was too ambitious and would take forever to complete.
