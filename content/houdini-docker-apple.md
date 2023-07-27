@@ -34,11 +34,11 @@ Out of curiosity let's hijack this script to proceed none the less. We can tweak
 
 TODO: show last layer edits using sed
 
-After the small hack, our Houdini image will be successfully built, meaning we have installed Houdini on a Ubuntu AMD64 image on a MacBook, and theoretically can run it non-graphically to process any Houdini computations -- including serving our next peculiar idea of some web service unique to Houdini capabilities (e.g. geometry processing, Vellum, KineFX, Solaris, anyone?), how cool is that?
+After the small hack, our Houdini image will be successfully built, meaning we have installed Houdini on a Ubuntu AMD64 image on a MacBook, and theoretically can run it non-graphically to process any Houdini computations -- including serving our next peculiar idea of some web service unique to Houdini capabilities (e.g. insane geometry processing, Vellum, KineFX, Solaris, anyone?), how cool is that?
 
 ### 3. Error on executing hython due to QEMU cpuinfo support
 
-Following the next instructions in the `README`, from this single Houdini image we can spawn two containers: one serving the license, and the other running hython.
+Following the subsequent instructions in the `README`, from this single Houdini image we can spawn two containers: one serving the license, and the other running hython.
 
 - The first container of sesinetd runs with no problem:
 
@@ -50,6 +50,11 @@ TODO: show error message
 
 To admit, at this point I got rather frustrated, not knowing where I should file an issue: to Docker? or to SideFX? or to Pixar?
 
-After doing some searching, I believe this belongs to [QEMU](https://www.qemu.org/) supports for machine emulators, and the issue is with our Ubuntu AMD64 environment being emulated on Apple chip.
+After doing some searching, I believe this belongs to [QEMU](https://www.qemu.org/) supports for machine emulators, and the issue is with our Ubuntu AMD64 environment being emulated on Apple chip, see this [GitLab issue](https://gitlab.com/qemu-project/qemu/-/issues/750).
 
+This was when I had to sadly stop my tinkering.
+
+If anyone has some ideas to overcome this please let me know.
+
+What for next weekends? I don't think I'll test Houdini Docker Ubuntu on a Mac with Intel chip, which leaves only the Houdini Docker Windows in sight.
 
