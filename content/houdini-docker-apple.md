@@ -30,6 +30,26 @@ And fear not, this is just a very first hiccup we'll be experiencing! Anyhow, af
 
 Now if we run `docker-compose build`, the process will exit before it can complete the last layer where it's supposed to unzip the Houdini Linux build and run the `houdini.install` script, because it prompts for a Yes/No question about whether we want to proceed, saying "Your CPU does not appear to support SSE", but the script defaults to "No" for an answer.
 
-Out of curiosity let's hijack this script to proceed none the less. We can tweak the last layers in the `Dockerfile` like so to default the answer to Yes.
+Out of curiosity let's hijack this script to proceed none the less. We can tweak the last layers in the `Dockerfile` like so to default the answer to Yes:
+
+TODO: show last layer edits using sed
+
+After the small hack, our Houdini image will be successfully built, meaning we have installed Houdini on a Ubuntu AMD64 image on a MacBook, and theoretically can run it non-graphically to process any Houdini computations -- including serving our next peculiar idea of some web service unique to Houdini capabilities (e.g. geometry processing, Vellum, KineFX, Solaris, anyone?), how cool is that?
 
 ### 3. Error on executing hython due to QEMU cpuinfo support
+
+Following the next instructions in the `README`, from this single Houdini image we can spawn two containers: one serving the license, and the other running hython.
+
+- The first container of sesinetd runs with no problem:
+
+TODO: show command and image
+
+- What unfortunately won't be working (on Apple silicon, that is) is with the second container where we want to execute hython: an obscure message from the USD lib complaining about missing information in the /proc/cpuinfo:
+
+TODO: show error message
+
+To admit, at this point I got rather frustrated, not knowing where I should file an issue: to Docker? or to SideFX? or to Pixar?
+
+After doing some searching, I believe this belongs to [QEMU](https://www.qemu.org/) supports for machine emulators, and the issue is with our Ubuntu AMD64 environment being emulated on Apple chip.
+
+
