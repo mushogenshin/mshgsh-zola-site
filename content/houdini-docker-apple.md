@@ -12,6 +12,8 @@ It's a great news that SideFX offers [Docker files](https://www.sidefx.com/downl
 
 So I decided to give the **Houdini Docker (Ubuntu)** a spin! In this blog I'm documenting some interesting things specific to running on Apple silicon that I encountered along the way while having tinkered with it over a weekend.
 
+I'm assuming you have followed the necessary steps to edit the EULA date as outlined in the `README` in the downloaded zip from SideFX.
+
 ### 1. Prevent Docker Desktop on Apple Silicon from defaulting to Ubuntu for ARM architecture
 
 I'm on Docker Desktop `v4.21` on a M1 MacBook, and all my Ubuntu images if specified simply with a version, e.g. `FROM ubuntu:18.04`, turn out to be Ubuntu for ARM architecture, -- seemingly because Docker _infers_ from the host --, which in this case is _not_ what we want. So we have to edit the `Dockerfile` downloaded to include the hash if we want Docker to pull the correct Ubuntu for `amd64` architecture:
@@ -26,6 +28,8 @@ And fear not, this is just a very first hiccup we'll be experiencing! Anyhow, af
 
 ### 2. Bypass Houdini auto-install failure in the Ubuntu image due to "SSE" prompt
 
-If we run `docker-compose build` now,
+Now if we run `docker-compose build`, the process will exit before it can complete the last layer where it's supposed to unzip the Houdini Linux build and run the `houdini.install` script, because it prompts for a Yes/No question about whether we want to proceed, saying "Your CPU does not appear to support SSE", but the script defaults to "No" for an answer.
+
+Out of curiosity let's hijack this script to proceed none the less. We can tweak the last layers in the `Dockerfile` like so to default the answer to Yes.
 
 ### 3. Error on executing hython due to QEMU cpuinfo support
