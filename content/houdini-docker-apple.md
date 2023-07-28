@@ -10,7 +10,7 @@ summary = "Executing hython results in QEMU cpuinfo errors from USD lib"
 
 ![Houdini Docker Ubuntu on Apple Silicon](/attachments/houdini-docker-apple-chip-cover.JPG)
 
-It's a great news that SideFX offers [Docker files](https://www.sidefx.com/download/daily-builds/?docker=true) for their Houdini software: especially when the Houdini Python API already provides a very promising [web server](https://www.sidefx.com/docs/houdini/hwebserver/index.html) module, which together mean powerful, novel, services can be thought of, given some "**ingenuity and web development skill**" -- a phrase I really like from this [Unreal Remote Control](https://docs.unrealengine.com/5.2/en-US/remote-control-for-unreal-engine/) documentation.
+It's a great news that SideFX offers [Docker files](https://www.sidefx.com/download/daily-builds/?docker=true) for their Houdini software: especially when the Houdini Python API already provides a very promising [web server](https://www.sidefx.com/docs/houdini/hwebserver/index.html) module, which together mean powerful, novel, web services can be thought of, given some "**ingenuity and web development skill**" -- a phrase I really like from this [Unreal Remote Control](https://docs.unrealengine.com/5.2/en-US/remote-control-for-unreal-engine/) documentation.
 
 So I decided to give the **Houdini Docker (Ubuntu)** a spin! In this blog I'm documenting some interesting things specific to running on Apple silicon that I encountered along the way while having tinkered with it over a weekend.
 
@@ -30,9 +30,19 @@ And fear not, this is just a very first hiccup we'll experience going further! A
 
 ### 2. Bypass Houdini auto-install failure in the Ubuntu image due to "SSE" prompt
 
-Now if we run `docker-compose build`, the process will exit before it can complete the last layer where it's supposed to unzip the Houdini Linux build and run the `houdini.install` script, because it prompts for a Yes/No question about whether we want to proceed, saying "Your CPU does not appear to support SSE", but the script defaults to _"No"_ for an answer.
+Now if we run `docker-compose build`, the process will exit before it can complete the last layer where it's supposed to unzip the Houdini Linux build and run the `houdini.install` script: it prompts for a Yes/No question about whether we want to proceed with "unknown CPU", saying
 
-Out of curiosity let's hijack this script to proceed none the less. We can tweak the last layers in the `Dockerfile` like so to default the answer to _"Yes"_ using `sed` in-place:
+```
+22.69         WARNING:
+22.69   Your CPU (unkown CPU) does not appear
+22.69   to support SSE 4.2 instructions. SSE 4.2 is required to run Houdini.
+22.69
+22.69         Do you wish to continue (y or n) [n] ==> Nothing was installed.
+```
+
+As you can see, the script defaults to _"No"_ for an answer.
+
+Out of curiosity let's hijack this script to proceed none the less. We can tweak the last layers in the `Dockerfile` so that the `houdini.install` script defaults the answer to _"Yes"_, using `sed` in-place:
 
 ```bash
 RUN tar -xf /houdiniInstaller/houdini* -C /houdiniInstaller \
@@ -46,7 +56,7 @@ After the small hack, our Houdini image will be successfully built, meaning we h
 
 ### 3. Error on executing hython due to QEMU cpuinfo support
 
-Following the subsequent instructions in the `README`, from this single Houdini image we can spawn two containers: one serving the license, and the other running hython.
+Following the subsequent instructions in the `README`, from this single Houdini image we can spawn two containers: one serving the licenses, and the other running `hython`.
 
 - The first container of `sesinetd` runs with no problem:
 
@@ -56,13 +66,13 @@ docker-compose run -d -p 1715:1715 sesinetd
 
 ![sesinetd](/attachments/houdini-docker-sesinetd.png)
 
-- What unfortunately won't be working (on Apple silicon, that is) is with the second container where we want to execute hython:
+- What unfortunately won't be working (on Apple silicon, that is) is with the second container where we want to execute `hython`:
 
 ```bash
 docker-compose run hython
 ```
 
-From the resulted console, we encounter an obscure message from the USD lib complaining about missing information in the /proc/cpuinfo :
+From the resulted console, we encounter an obscure message from the USD lib complaining about missing information in the `/proc/cpuinfo`:
 
 ```bash
 root@hython:/# cd /opt/hfs19.5/bin
@@ -76,11 +86,11 @@ Aborted
 root@hython:/opt/hfs19.5/bin#
 ```
 
-Hmm, that's disappointing! Now where should we file an issue: to Docker? or to SideFX? or to Pixar?
+Hmm, that's disappointing! Now where should we file an issue: to Docker? or to SideFX? or to Pixar USD?
 
 After doing some searching, I believe this belongs to [QEMU](https://www.qemu.org/) supports for machine emulators, and the issue is with our Ubuntu AMD64 environment being emulated on Apple chip, see this [GitLab issue](https://gitlab.com/qemu-project/qemu/-/issues/750).
 
-This was when I had to sadly halt my tinkering with Houdini Docker on Apple chip.
+This was when I sadly had to halt my tinkering with Houdini Docker on Apple chip.
 
 If anyone has some ideas to overcome this please let me know.
 

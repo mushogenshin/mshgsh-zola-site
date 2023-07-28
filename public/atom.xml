@@ -14,7 +14,7 @@
 		<link rel="alternate" href="https://mushogenshin.com/houdini-docker-apple/" type="text/html"/>
 		<id>https://mushogenshin.com/houdini-docker-apple/</id>
 		<content type="html">&lt;p&gt;&lt;img src=&quot;&#x2F;attachments&#x2F;houdini-docker-apple-chip-cover.JPG&quot; alt=&quot;Houdini Docker Ubuntu on Apple Silicon&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
-&lt;p&gt;It&#x27;s a great news that SideFX offers &lt;a href=&quot;https:&#x2F;&#x2F;www.sidefx.com&#x2F;download&#x2F;daily-builds&#x2F;?docker=true&quot;&gt;Docker files&lt;&#x2F;a&gt; for their Houdini software: especially when the Houdini Python API already provides a very promising &lt;a href=&quot;https:&#x2F;&#x2F;www.sidefx.com&#x2F;docs&#x2F;houdini&#x2F;hwebserver&#x2F;index.html&quot;&gt;web server&lt;&#x2F;a&gt; module, which together mean powerful, novel, services can be thought of, given some &amp;quot;&lt;strong&gt;ingenuity and web development skill&lt;&#x2F;strong&gt;&amp;quot; -- a phrase I really like from this &lt;a href=&quot;https:&#x2F;&#x2F;docs.unrealengine.com&#x2F;5.2&#x2F;en-US&#x2F;remote-control-for-unreal-engine&#x2F;&quot;&gt;Unreal Remote Control&lt;&#x2F;a&gt; documentation.&lt;&#x2F;p&gt;
+&lt;p&gt;It&#x27;s a great news that SideFX offers &lt;a href=&quot;https:&#x2F;&#x2F;www.sidefx.com&#x2F;download&#x2F;daily-builds&#x2F;?docker=true&quot;&gt;Docker files&lt;&#x2F;a&gt; for their Houdini software: especially when the Houdini Python API already provides a very promising &lt;a href=&quot;https:&#x2F;&#x2F;www.sidefx.com&#x2F;docs&#x2F;houdini&#x2F;hwebserver&#x2F;index.html&quot;&gt;web server&lt;&#x2F;a&gt; module, which together mean powerful, novel, web services can be thought of, given some &amp;quot;&lt;strong&gt;ingenuity and web development skill&lt;&#x2F;strong&gt;&amp;quot; -- a phrase I really like from this &lt;a href=&quot;https:&#x2F;&#x2F;docs.unrealengine.com&#x2F;5.2&#x2F;en-US&#x2F;remote-control-for-unreal-engine&#x2F;&quot;&gt;Unreal Remote Control&lt;&#x2F;a&gt; documentation.&lt;&#x2F;p&gt;
 &lt;p&gt;So I decided to give the &lt;strong&gt;Houdini Docker (Ubuntu)&lt;&#x2F;strong&gt; a spin! In this blog I&#x27;m documenting some interesting things specific to running on Apple silicon that I encountered along the way while having tinkered with it over a weekend.&lt;&#x2F;p&gt;
 &lt;p&gt;I&#x27;m assuming you have followed the necessary steps to edit the EULA date as outlined in the &lt;code&gt;README&lt;&#x2F;code&gt; in the downloaded zip from SideFX.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;1-prevent-docker-desktop-on-apple-silicon-from-defaulting-to-ubuntu-for-arm-architecture&quot;&gt;1. Prevent Docker Desktop on Apple Silicon from defaulting to Ubuntu for ARM architecture&lt;&#x2F;h3&gt;
@@ -24,8 +24,15 @@
 &lt;p&gt;And fear not, this is just a very first hiccup we&#x27;ll experience going further! Anyhow, at the end of the next step we&#x27;ll be able to build a Docker image with intended architecture, like so:&lt;&#x2F;p&gt;
 &lt;p&gt;&lt;img src=&quot;&#x2F;attachments&#x2F;houdini-docker-amd64.png&quot; alt=&quot;AMD64 Docker image&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;2-bypass-houdini-auto-install-failure-in-the-ubuntu-image-due-to-sse-prompt&quot;&gt;2. Bypass Houdini auto-install failure in the Ubuntu image due to &amp;quot;SSE&amp;quot; prompt&lt;&#x2F;h3&gt;
-&lt;p&gt;Now if we run &lt;code&gt;docker-compose build&lt;&#x2F;code&gt;, the process will exit before it can complete the last layer where it&#x27;s supposed to unzip the Houdini Linux build and run the &lt;code&gt;houdini.install&lt;&#x2F;code&gt; script, because it prompts for a Yes&#x2F;No question about whether we want to proceed, saying &amp;quot;Your CPU does not appear to support SSE&amp;quot;, but the script defaults to &lt;em&gt;&amp;quot;No&amp;quot;&lt;&#x2F;em&gt; for an answer.&lt;&#x2F;p&gt;
-&lt;p&gt;Out of curiosity let&#x27;s hijack this script to proceed none the less. We can tweak the last layers in the &lt;code&gt;Dockerfile&lt;&#x2F;code&gt; like so to default the answer to &lt;em&gt;&amp;quot;Yes&amp;quot;&lt;&#x2F;em&gt; using &lt;code&gt;sed&lt;&#x2F;code&gt; in-place:&lt;&#x2F;p&gt;
+&lt;p&gt;Now if we run &lt;code&gt;docker-compose build&lt;&#x2F;code&gt;, the process will exit before it can complete the last layer where it&#x27;s supposed to unzip the Houdini Linux build and run the &lt;code&gt;houdini.install&lt;&#x2F;code&gt; script: it prompts for a Yes&#x2F;No question about whether we want to proceed with &amp;quot;unknown CPU&amp;quot;, saying&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;22.69         WARNING:
+&lt;&#x2F;span&gt;&lt;span&gt;22.69   Your CPU (unkown CPU) does not appear
+&lt;&#x2F;span&gt;&lt;span&gt;22.69   to support SSE 4.2 instructions. SSE 4.2 is required to run Houdini.
+&lt;&#x2F;span&gt;&lt;span&gt;22.69
+&lt;&#x2F;span&gt;&lt;span&gt;22.69         Do you wish to continue (y or n) [n] ==&amp;gt; Nothing was installed.
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;As you can see, the script defaults to &lt;em&gt;&amp;quot;No&amp;quot;&lt;&#x2F;em&gt; for an answer.&lt;&#x2F;p&gt;
+&lt;p&gt;Out of curiosity let&#x27;s hijack this script to proceed none the less. We can tweak the last layers in the &lt;code&gt;Dockerfile&lt;&#x2F;code&gt; so that the &lt;code&gt;houdini.install&lt;&#x2F;code&gt; script defaults the answer to &lt;em&gt;&amp;quot;Yes&amp;quot;&lt;&#x2F;em&gt;, using &lt;code&gt;sed&lt;&#x2F;code&gt; in-place:&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;RUN&lt;&#x2F;span&gt;&lt;span&gt; tar&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -xf&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;houdiniInstaller&#x2F;houdini*&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -C&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;houdiniInstaller \
 &lt;&#x2F;span&gt;&lt;span&gt;    &amp;amp;&amp;amp; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;cd&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;houdiniInstaller&#x2F;houdini* \
 &lt;&#x2F;span&gt;&lt;span&gt;    &amp;amp;&amp;amp; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;sed -i &lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;s&#x2F;read ans&#x2F;ans=&amp;quot;y&amp;quot;&#x2F;&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39; houdini.install \
@@ -34,7 +41,7 @@
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;After the small hack, our Houdini image will be successfully built, meaning we have installed Houdini on a Ubuntu AMD64 image on a MacBook, and theoretically can run it non-graphically to process any Houdini computations -- including serving our next peculiar idea of some web service &lt;em&gt;unique to Houdini capabilities&lt;&#x2F;em&gt; (e.g. insane geometry processing, Vellum, KineFX, Solaris, anyone?), how cool is that?&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;3-error-on-executing-hython-due-to-qemu-cpuinfo-support&quot;&gt;3. Error on executing hython due to QEMU cpuinfo support&lt;&#x2F;h3&gt;
-&lt;p&gt;Following the subsequent instructions in the &lt;code&gt;README&lt;&#x2F;code&gt;, from this single Houdini image we can spawn two containers: one serving the license, and the other running hython.&lt;&#x2F;p&gt;
+&lt;p&gt;Following the subsequent instructions in the &lt;code&gt;README&lt;&#x2F;code&gt;, from this single Houdini image we can spawn two containers: one serving the licenses, and the other running &lt;code&gt;hython&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
 &lt;ul&gt;
 &lt;li&gt;The first container of &lt;code&gt;sesinetd&lt;&#x2F;code&gt; runs with no problem:&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
@@ -42,11 +49,11 @@
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;&lt;img src=&quot;&#x2F;attachments&#x2F;houdini-docker-sesinetd.png&quot; alt=&quot;sesinetd&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
 &lt;ul&gt;
-&lt;li&gt;What unfortunately won&#x27;t be working (on Apple silicon, that is) is with the second container where we want to execute hython:&lt;&#x2F;li&gt;
+&lt;li&gt;What unfortunately won&#x27;t be working (on Apple silicon, that is) is with the second container where we want to execute &lt;code&gt;hython&lt;&#x2F;code&gt;:&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;docker-compose&lt;&#x2F;span&gt;&lt;span&gt; run hython
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
-&lt;p&gt;From the resulted console, we encounter an obscure message from the USD lib complaining about missing information in the &#x2F;proc&#x2F;cpuinfo :&lt;&#x2F;p&gt;
+&lt;p&gt;From the resulted console, we encounter an obscure message from the USD lib complaining about missing information in the &lt;code&gt;&#x2F;proc&#x2F;cpuinfo&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;root@hython:&#x2F;#&lt;&#x2F;span&gt;&lt;span&gt; cd &#x2F;opt&#x2F;hfs19.5&#x2F;bin
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;root@hython:&#x2F;opt&#x2F;hfs19.5&#x2F;bin#&lt;&#x2F;span&gt;&lt;span&gt; .&#x2F;hython
 &lt;&#x2F;span&gt;&lt;span&gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ArchError:&lt;&#x2F;span&gt;&lt;span&gt; Could not find &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;cpu MHz&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39; in &#x2F;proc&#x2F;cpuinfo
@@ -57,9 +64,9 @@
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Aborted
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;root@hython:&#x2F;opt&#x2F;hfs19.5&#x2F;bin#
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
-&lt;p&gt;Hmm, that&#x27;s disappointing! Now where should we file an issue: to Docker? or to SideFX? or to Pixar?&lt;&#x2F;p&gt;
+&lt;p&gt;Hmm, that&#x27;s disappointing! Now where should we file an issue: to Docker? or to SideFX? or to Pixar USD?&lt;&#x2F;p&gt;
 &lt;p&gt;After doing some searching, I believe this belongs to &lt;a href=&quot;https:&#x2F;&#x2F;www.qemu.org&#x2F;&quot;&gt;QEMU&lt;&#x2F;a&gt; supports for machine emulators, and the issue is with our Ubuntu AMD64 environment being emulated on Apple chip, see this &lt;a href=&quot;https:&#x2F;&#x2F;gitlab.com&#x2F;qemu-project&#x2F;qemu&#x2F;-&#x2F;issues&#x2F;750&quot;&gt;GitLab issue&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
-&lt;p&gt;This was when I had to sadly halt my tinkering with Houdini Docker on Apple chip.&lt;&#x2F;p&gt;
+&lt;p&gt;This was when I sadly had to halt my tinkering with Houdini Docker on Apple chip.&lt;&#x2F;p&gt;
 &lt;p&gt;If anyone has some ideas to overcome this please let me know.&lt;&#x2F;p&gt;
 &lt;p&gt;What for next weekends? I don&#x27;t think I&#x27;ll test Houdini Docker Ubuntu on a Mac with Intel chip, which leaves only the Houdini Docker Windows in sight.&lt;&#x2F;p&gt;
 </content>
