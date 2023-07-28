@@ -71,17 +71,55 @@
 <article class="post animated fadeInDown">
   <h1><a href="https:&#x2F;&#x2F;mushogenshin.com&#x2F;houdini-docker-apple&#x2F;">Houdini Docker Ubuntu Container on Apple Silicon</a></h1>
   
-  <div class="post-content"><p>It's a great news that SideFX offers <a href="https://www.sidefx.com/download/daily-builds/?docker=true">Docker files</a> for their Houdini software: especially when the Houdini Python API already provides a very promising <a href="https://www.sidefx.com/docs/houdini/hwebserver/index.html">web server</a> module, which together mean powerful, novel, services can be thought of, given some &quot;<strong>ingenuity and web development skill</strong>&quot; -- a phrase I really like from this <a href="https://docs.unrealengine.com/5.2/en-US/remote-control-for-unreal-engine/">Unreal Remote Control</a> documentation.</p>
+  <div class="post-content"><p><img src="/attachments/houdini-docker-apple-chip-cover.JPG" alt="Houdini Docker Ubuntu on Apple Silicon" /></p>
+<p>It's a great news that SideFX offers <a href="https://www.sidefx.com/download/daily-builds/?docker=true">Docker files</a> for their Houdini software: especially when the Houdini Python API already provides a very promising <a href="https://www.sidefx.com/docs/houdini/hwebserver/index.html">web server</a> module, which together mean powerful, novel, services can be thought of, given some &quot;<strong>ingenuity and web development skill</strong>&quot; -- a phrase I really like from this <a href="https://docs.unrealengine.com/5.2/en-US/remote-control-for-unreal-engine/">Unreal Remote Control</a> documentation.</p>
 <p>So I decided to give the <strong>Houdini Docker (Ubuntu)</strong> a spin! In this blog I'm documenting some interesting things specific to running on Apple silicon that I encountered along the way while having tinkered with it over a weekend.</p>
+<p>I'm assuming you have followed the necessary steps to edit the EULA date as outlined in the <code>README</code> in the downloaded zip from SideFX.</p>
 <h3 id="1-prevent-docker-desktop-on-apple-silicon-from-defaulting-to-ubuntu-for-arm-architecture">1. Prevent Docker Desktop on Apple Silicon from defaulting to Ubuntu for ARM architecture</h3>
-<p>I'm on Docker Desktop <code>v4.21</code> on a M1 MacBook, and all my Ubuntu images if specified simply with a version, e.g. <code>FROM ubuntu:18.04</code>, turn out to be Ubuntu for ARM architecture, -- seemingly because Docker <em>infers</em> from the host --, which in this case is <em>not</em> what we want. So we have to edit the <code>Dockerfile</code> downloaded to include the hash if we want Docker to pull the correct Ubuntu for <code>amd64</code> architecture:</p>
+<p>I'm on Docker Desktop <code>v4.21</code> on a M1 MacBook, and all my Ubuntu images if specified simply with a version, e.g. <code>FROM ubuntu:18.04</code>, turn out to be Ubuntu for ARM architecture, -- seemingly because Docker <em>infers</em> from the host --, which in this case is <em>not</em> what we want. So we have to edit the first layer in the <code>Dockerfile</code> downloaded to include the hash if we want Docker to pull the correct Ubuntu for <code>amd64</code> architecture:</p>
 <pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">FROM</span><span> ubuntu:18.04@sha256:dca176c9663a7ba4c1f0e710986f5a25e672842963d95b960191e2d9f7185ebe
 </span></code></pre>
-<p>And fear not, this is just a very first hiccup we'll be experiencing! Anyhow, after the next step we'll be able to build a Docker image with intended architecture, like so:</p>
+<p>And fear not, this is just a very first hiccup we'll experience going further! Anyhow, at the end of the next step we'll be able to build a Docker image with intended architecture, like so:</p>
 <p><img src="/attachments/houdini-docker-amd64.png" alt="AMD64 Docker image" /></p>
 <h3 id="2-bypass-houdini-auto-install-failure-in-the-ubuntu-image-due-to-sse-prompt">2. Bypass Houdini auto-install failure in the Ubuntu image due to &quot;SSE&quot; prompt</h3>
-<p>If we run <code>docker-compose build</code> now,</p>
+<p>Now if we run <code>docker-compose build</code>, the process will exit before it can complete the last layer where it's supposed to unzip the Houdini Linux build and run the <code>houdini.install</code> script, because it prompts for a Yes/No question about whether we want to proceed, saying &quot;Your CPU does not appear to support SSE&quot;, but the script defaults to <em>&quot;No&quot;</em> for an answer.</p>
+<p>Out of curiosity let's hijack this script to proceed none the less. We can tweak the last layers in the <code>Dockerfile</code> like so to default the answer to <em>&quot;Yes&quot;</em> using <code>sed</code> in-place:</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">RUN</span><span> tar</span><span style="color:#bf616a;"> -xf</span><span> /houdiniInstaller/houdini*</span><span style="color:#bf616a;"> -C</span><span> /houdiniInstaller \
+</span><span>    &amp;&amp; </span><span style="color:#96b5b4;">cd</span><span> /houdiniInstaller/houdini* \
+</span><span>    &amp;&amp; </span><span style="color:#bf616a;">sed -i </span><span>&#39;</span><span style="color:#a3be8c;">s/read ans/ans=&quot;y&quot;/</span><span>&#39; houdini.install \
+</span><span>    &amp;&amp; </span><span style="color:#bf616a;">./houdini.install --auto-install --accept-EULA </span><span>${</span><span style="color:#bf616a;">EULA_DATE</span><span>} \
+</span><span>    &amp;&amp; </span><span style="color:#bf616a;">rm -r</span><span> /houdiniInstaller
+</span></code></pre>
+<p>After the small hack, our Houdini image will be successfully built, meaning we have installed Houdini on a Ubuntu AMD64 image on a MacBook, and theoretically can run it non-graphically to process any Houdini computations -- including serving our next peculiar idea of some web service <em>unique to Houdini capabilities</em> (e.g. insane geometry processing, Vellum, KineFX, Solaris, anyone?), how cool is that?</p>
 <h3 id="3-error-on-executing-hython-due-to-qemu-cpuinfo-support">3. Error on executing hython due to QEMU cpuinfo support</h3>
+<p>Following the subsequent instructions in the <code>README</code>, from this single Houdini image we can spawn two containers: one serving the license, and the other running hython.</p>
+<ul>
+<li>The first container of <code>sesinetd</code> runs with no problem:</li>
+</ul>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">docker-compose</span><span> run</span><span style="color:#bf616a;"> -d -p</span><span> 1715:1715 sesinetd
+</span></code></pre>
+<p><img src="/attachments/houdini-docker-sesinetd.png" alt="sesinetd" /></p>
+<ul>
+<li>What unfortunately won't be working (on Apple silicon, that is) is with the second container where we want to execute hython:</li>
+</ul>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">docker-compose</span><span> run hython
+</span></code></pre>
+<p>From the resulted console, we encounter an obscure message from the USD lib complaining about missing information in the /proc/cpuinfo :</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">root@hython:/#</span><span> cd /opt/hfs19.5/bin
+</span><span style="color:#bf616a;">root@hython:/opt/hfs19.5/bin#</span><span> ./hython
+</span><span> </span><span style="color:#bf616a;">ArchError:</span><span> Could not find &#39;</span><span style="color:#a3be8c;">cpu MHz</span><span>&#39; in /proc/cpuinfo
+</span><span>  </span><span style="color:#bf616a;">Function:</span><span> Arch_ComputeNanosecondsPerTick
+</span><span>      </span><span style="color:#bf616a;">File:</span><span> /home/prisms/builder-new/WeeklyDevTools19.5/dev_tools/src/usd/usd-22.05/USD-py3.7/pxr/base/arch/timing.cpp
+</span><span>      </span><span style="color:#bf616a;">Line:</span><span> 149
+</span><span style="color:#bf616a;">qemu:</span><span> uncaught target signal 6 (Aborted) </span><span style="color:#bf616a;">-</span><span> core dumped
+</span><span style="color:#bf616a;">Aborted
+</span><span style="color:#bf616a;">root@hython:/opt/hfs19.5/bin#
+</span></code></pre>
+<p>Hmm, that's disappointing! Now where should we file an issue: to Docker? or to SideFX? or to Pixar?</p>
+<p>After doing some searching, I believe this belongs to <a href="https://www.qemu.org/">QEMU</a> supports for machine emulators, and the issue is with our Ubuntu AMD64 environment being emulated on Apple chip, see this <a href="https://gitlab.com/qemu-project/qemu/-/issues/750">GitLab issue</a>.</p>
+<p>This was when I had to sadly halt my tinkering with Houdini Docker on Apple chip.</p>
+<p>If anyone has some ideas to overcome this please let me know.</p>
+<p>What for next weekends? I don't think I'll test Houdini Docker Ubuntu on a Mac with Intel chip, which leaves only the Houdini Docker Windows in sight.</p>
 </div>
   <div class="post-footer">
     <div class="meta">
