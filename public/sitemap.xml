@@ -27,6 +27,10 @@
         <loc>https://mushogenshin.com/page/1/</loc>
     </url>
     <url>
+        <loc>https://mushogenshin.com/showreel-2024/</loc>
+        <lastmod>2024-02-25T11:00:00Z</lastmod>
+    </url>
+    <url>
         <loc>https://mushogenshin.com/tags/</loc>
     </url>
     <url>
@@ -43,5 +47,8 @@
     </url>
     <url>
         <loc>https://mushogenshin.com/tags/macos/</loc>
+    </url>
+    <url>
+        <loc>https://mushogenshin.com/tags/reel/</loc>
     </url>
 </urlset>
