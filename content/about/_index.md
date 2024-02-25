@@ -4,7 +4,7 @@ template = "about.html"
 paginate_by = 0
 +++
 
-# 5+ years of Technical Art
+# ~10 years of Technical Art
 
 So it took me five years to migrate my site from Wordpress to Hugo and to Zola.
 During this period barely did I update anything, or give an explanation about why I stopped working on my "Battle of Cascina" (2014) and "Busts of Great Thinkers" (2016) projects.
