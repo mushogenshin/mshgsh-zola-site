@@ -78,8 +78,8 @@ taxonomies = [{ name = "tags" }]
 
 [languages.en.translations]
 language_name = "English"
-about = "About"
 home = "Home"
+about = "About"
 ue_cpp = "UE C++"
 tags = "Tags"
 archive = "Archive"

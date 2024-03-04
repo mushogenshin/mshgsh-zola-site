@@ -89,17 +89,41 @@
 </content>
 	</entry>
 	<entry xml:lang="en">
-		<title>Exercise 1: Make Template Folders</title>
+		<title>🔖 Exercise 1: Make Template Folders</title>
 		<published>2023-03-03T21:00:00+00:00</published>
 		<updated>2023-03-03T21:00:00+00:00</updated>
 		<link rel="alternate" href="https://mushogenshin.com/ue_cpp/exercise-1/" type="text/html"/>
 		<id>https://mushogenshin.com/ue_cpp/exercise-1/</id>
-		<content type="html">&lt;p&gt;I managed to write something that runs on MacOS, but not on Windows. After a couple hours troubleshooting, this is what I found.&lt;&#x2F;p&gt;
-&lt;p&gt;&lt;strong&gt;TLDR&lt;&#x2F;strong&gt;: do not use &lt;code&gt;IPlatformFile&lt;&#x2F;code&gt; if you want nested folders, use &lt;code&gt;IFileManager&lt;&#x2F;code&gt; instead.
-At the time of my writing, GitHub Copilot will mostly suggest you to use &lt;code&gt;IPlatformFile&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+		<content type="html">&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;mushogenshin.com&#x2F;ue_cpp&#x2F;exercise-1&#x2F;#goal&quot;&gt;Goal&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;mushogenshin.com&#x2F;ue_cpp&#x2F;exercise-1&#x2F;#Pitfall&quot;&gt;Pitfall&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;mushogenshin.com&#x2F;ue_cpp&#x2F;exercise-1&#x2F;#suggested-solution&quot;&gt;Suggested Solution&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;mushogenshin.com&#x2F;ue_cpp&#x2F;exercise-1&#x2F;#considerations&quot;&gt;Considerations&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;hr&gt;
+&lt;h4 id=&quot;goal&quot;&gt;Goal&lt;&#x2F;h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Given an asset name, e.g. name of a character or a prop, the tool should automatically make a series of sub-folders for that asset. For example: given &amp;quot;&lt;code&gt;Velociraptor&lt;&#x2F;code&gt;&amp;quot; string, it must make these folders:
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;&#x2F;Game&#x2F;Velociraptor&#x2F;Meshes&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;&#x2F;Game&#x2F;Velociraptor&#x2F;Rigs&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;&#x2F;Game&#x2F;Velociraptor&#x2F;Textures&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;&#x2F;Game&#x2F;Velociraptor&#x2F;Materials&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;&#x2F;Game&#x2F;Velociraptor&#x2F;Maps&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;&#x2F;Game&#x2F;Velociraptor&#x2F;Sequences&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;&#x2F;Game&#x2F;Velociraptor&#x2F;Demo&#x2F;Animations&lt;&#x2F;code&gt;,&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;where the list of required folders is &lt;strong&gt;hard coded&lt;&#x2F;strong&gt; for now.&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;The tool should take also an &lt;em&gt;optional&lt;&#x2F;em&gt; parent folder in case user wants to organize the resulted folders further.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h4 id=&quot;pitfall&quot;&gt;Pitfall&lt;&#x2F;h4&gt;
+&lt;p&gt;At the time of my writing, GitHub Copilot will mostly suggest you to use &lt;code&gt;IPlatformFile&lt;&#x2F;code&gt;. With &lt;code&gt;IPlatformFile&lt;&#x2F;code&gt; I managed to make it work on MacOS, but not on Windows. After a couple hours troubleshooting, this is what I found.&lt;&#x2F;p&gt;
+&lt;p&gt;👉 Do not use &lt;code&gt;IPlatformFile&lt;&#x2F;code&gt; if you want nested folders, use &lt;code&gt;IFileManager&lt;&#x2F;code&gt; instead.&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;cpp&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-cpp &quot;&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;HAL&#x2F;PlatformFilemanager.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
 &lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; --snip--
-&lt;&#x2F;span&gt;&lt;span&gt;
 &lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; DO NOT use this if you want nested folders, as it doesn&amp;#39;t allow
 &lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; creating directories recursively, so this will fail on Windows:
 &lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; IPlatformFile&amp;amp; PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
@@ -109,8 +133,82 @@ At the time of my writing, GitHub Copilot will mostly suggest you to use &lt;cod
 &lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; so that we can pass `true` to the `Tree` argument
 &lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; of this `MakeDirectory` method:
 &lt;&#x2F;span&gt;&lt;span&gt;    FileManager.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;MakeDirectory&lt;&#x2F;span&gt;&lt;span&gt;(*FolderPath, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;true&lt;&#x2F;span&gt;&lt;span&gt;);
-&lt;&#x2F;span&gt;&lt;span&gt;
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;suggested-solution&quot;&gt;Suggested Solution&lt;&#x2F;h3&gt;
+&lt;p&gt;We&#x27;ll use &lt;a href=&quot;https:&#x2F;&#x2F;docs.unrealengine.com&#x2F;5.3&#x2F;en-US&#x2F;scripted-actions-in-unreal-engine&#x2F;&quot;&gt;Scripted Actions&lt;&#x2F;a&gt; for this exercise, saving the juicy &lt;a href=&quot;https:&#x2F;&#x2F;docs.unrealengine.com&#x2F;5.3&#x2F;en-US&#x2F;editor-utility-widgets-in-unreal-engine&#x2F;&quot;&gt;widgets&lt;&#x2F;a&gt; for next exercises.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;header-file&quot;&gt;Header file&lt;&#x2F;h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Our function doesn&#x27;t mutate any data it receives, so we should mark it as &lt;code&gt;static&lt;&#x2F;code&gt; (1).&lt;&#x2F;li&gt;
+&lt;li&gt;As a result, our &lt;code&gt;TArray&amp;lt;FString&amp;gt; TemplateFolders&lt;&#x2F;code&gt; where we define the list of folders to be created has to be &lt;code&gt;inline static const&lt;&#x2F;code&gt; (2).&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;pre data-lang=&quot;cpp&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-cpp &quot;&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#pragma&lt;&#x2F;span&gt;&lt;span&gt; once
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;CoreMinimal.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;AssetActionUtility.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;mkCharSetup.generated.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;UCLASS&lt;&#x2F;span&gt;&lt;span&gt;()
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;TRUONGCONTROLRIGS_API &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;UmkCharSetup &lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;public &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;UAssetActionUtility
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;GENERATED_BODY&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;()
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;public&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;:
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;UFUNCTION&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(CallInEditor)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;static void &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;MakeCharacterFolders&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;const&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt; FString&lt;&#x2F;span&gt;&lt;span&gt;&amp;amp; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CharacterName&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;const&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt; FString&lt;&#x2F;span&gt;&lt;span&gt;&amp;amp; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ParentFolder&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;); &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; (1)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;private&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;:
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;inline static const&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt; TArray&amp;lt;FString&amp;gt; TemplateFolders &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Meshes&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Rigs&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Textures&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Materials&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Demo&#x2F;Animations&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Maps&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Sequences&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;	}; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; (2)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h4 id=&quot;cpp-file&quot;&gt;cpp file&lt;&#x2F;h4&gt;
+&lt;ul&gt;
+&lt;li&gt;We&#x27;ll need to include the &lt;code&gt;HAL&#x2F;PlatformFileManager&lt;&#x2F;code&gt; for &lt;a href=&quot;https:&#x2F;&#x2F;docs.unrealengine.com&#x2F;5.3&#x2F;en-US&#x2F;API&#x2F;Runtime&#x2F;Core&#x2F;HAL&#x2F;FFileManagerGeneric&#x2F;&quot;&gt;filesystem-related actions&lt;&#x2F;a&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;If user also specifies a parent folder, we concatenate it to our paths (3).&lt;&#x2F;li&gt;
+&lt;li&gt;If the directory already exists, we &lt;code&gt;continue&lt;&#x2F;code&gt; to the next iteration (4).&lt;&#x2F;li&gt;
+&lt;li&gt;The &lt;code&gt;FileManager.MakeDirectory&lt;&#x2F;code&gt; returns a &lt;code&gt;bool&lt;&#x2F;code&gt; of &lt;a href=&quot;https:&#x2F;&#x2F;docs.unrealengine.com&#x2F;5.3&#x2F;en-US&#x2F;API&#x2F;Runtime&#x2F;Core&#x2F;HAL&#x2F;FFileManagerGeneric&#x2F;&quot;&gt;whether the operation succeeds&lt;&#x2F;a&gt; (but unfortunately not the reason why it would fail), so we can use that to log when an error occurs (5).&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;pre data-lang=&quot;cpp&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-cpp &quot;&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;mkCharSetup.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;EditorUtilityLibrary.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;HAL&#x2F;PlatformFilemanager.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;void &lt;&#x2F;span&gt;&lt;span&gt;UmkCharSetup::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;MakeCharacterFolders&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;const&lt;&#x2F;span&gt;&lt;span&gt; FString&amp;amp; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CharacterName&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;const&lt;&#x2F;span&gt;&lt;span&gt; FString&amp;amp; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ParentFolder&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;	IFileManager&amp;amp; FileManager = IFileManager::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Get&lt;&#x2F;span&gt;&lt;span&gt;();
+&lt;&#x2F;span&gt;&lt;span&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Construct the full path to the &#x2F;Game directory
+&lt;&#x2F;span&gt;&lt;span&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;const&lt;&#x2F;span&gt;&lt;span&gt; FString ContentDir = FPaths::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ProjectContentDir&lt;&#x2F;span&gt;&lt;span&gt;();
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for &lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;const&lt;&#x2F;span&gt;&lt;span&gt; FString&amp;amp; Folder : TemplateFolders)
+&lt;&#x2F;span&gt;&lt;span&gt;	{
+&lt;&#x2F;span&gt;&lt;span&gt;		FString FolderPath;
+&lt;&#x2F;span&gt;&lt;span&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(ParentFolder.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;IsEmpty&lt;&#x2F;span&gt;&lt;span&gt;()) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; (3)
+&lt;&#x2F;span&gt;&lt;span&gt;		{
+&lt;&#x2F;span&gt;&lt;span&gt;			FolderPath = FPaths::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Combine&lt;&#x2F;span&gt;&lt;span&gt;(ContentDir, CharacterName, Folder);
+&lt;&#x2F;span&gt;&lt;span&gt;		}
+&lt;&#x2F;span&gt;&lt;span&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else
+&lt;&#x2F;span&gt;&lt;span&gt;		{
+&lt;&#x2F;span&gt;&lt;span&gt;			FolderPath = FPaths::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Combine&lt;&#x2F;span&gt;&lt;span&gt;(ContentDir, ParentFolder, CharacterName, Folder);
+&lt;&#x2F;span&gt;&lt;span&gt;		};
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(FileManager.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;DirectoryExists&lt;&#x2F;span&gt;&lt;span&gt;(*FolderPath))
+&lt;&#x2F;span&gt;&lt;span&gt;		{
+&lt;&#x2F;span&gt;&lt;span&gt;			&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;continue&lt;&#x2F;span&gt;&lt;span&gt;; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; (4)
+&lt;&#x2F;span&gt;&lt;span&gt;		}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;UE_LOG&lt;&#x2F;span&gt;&lt;span&gt;(LogTemp, Display, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Attempting to make directory: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%s&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;), *FolderPath);
+&lt;&#x2F;span&gt;&lt;span&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(!FileManager.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;MakeDirectory&lt;&#x2F;span&gt;&lt;span&gt;(*FolderPath, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;true&lt;&#x2F;span&gt;&lt;span&gt;)) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; (5)
+&lt;&#x2F;span&gt;&lt;span&gt;		{
+&lt;&#x2F;span&gt;&lt;span&gt;			&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;UE_LOG&lt;&#x2F;span&gt;&lt;span&gt;(LogTemp, Warning, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Failed to create directory at path: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%s&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;), *FolderPath);
+&lt;&#x2F;span&gt;&lt;span&gt;		}
+&lt;&#x2F;span&gt;&lt;span&gt;	}
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h4 id=&quot;considerations&quot;&gt;Considerations&lt;&#x2F;h4&gt;
+&lt;p&gt;Since this is a &lt;a href=&quot;https:&#x2F;&#x2F;docs.unrealengine.com&#x2F;5.3&#x2F;en-US&#x2F;scripted-actions-in-unreal-engine&#x2F;&quot;&gt;scripted asset action&lt;&#x2F;a&gt;, we have to select &lt;em&gt;some&lt;&#x2F;em&gt; asset to see the our function as an item in the context menu, which is rather inconvenient. We&#x27;ll improve this once we learn about Unreal widgets.&lt;&#x2F;p&gt;
 </content>
 	</entry>
 	<entry xml:lang="en">

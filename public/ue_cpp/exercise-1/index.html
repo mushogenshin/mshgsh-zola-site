@@ -12,7 +12,7 @@
   <link rel="short icon" href="https://mushogenshin.com/images/favicon.png" type="image/x-icon" />
   <link rel="stylesheet" href="https://mushogenshin.com/style.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
-  <title>Hoan Nguyen • Exercise 1: Make Template Folders</title>
+  <title>Hoan Nguyen • 🔖 Exercise 1: Make Template Folders</title>
   
   
   <link rel="alternate" type="application/rss+xml" title="Hoan Nguyen" href="https://mushogenshin.com/rss.xml">
@@ -69,14 +69,38 @@
       <div class="content">
         
 <article class="post animated fadeInDown">
-  <h1><a href="https:&#x2F;&#x2F;mushogenshin.com&#x2F;ue_cpp&#x2F;exercise-1&#x2F;">Exercise 1: Make Template Folders</a></h1>
+  <h1><a href="https:&#x2F;&#x2F;mushogenshin.com&#x2F;ue_cpp&#x2F;exercise-1&#x2F;">🔖 Exercise 1: Make Template Folders</a></h1>
   
-  <div class="post-content"><p>I managed to write something that runs on MacOS, but not on Windows. After a couple hours troubleshooting, this is what I found.</p>
-<p><strong>TLDR</strong>: do not use <code>IPlatformFile</code> if you want nested folders, use <code>IFileManager</code> instead.
-At the time of my writing, GitHub Copilot will mostly suggest you to use <code>IPlatformFile</code>.</p>
+  <div class="post-content"><ul>
+<li><a href="https://mushogenshin.com/ue_cpp/exercise-1/#goal">Goal</a></li>
+<li><a href="https://mushogenshin.com/ue_cpp/exercise-1/#Pitfall">Pitfall</a></li>
+<li><a href="https://mushogenshin.com/ue_cpp/exercise-1/#suggested-solution">Suggested Solution</a></li>
+<li><a href="https://mushogenshin.com/ue_cpp/exercise-1/#considerations">Considerations</a></li>
+</ul>
+<hr>
+<h4 id="goal">Goal</h4>
+<ul>
+<li>Given an asset name, e.g. name of a character or a prop, the tool should automatically make a series of sub-folders for that asset. For example: given &quot;<code>Velociraptor</code>&quot; string, it must make these folders:
+<ul>
+<li><code>/Game/Velociraptor/Meshes</code></li>
+<li><code>/Game/Velociraptor/Rigs</code></li>
+<li><code>/Game/Velociraptor/Textures</code></li>
+<li><code>/Game/Velociraptor/Materials</code></li>
+<li><code>/Game/Velociraptor/Maps</code></li>
+<li><code>/Game/Velociraptor/Sequences</code></li>
+<li><code>/Game/Velociraptor/Demo/Animations</code>,</li>
+</ul>
+</li>
+</ul>
+<p>where the list of required folders is <strong>hard coded</strong> for now.</p>
+<ul>
+<li>The tool should take also an <em>optional</em> parent folder in case user wants to organize the resulted folders further.</li>
+</ul>
+<h4 id="pitfall">Pitfall</h4>
+<p>At the time of my writing, GitHub Copilot will mostly suggest you to use <code>IPlatformFile</code>. With <code>IPlatformFile</code> I managed to make it work on MacOS, but not on Windows. After a couple hours troubleshooting, this is what I found.</p>
+<p>👉 Do not use <code>IPlatformFile</code> if you want nested folders, use <code>IFileManager</code> instead.</p>
 <pre data-lang="cpp" style="background-color:#2b303b;color:#c0c5ce;" class="language-cpp "><code class="language-cpp" data-lang="cpp"><span style="color:#b48ead;">#include </span><span>&quot;</span><span style="color:#a3be8c;">HAL/PlatformFilemanager.h</span><span>&quot;
 </span><span>    </span><span style="color:#65737e;">// --snip--
-</span><span>
 </span><span>    </span><span style="color:#65737e;">// DO NOT use this if you want nested folders, as it doesn&#39;t allow
 </span><span>    </span><span style="color:#65737e;">// creating directories recursively, so this will fail on Windows:
 </span><span>    </span><span style="color:#65737e;">// IPlatformFile&amp; PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
@@ -86,8 +110,82 @@ At the time of my writing, GitHub Copilot will mostly suggest you to use <code>I
 </span><span>    </span><span style="color:#65737e;">// so that we can pass `true` to the `Tree` argument
 </span><span>    </span><span style="color:#65737e;">// of this `MakeDirectory` method:
 </span><span>    FileManager.</span><span style="color:#bf616a;">MakeDirectory</span><span>(*FolderPath, </span><span style="color:#d08770;">true</span><span>);
-</span><span>
 </span></code></pre>
+<h3 id="suggested-solution">Suggested Solution</h3>
+<p>We'll use <a href="https://docs.unrealengine.com/5.3/en-US/scripted-actions-in-unreal-engine/">Scripted Actions</a> for this exercise, saving the juicy <a href="https://docs.unrealengine.com/5.3/en-US/editor-utility-widgets-in-unreal-engine/">widgets</a> for next exercises.</p>
+<h4 id="header-file">Header file</h4>
+<ul>
+<li>Our function doesn't mutate any data it receives, so we should mark it as <code>static</code> (1).</li>
+<li>As a result, our <code>TArray&lt;FString&gt; TemplateFolders</code> where we define the list of folders to be created has to be <code>inline static const</code> (2).</li>
+</ul>
+<pre data-lang="cpp" style="background-color:#2b303b;color:#c0c5ce;" class="language-cpp "><code class="language-cpp" data-lang="cpp"><span style="color:#b48ead;">#pragma</span><span> once
+</span><span style="color:#b48ead;">#include </span><span>&quot;</span><span style="color:#a3be8c;">CoreMinimal.h</span><span>&quot;
+</span><span style="color:#b48ead;">#include </span><span>&quot;</span><span style="color:#a3be8c;">AssetActionUtility.h</span><span>&quot;
+</span><span style="color:#b48ead;">#include </span><span>&quot;</span><span style="color:#a3be8c;">mkCharSetup.generated.h</span><span>&quot;
+</span><span>
+</span><span style="color:#bf616a;">UCLASS</span><span>()
+</span><span style="color:#b48ead;">class </span><span style="color:#eff1f5;">TRUONGCONTROLRIGS_API </span><span style="color:#ebcb8b;">UmkCharSetup </span><span style="color:#eff1f5;">: </span><span style="color:#b48ead;">public </span><span style="color:#a3be8c;">UAssetActionUtility
+</span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">	</span><span style="color:#bf616a;">GENERATED_BODY</span><span style="color:#eff1f5;">()
+</span><span style="color:#b48ead;">public</span><span style="color:#eff1f5;">:
+</span><span style="color:#eff1f5;">	</span><span style="color:#bf616a;">UFUNCTION</span><span style="color:#eff1f5;">(CallInEditor)
+</span><span style="color:#eff1f5;">	</span><span style="color:#b48ead;">static void </span><span style="color:#8fa1b3;">MakeCharacterFolders</span><span style="color:#eff1f5;">(</span><span style="color:#b48ead;">const</span><span style="color:#eff1f5;"> FString</span><span>&amp; </span><span style="color:#bf616a;">CharacterName</span><span style="color:#eff1f5;">, </span><span style="color:#b48ead;">const</span><span style="color:#eff1f5;"> FString</span><span>&amp; </span><span style="color:#bf616a;">ParentFolder</span><span style="color:#eff1f5;">); </span><span style="color:#65737e;">// (1)
+</span><span style="color:#b48ead;">private</span><span style="color:#eff1f5;">:
+</span><span style="color:#eff1f5;">	</span><span style="color:#b48ead;">inline static const</span><span style="color:#eff1f5;"> TArray&lt;FString&gt; TemplateFolders </span><span>= </span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">		</span><span>&quot;</span><span style="color:#a3be8c;">Meshes</span><span>&quot;</span><span style="color:#eff1f5;">,
+</span><span style="color:#eff1f5;">		</span><span>&quot;</span><span style="color:#a3be8c;">Rigs</span><span>&quot;</span><span style="color:#eff1f5;">,
+</span><span style="color:#eff1f5;">		</span><span>&quot;</span><span style="color:#a3be8c;">Textures</span><span>&quot;</span><span style="color:#eff1f5;">,
+</span><span style="color:#eff1f5;">		</span><span>&quot;</span><span style="color:#a3be8c;">Materials</span><span>&quot;</span><span style="color:#eff1f5;">,
+</span><span style="color:#eff1f5;">		</span><span>&quot;</span><span style="color:#a3be8c;">Demo/Animations</span><span>&quot;</span><span style="color:#eff1f5;">,
+</span><span style="color:#eff1f5;">		</span><span>&quot;</span><span style="color:#a3be8c;">Maps</span><span>&quot;</span><span style="color:#eff1f5;">,
+</span><span style="color:#eff1f5;">		</span><span>&quot;</span><span style="color:#a3be8c;">Sequences</span><span>&quot;</span><span style="color:#eff1f5;">,
+</span><span style="color:#eff1f5;">	}; </span><span style="color:#65737e;">// (2)
+</span><span style="color:#eff1f5;">}</span><span>;
+</span></code></pre>
+<h4 id="cpp-file">cpp file</h4>
+<ul>
+<li>We'll need to include the <code>HAL/PlatformFileManager</code> for <a href="https://docs.unrealengine.com/5.3/en-US/API/Runtime/Core/HAL/FFileManagerGeneric/">filesystem-related actions</a>.</li>
+<li>If user also specifies a parent folder, we concatenate it to our paths (3).</li>
+<li>If the directory already exists, we <code>continue</code> to the next iteration (4).</li>
+<li>The <code>FileManager.MakeDirectory</code> returns a <code>bool</code> of <a href="https://docs.unrealengine.com/5.3/en-US/API/Runtime/Core/HAL/FFileManagerGeneric/">whether the operation succeeds</a> (but unfortunately not the reason why it would fail), so we can use that to log when an error occurs (5).</li>
+</ul>
+<pre data-lang="cpp" style="background-color:#2b303b;color:#c0c5ce;" class="language-cpp "><code class="language-cpp" data-lang="cpp"><span style="color:#b48ead;">#include </span><span>&quot;</span><span style="color:#a3be8c;">mkCharSetup.h</span><span>&quot;
+</span><span style="color:#b48ead;">#include </span><span>&quot;</span><span style="color:#a3be8c;">EditorUtilityLibrary.h</span><span>&quot;
+</span><span style="color:#b48ead;">#include </span><span>&quot;</span><span style="color:#a3be8c;">HAL/PlatformFilemanager.h</span><span>&quot;
+</span><span>
+</span><span style="color:#b48ead;">void </span><span>UmkCharSetup::</span><span style="color:#8fa1b3;">MakeCharacterFolders</span><span>(</span><span style="color:#b48ead;">const</span><span> FString&amp; </span><span style="color:#bf616a;">CharacterName</span><span>, </span><span style="color:#b48ead;">const</span><span> FString&amp; </span><span style="color:#bf616a;">ParentFolder</span><span>)
+</span><span>{
+</span><span>	IFileManager&amp; FileManager = IFileManager::</span><span style="color:#bf616a;">Get</span><span>();
+</span><span>	</span><span style="color:#65737e;">// Construct the full path to the /Game directory
+</span><span>	</span><span style="color:#b48ead;">const</span><span> FString ContentDir = FPaths::</span><span style="color:#bf616a;">ProjectContentDir</span><span>();
+</span><span>
+</span><span>	</span><span style="color:#b48ead;">for </span><span>(</span><span style="color:#b48ead;">const</span><span> FString&amp; Folder : TemplateFolders)
+</span><span>	{
+</span><span>		FString FolderPath;
+</span><span>		</span><span style="color:#b48ead;">if </span><span>(ParentFolder.</span><span style="color:#bf616a;">IsEmpty</span><span>()) </span><span style="color:#65737e;">// (3)
+</span><span>		{
+</span><span>			FolderPath = FPaths::</span><span style="color:#bf616a;">Combine</span><span>(ContentDir, CharacterName, Folder);
+</span><span>		}
+</span><span>		</span><span style="color:#b48ead;">else
+</span><span>		{
+</span><span>			FolderPath = FPaths::</span><span style="color:#bf616a;">Combine</span><span>(ContentDir, ParentFolder, CharacterName, Folder);
+</span><span>		};
+</span><span>
+</span><span>		</span><span style="color:#b48ead;">if </span><span>(FileManager.</span><span style="color:#bf616a;">DirectoryExists</span><span>(*FolderPath))
+</span><span>		{
+</span><span>			</span><span style="color:#b48ead;">continue</span><span>; </span><span style="color:#65737e;">// (4)
+</span><span>		}
+</span><span>
+</span><span>		</span><span style="color:#bf616a;">UE_LOG</span><span>(LogTemp, Display, </span><span style="color:#bf616a;">TEXT</span><span>(&quot;</span><span style="color:#a3be8c;">Attempting to make directory: </span><span style="color:#d08770;">%s</span><span>&quot;), *FolderPath);
+</span><span>		</span><span style="color:#b48ead;">if </span><span>(!FileManager.</span><span style="color:#bf616a;">MakeDirectory</span><span>(*FolderPath, </span><span style="color:#d08770;">true</span><span>)) </span><span style="color:#65737e;">// (5)
+</span><span>		{
+</span><span>			</span><span style="color:#bf616a;">UE_LOG</span><span>(LogTemp, Warning, </span><span style="color:#bf616a;">TEXT</span><span>(&quot;</span><span style="color:#a3be8c;">Failed to create directory at path: </span><span style="color:#d08770;">%s</span><span>&quot;), *FolderPath);
+</span><span>		}
+</span><span>	}
+</span><span>}
+</span></code></pre>
+<h4 id="considerations">Considerations</h4>
+<p>Since this is a <a href="https://docs.unrealengine.com/5.3/en-US/scripted-actions-in-unreal-engine/">scripted asset action</a>, we have to select <em>some</em> asset to see the our function as an item in the context menu, which is rather inconvenient. We'll improve this once we learn about Unreal widgets.</p>
 </div>
   <div class="post-footer">
     <div class="meta">
@@ -112,7 +210,7 @@ At the time of my writing, GitHub Copilot will mostly suggest you to use <code>I
     <a class="fab fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
   </div>
   <div class="twitter">
-    <a class="fab fa-twitter" href="http://twitter.com/share?text=Exercise 1: Make Template Folders&url=https:&#x2F;&#x2F;mushogenshin.com&#x2F;ue_cpp&#x2F;exercise-1&hashtags=unreal,c++"></a>
+    <a class="fab fa-twitter" href="http://twitter.com/share?text=🔖 Exercise 1: Make Template Folders&url=https:&#x2F;&#x2F;mushogenshin.com&#x2F;ue_cpp&#x2F;exercise-1&hashtags=unreal,c++"></a>
   </div>
 </div>
 
