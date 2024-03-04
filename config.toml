@@ -53,6 +53,7 @@ highlight_code = true
 
 # Anatole
 [extra.show]
+ue_cpp = true
 tags = true
 links = true
 
@@ -79,6 +80,7 @@ taxonomies = [{ name = "tags" }]
 language_name = "English"
 about = "About"
 home = "Home"
+ue_cpp = "UE C++"
 tags = "Tags"
 archive = "Archive"
 links = "Links"

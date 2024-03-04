@@ -37,6 +37,9 @@
         <loc>https://mushogenshin.com/tags/battle-of-cascina/</loc>
     </url>
     <url>
+        <loc>https://mushogenshin.com/tags/c/</loc>
+    </url>
+    <url>
         <loc>https://mushogenshin.com/tags/docker/</loc>
     </url>
     <url>
@@ -50,5 +53,15 @@
     </url>
     <url>
         <loc>https://mushogenshin.com/tags/reel/</loc>
+    </url>
+    <url>
+        <loc>https://mushogenshin.com/tags/unreal/</loc>
+    </url>
+    <url>
+        <loc>https://mushogenshin.com/ue_cpp/</loc>
+    </url>
+    <url>
+        <loc>https://mushogenshin.com/ue_cpp/exercise-1/</loc>
+        <lastmod>2023-03-03T21:00:00Z</lastmod>
     </url>
 </urlset>

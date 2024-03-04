@@ -89,6 +89,29 @@
 </content>
 	</entry>
 	<entry xml:lang="en">
+		<title>Exercise 1: Make Template Folders</title>
+		<published>2023-03-03T21:00:00+00:00</published>
+		<updated>2023-03-03T21:00:00+00:00</updated>
+		<link rel="alternate" href="https://mushogenshin.com/ue_cpp/exercise-1/" type="text/html"/>
+		<id>https://mushogenshin.com/ue_cpp/exercise-1/</id>
+		<content type="html">&lt;p&gt;I managed to write something that runs on MacOS, but not on Windows. After a couple hours troubleshooting, this is what I found.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;strong&gt;TLDR&lt;&#x2F;strong&gt;: do not use &lt;code&gt;IPlatformFile&lt;&#x2F;code&gt; if you want nested folders, use &lt;code&gt;IFileManager&lt;&#x2F;code&gt; instead.
+At the time of my writing, GitHub Copilot will mostly suggest you to use &lt;code&gt;IPlatformFile&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;cpp&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-cpp &quot;&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;HAL&#x2F;PlatformFilemanager.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; --snip--
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; DO NOT use this if you want nested folders, as it doesn&amp;#39;t
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; allow creating directories recursively, so it will fail on Windows:
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; IPlatformFile&amp;amp; PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Use this instead:
+&lt;&#x2F;span&gt;&lt;span&gt;    IFileManager&amp;amp; FileManager = IFileManager::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Get&lt;&#x2F;span&gt;&lt;span&gt;();
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; So that we can pass `true` to the `Tree` argument of this `MakeDirectory` method:
+&lt;&#x2F;span&gt;&lt;span&gt;    FileManager.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;MakeDirectory&lt;&#x2F;span&gt;&lt;span&gt;(*FolderPath, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;true&lt;&#x2F;span&gt;&lt;span&gt;);
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+</content>
+	</entry>
+	<entry xml:lang="en">
 		<title>My Start on &quot;Battle of Cascina (3D)&quot;</title>
 		<published>2023-02-06T20:52:00+00:00</published>
 		<updated>2023-02-06T20:52:00+00:00</updated>

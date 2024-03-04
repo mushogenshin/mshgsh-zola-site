@@ -12,7 +12,7 @@
   <link rel="short icon" href="https://mushogenshin.com/images/favicon.png" type="image/x-icon" />
   <link rel="stylesheet" href="https://mushogenshin.com/style.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
-  <title>Hoan Nguyen</title>
+  <title>Hoan Nguyen • Exercise 1: Make Template Folders</title>
   
   
   <link rel="alternate" type="application/rss+xml" title="Hoan Nguyen" href="https://mushogenshin.com/rss.xml">
@@ -52,7 +52,7 @@
         
         
         <li><a  href="https://mushogenshin.com/">Home</a></li>
-        <li><a  href="https://mushogenshin.com/about/">About</a></li><li><a  href="https://mushogenshin.com/ue_cpp/">UE C++</a></li><li><a class="current"  href="https://mushogenshin.com/tags">Tags</a></li><li><a 
+        <li><a  href="https://mushogenshin.com/about/">About</a></li><li><a class="current"  href="https://mushogenshin.com/ue_cpp/">UE C++</a></li><li><a  href="https://mushogenshin.com/tags">Tags</a></li><li><a 
             href="https://mushogenshin.com/archive/">Archive</a></li><li><a  href="https://mushogenshin.com/links/">Links</a></li></div>
       <div class="information">
         <div class="back_btn">
@@ -68,52 +68,59 @@
     <div class="autopagerize_page_element">
       <div class="content">
         
-<div class="archive animated fadeInDown">
-    <ul class="list-with-title">
-      <div class="listing-title">Tags</div>
-          
-          <li class="tag-list-item">
-              <a class="tagname" href="https:&#x2F;&#x2F;mushogenshin.com&#x2F;tags&#x2F;battle-of-cascina&#x2F;">battle-of-cascina</a>
-              <span class="tagcount">1</span>
-          </li>
-          
-          <li class="tag-list-item">
-              <a class="tagname" href="https:&#x2F;&#x2F;mushogenshin.com&#x2F;tags&#x2F;c&#x2F;">c++</a>
-              <span class="tagcount">1</span>
-          </li>
-          
-          <li class="tag-list-item">
-              <a class="tagname" href="https:&#x2F;&#x2F;mushogenshin.com&#x2F;tags&#x2F;docker&#x2F;">docker</a>
-              <span class="tagcount">1</span>
-          </li>
-          
-          <li class="tag-list-item">
-              <a class="tagname" href="https:&#x2F;&#x2F;mushogenshin.com&#x2F;tags&#x2F;houdini&#x2F;">houdini</a>
-              <span class="tagcount">1</span>
-          </li>
-          
-          <li class="tag-list-item">
-              <a class="tagname" href="https:&#x2F;&#x2F;mushogenshin.com&#x2F;tags&#x2F;hython&#x2F;">hython</a>
-              <span class="tagcount">1</span>
-          </li>
-          
-          <li class="tag-list-item">
-              <a class="tagname" href="https:&#x2F;&#x2F;mushogenshin.com&#x2F;tags&#x2F;macos&#x2F;">MacOS</a>
-              <span class="tagcount">1</span>
-          </li>
-          
-          <li class="tag-list-item">
-              <a class="tagname" href="https:&#x2F;&#x2F;mushogenshin.com&#x2F;tags&#x2F;reel&#x2F;">reel</a>
-              <span class="tagcount">1</span>
-          </li>
-          
-          <li class="tag-list-item">
-              <a class="tagname" href="https:&#x2F;&#x2F;mushogenshin.com&#x2F;tags&#x2F;unreal&#x2F;">unreal</a>
-              <span class="tagcount">1</span>
-          </li>
-          
-    </ul>
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;mushogenshin.com&#x2F;ue_cpp&#x2F;exercise-1&#x2F;">Exercise 1: Make Template Folders</a></h1>
+  
+  <div class="post-content"><p>I managed to write something that runs on MacOS, but not on Windows. After a couple hours troubleshooting, this is what I found.</p>
+<p><strong>TLDR</strong>: do not use <code>IPlatformFile</code> if you want nested folders, use <code>IFileManager</code> instead.
+At the time of my writing, GitHub Copilot will mostly suggest you to use <code>IPlatformFile</code>.</p>
+<pre data-lang="cpp" style="background-color:#2b303b;color:#c0c5ce;" class="language-cpp "><code class="language-cpp" data-lang="cpp"><span style="color:#b48ead;">#include </span><span>&quot;</span><span style="color:#a3be8c;">HAL/PlatformFilemanager.h</span><span>&quot;
+</span><span>    </span><span style="color:#65737e;">// --snip--
+</span><span>
+</span><span>    </span><span style="color:#65737e;">// DO NOT use this if you want nested folders, as it doesn&#39;t
+</span><span>    </span><span style="color:#65737e;">// allow creating directories recursively, so it will fail on Windows:
+</span><span>    </span><span style="color:#65737e;">// IPlatformFile&amp; PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
+</span><span>
+</span><span>    </span><span style="color:#65737e;">// Use this instead:
+</span><span>    IFileManager&amp; FileManager = IFileManager::</span><span style="color:#bf616a;">Get</span><span>();
+</span><span>    </span><span style="color:#65737e;">// So that we can pass `true` to the `Tree` argument of this `MakeDirectory` method:
+</span><span>    FileManager.</span><span style="color:#bf616a;">MakeDirectory</span><span>(*FolderPath, </span><span style="color:#d08770;">true</span><span>);
+</span></code></pre>
 </div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+          <i class="far fa-sun"></i><span class="date">2023-03-03</span>
+        
+        
+          <i class="fas fa-tags"></i>
+          
+            <a class="tag" href="https://mushogenshin.com/tags/unreal">&nbsp;unreal</a>
+          
+            <a class="tag" href="https://mushogenshin.com/tags/c++">&nbsp;c++</a>
+          
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter" href="http://twitter.com/share?text=Exercise 1: Make Template Folders&url=https:&#x2F;&#x2F;mushogenshin.com&#x2F;ue_cpp&#x2F;exercise-1&hashtags=unreal,c++"></a>
+  </div>
+</div>
+
+
+
+
+
+
+
+
 
       </div>
     </div>
