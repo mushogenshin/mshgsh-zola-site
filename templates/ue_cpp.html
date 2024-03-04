@@ -4,11 +4,15 @@
 <article class="post animated fadeInDown">
   <h1><a href="{{ section.permalink }}"> Unreal C++ After Python and Rust </a></h1>
   <div class="post-content">{{ section.content | safe }}</div>
+  <ul>
+    <!-- If you are using pagination, section.pages will be empty. You need to use the paginator object -->
+    {% for page in section.pages %}
+    <li><a href="{{ page.permalink | safe }}">{{ page.title }}</a></li>
+    {% endfor %}
+  </ul>
+  <div>Also, here's <a href="https://reluctant-ue-cpp.mushogenshin.com" target="_blank">a book I'm working on</a>, which is in a longer format and goes into more backstories of my journey:</div>
+    <a href="https://reluctant-ue-cpp.mushogenshin.com" target="_blank">
+      <img src="/attachments/reluctant-ue-cpp-cover.jpg" alt="Reluctant Unreal C++ cover">
+    </a>
 </article>
-<ul>
-  <!-- If you are using pagination, section.pages will be empty. You need to use the paginator object -->
-  {% for page in section.pages %}
-  <li><a href="{{ page.permalink | safe }}">{{ page.title }}</a></li>
-  {% endfor %}
-</ul>
 {% endblock content %}
