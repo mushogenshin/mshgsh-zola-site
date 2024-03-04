@@ -77,14 +77,16 @@ At the time of my writing, GitHub Copilot will mostly suggest you to use <code>I
 <pre data-lang="cpp" style="background-color:#2b303b;color:#c0c5ce;" class="language-cpp "><code class="language-cpp" data-lang="cpp"><span style="color:#b48ead;">#include </span><span>&quot;</span><span style="color:#a3be8c;">HAL/PlatformFilemanager.h</span><span>&quot;
 </span><span>    </span><span style="color:#65737e;">// --snip--
 </span><span>
-</span><span>    </span><span style="color:#65737e;">// DO NOT use this if you want nested folders, as it doesn&#39;t
-</span><span>    </span><span style="color:#65737e;">// allow creating directories recursively, so it will fail on Windows:
+</span><span>    </span><span style="color:#65737e;">// DO NOT use this if you want nested folders, as it doesn&#39;t allow
+</span><span>    </span><span style="color:#65737e;">// creating directories recursively, so this will fail on Windows:
 </span><span>    </span><span style="color:#65737e;">// IPlatformFile&amp; PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
 </span><span>
 </span><span>    </span><span style="color:#65737e;">// Use this instead:
 </span><span>    IFileManager&amp; FileManager = IFileManager::</span><span style="color:#bf616a;">Get</span><span>();
-</span><span>    </span><span style="color:#65737e;">// So that we can pass `true` to the `Tree` argument of this `MakeDirectory` method:
+</span><span>    </span><span style="color:#65737e;">// so that we can pass `true` to the `Tree` argument
+</span><span>    </span><span style="color:#65737e;">// of this `MakeDirectory` method:
 </span><span>    FileManager.</span><span style="color:#bf616a;">MakeDirectory</span><span>(*FolderPath, </span><span style="color:#d08770;">true</span><span>);
+</span><span>
 </span></code></pre>
 </div>
   <div class="post-footer">

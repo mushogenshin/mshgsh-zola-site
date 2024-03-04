@@ -100,14 +100,16 @@ At the time of my writing, GitHub Copilot will mostly suggest you to use &lt;cod
 &lt;pre data-lang=&quot;cpp&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-cpp &quot;&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;HAL&#x2F;PlatformFilemanager.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
 &lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; --snip--
 &lt;&#x2F;span&gt;&lt;span&gt;
-&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; DO NOT use this if you want nested folders, as it doesn&amp;#39;t
-&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; allow creating directories recursively, so it will fail on Windows:
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; DO NOT use this if you want nested folders, as it doesn&amp;#39;t allow
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; creating directories recursively, so this will fail on Windows:
 &lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; IPlatformFile&amp;amp; PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
 &lt;&#x2F;span&gt;&lt;span&gt;
 &lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Use this instead:
 &lt;&#x2F;span&gt;&lt;span&gt;    IFileManager&amp;amp; FileManager = IFileManager::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Get&lt;&#x2F;span&gt;&lt;span&gt;();
-&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; So that we can pass `true` to the `Tree` argument of this `MakeDirectory` method:
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; so that we can pass `true` to the `Tree` argument
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; of this `MakeDirectory` method:
 &lt;&#x2F;span&gt;&lt;span&gt;    FileManager.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;MakeDirectory&lt;&#x2F;span&gt;&lt;span&gt;(*FolderPath, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;true&lt;&#x2F;span&gt;&lt;span&gt;);
+&lt;&#x2F;span&gt;&lt;span&gt;
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 </content>
 	</entry>
