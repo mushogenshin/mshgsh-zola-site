@@ -19,6 +19,37 @@ tags = ["unreal", "c++"]
 
 ### Suggested Solution
 
+#### Build.cs file
+
+```cs
+using UnrealBuildTool;
+
+public class TruongControlRigs : ModuleRules
+{
+	public TruongControlRigs(ReadOnlyTargetRules Target) : base(Target)
+	{
+            // --snip--
+		PrivateDependencyModuleNames.AddRange(new string[]
+		{
+			"CoreUObject",
+			"Engine"
+		});
+
+		PublicDependencyModuleNames.AddRange(new string[] {
+			"Core",
+			"InputCore",
+			"Blutility",
+			"EditorScriptingUtilities",
+			"UnrealEd",
+			"IKRig",
+			"ControlRig",
+			"ControlRigDeveloper",
+			"LevelSequence"
+		});
+	}
+}
+```
+
 #### Header file
 
 ```cpp
