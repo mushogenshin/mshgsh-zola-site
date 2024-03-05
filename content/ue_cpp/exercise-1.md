@@ -118,10 +118,10 @@ void UmkCharSetup::MakeCharacterFolders(const FString& CharacterName, const FStr
 			continue; // (4)
 		}
 
-		UE_LOG(LogTemp, Display, TEXT("Attempting to make directory: %s"), *FolderPath);
+		UE_LOG(LogHAL, Display, TEXT("Attempting to make directory: %s"), *FolderPath);
 		if (!FileManager.MakeDirectory(*FolderPath, true)) // (5)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Failed to create directory at path: %s"), *FolderPath);
+			UE_LOG(LogHAL, Warning, TEXT("Failed to create directory at path: %s"), *FolderPath);
 		}
 	}
 }
