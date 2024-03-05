@@ -176,10 +176,10 @@
 </span><span>			</span><span style="color:#b48ead;">continue</span><span>; </span><span style="color:#65737e;">// (4)
 </span><span>		}
 </span><span>
-</span><span>		</span><span style="color:#bf616a;">UE_LOG</span><span>(LogTemp, Display, </span><span style="color:#bf616a;">TEXT</span><span>(&quot;</span><span style="color:#a3be8c;">Attempting to make directory: </span><span style="color:#d08770;">%s</span><span>&quot;), *FolderPath);
+</span><span>		</span><span style="color:#bf616a;">UE_LOG</span><span>(LogHAL, Display, </span><span style="color:#bf616a;">TEXT</span><span>(&quot;</span><span style="color:#a3be8c;">Attempting to make directory: </span><span style="color:#d08770;">%s</span><span>&quot;), *FolderPath);
 </span><span>		</span><span style="color:#b48ead;">if </span><span>(!FileManager.</span><span style="color:#bf616a;">MakeDirectory</span><span>(*FolderPath, </span><span style="color:#d08770;">true</span><span>)) </span><span style="color:#65737e;">// (5)
 </span><span>		{
-</span><span>			</span><span style="color:#bf616a;">UE_LOG</span><span>(LogTemp, Warning, </span><span style="color:#bf616a;">TEXT</span><span>(&quot;</span><span style="color:#a3be8c;">Failed to create directory at path: </span><span style="color:#d08770;">%s</span><span>&quot;), *FolderPath);
+</span><span>			</span><span style="color:#bf616a;">UE_LOG</span><span>(LogHAL, Warning, </span><span style="color:#bf616a;">TEXT</span><span>(&quot;</span><span style="color:#a3be8c;">Failed to create directory at path: </span><span style="color:#d08770;">%s</span><span>&quot;), *FolderPath);
 </span><span>		}
 </span><span>	}
 </span><span>}

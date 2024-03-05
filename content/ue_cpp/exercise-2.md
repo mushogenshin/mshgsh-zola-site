@@ -15,11 +15,24 @@ tags = ["unreal", "c++"]
 
 #### Goal
 
+- The tool should help users to organize the existing assets into their proper subdirectories by type, for example:
+  - `Skeleton` and `Skeletal Mesh` should reside in `Meshes` subdirectory.
+  - `Physics Asset`, `IK Rig`, `IK Retargeter`, and `Control Rig`, should reside in `Rigs` subdirectory.
+  - `Anim Sequence`, `Anim Blueprint`, and `BlendSpace`, should reside in `Demo/Animations` subdirectory.
+- If an asset already resides in some matching subdirectory, then the tool shouldn't put it into another subdirectory.
+
 #### Pitfalls
+
+- We can use a `TMap<UClass*, FString>` to hard code the relationship between an asset type and their matching subdirectory. But the first challenge is to provide the proper `include` directives so that our desired `UClass`es are found. When we are still new with C++ and with the build process of Unreal overall, this is quite tricky.
+- To move an asset, we'll use `UEditorAssetLibrary::RenameLoadedAsset` method, but we'll have to make sure the asset is indeed loaded first.
 
 ### Suggested Solution
 
 #### Build.cs file
+
+- (1): "`IKRig`" module is needed for `UIKRigDefintion` and `UIKRetargeter` classes.
+- (2): "`ControlRig`" module is needed for `UControlRig` class, but usually we deal with `UControlRigBlueprint` class, so we also need "`ControlRigDeveloper`" module.
+- (3): "`LevelSequence`" module is needed for `ULevelSequence` class.
 
 ```cs
 using UnrealBuildTool;
@@ -41,10 +54,10 @@ public class TruongControlRigs : ModuleRules
 			"Blutility",
 			"EditorScriptingUtilities",
 			"UnrealEd",
-			"IKRig",
-			"ControlRig",
-			"ControlRigDeveloper",
-			"LevelSequence"
+			"IKRig", // (1)
+			"ControlRig", // (2)
+			"ControlRigDeveloper", // (2)
+			"LevelSequence" // (3)
 		});
 	}
 }
@@ -52,17 +65,19 @@ public class TruongControlRigs : ModuleRules
 
 #### Header file
 
+Then, same drill with the [previous exercise](/ue_cpp/exercise-1/), we define an `inline static const` variable for our mapping (4). Our method doesn't have any parameters (5) as we're allowing the tool to process everything automatically in this exercise, which is not a very flexible design, but we'll accept that for practice purpose.
+
 ```cpp
 #pragma once
 #include "CoreMinimal.h"
 #include "AssetActionUtility.h"
 #include "PhysicsEngine/PhysicsAsset.h"
-#include "Rig/IKRigDefinition.h"
-#include "Retargeter/IKRetargeter.h"
-#include "ControlRig.h"
-#include "ControlRigBlueprint.h"
+#include "Rig/IKRigDefinition.h" // (1)
+#include "Retargeter/IKRetargeter.h" // (1)
+#include "ControlRig.h" // (2)
+#include "ControlRigBlueprint.h" // (2)
 #include "Animation/BlendSpace1D.h"
-#include "LevelSequence.h"
+#include "LevelSequence.h" // (3)
 #include "mkCharSetup.generated.h"
 
 UCLASS()
@@ -94,14 +109,18 @@ private:
 		{ULevel::StaticClass(), TEXT("Maps")},
 		// `Sequences` folder
 		{ULevelSequence::StaticClass(), TEXT("Sequences")},
-	};
+	}; // (4)
 public:
     UFUNCTION(CallInEditor)
-	static void MoveAssetsToSubDirs();
+	static void MoveAssetsToSubDirs(); // (5)
 };
 ```
 
 #### cpp file
+
+- A selected asset might _not_ be within our `AssetTypeToFolder` definition, so we'll skip processing it if nothing valid is found in the mapping (6).
+- We also don't want to create another subdirectory if some other subdirectory with the same name is already in the path of the asset (7).
+- Finally we want to load the asset first (8) before moving it with `UEditorAssetLibrary::RenameLoadedAsset` (9).
 
 ```cpp
 void UmkCharSetup::MoveAssetsToSubDirs()
@@ -112,21 +131,21 @@ void UmkCharSetup::MoveAssetsToSubDirs()
 		if (!ensure(Object)) { continue; }
 
 		const FString* SubDirName = AssetTypeToFolder.Find(Object->GetClass());
-		if (!(ensure(SubDirName) && !SubDirName->IsEmpty()))
+		if (!(ensure(SubDirName) && !SubDirName->IsEmpty())) // (6)
 		{
 			UE_LOG(LogTemp, Warning, TEXT("No subdirectory defined for class %s"), *Object->GetClass()->GetName());
 			continue;
 		}
 
 		FString CurrAssetPath = Object->GetPackage()->GetPathName();
-		if (CurrAssetPath.Contains(*SubDirName))
+		if (CurrAssetPath.Contains(*SubDirName)) // (7)
 		{
 			UE_LOG(LogTemp, Display, TEXT("Skipping %s as it's already in a correct subdirectory"), *CurrAssetPath);
 			continue;
 		}
 
-		// We must load the asset first or else we can't move it
-		UObject* LoadedAsset = UEditorAssetLibrary::LoadAsset(CurrAssetPath);
+		// We must load the asset first or else we'll have problem moving it.
+		UObject* LoadedAsset = UEditorAssetLibrary::LoadAsset(CurrAssetPath); // (8)
 		if (!ensure(LoadedAsset))
 		{
 			UE_LOG(LogTemp, Warning, TEXT("Failed to load asset at path: %s"), *CurrAssetPath);
@@ -134,9 +153,11 @@ void UmkCharSetup::MoveAssetsToSubDirs()
 		}
 
 		FString NewAssetPath = FPaths::Combine(FPaths::GetPath(CurrAssetPath), *SubDirName, *Object->GetName());
-		UEditorAssetLibrary::RenameLoadedAsset(LoadedAsset, NewAssetPath);
+		UEditorAssetLibrary::RenameLoadedAsset(LoadedAsset, NewAssetPath); // (9)
 	}
 }
 ```
 
 #### Considerations
+
+A preview of **which goes where** would be helpful for the user before they decide to proceed with the operation, but let's settle with this for now 😼.

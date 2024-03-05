@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://mushogenshin.com/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://mushogenshin.com/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://mushogenshin.com/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://mushogenshin.com/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://mushogenshin.com/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://mushogenshin.com/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Hoan Nguyen • 🔖 Exercise 2: Move Assets to SubDirs</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Hoan Nguyen" href="https://mushogenshin.com/rss.xml">
+  
+  
+  
+  
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://mushogenshin.com/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://mushogenshin.com/">Hoan Nguyen</a></h3>
+        <div class="description">
+          <p>My thoughts on Art and Programming</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/mushogenshin" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/mushogenshin" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a href="https://www.instagram.com/mushogenshin" aria-label="Go to Instagram profile page"><i class="fab fa-instagram"></i></a>
+      </li><li><a href="https://linkedin.com/in/hoan-trong-nguyen" aria-label="Go to Linkedin profile page"><i class="fab fa-linkedin"></i></a></li>
+      
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://mushogenshin.com/">Home</a></li>
+        <li><a  href="https://mushogenshin.com/about/">About</a></li><li><a class="current"  href="https://mushogenshin.com/ue_cpp/">UE C++</a></li><li><a  href="https://mushogenshin.com/tags">Tags</a></li><li><a 
+            href="https://mushogenshin.com/archive/">Archive</a></li><li><a  href="https://mushogenshin.com/links/">Links</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+        
+        <div class="avatar"><img src="https://mushogenshin.com/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;mushogenshin.com&#x2F;ue_cpp&#x2F;exercise-2&#x2F;">🔖 Exercise 2: Move Assets to SubDirs</a></h1>
+  
+  <div class="post-content"><ul>
+<li><a href="https://mushogenshin.com/ue_cpp/exercise-2/#goal">Goal</a></li>
+<li><a href="https://mushogenshin.com/ue_cpp/exercise-2/#Pitfalls">Pitfalls</a></li>
+<li><a href="https://mushogenshin.com/ue_cpp/exercise-2/#suggested-solution">Suggested Solution</a></li>
+<li><a href="https://mushogenshin.com/ue_cpp/exercise-2/#considerations">Considerations</a></li>
+</ul>
+<hr>
+<h4 id="goal">Goal</h4>
+<ul>
+<li>The tool should help users to organize the existing assets into their proper subdirectories by type, for example:
+<ul>
+<li><code>Skeleton</code> and <code>Skeletal Mesh</code> should reside in <code>Meshes</code> subdirectory.</li>
+<li><code>Physics Asset</code>, <code>IK Rig</code>, <code>IK Retargeter</code>, and <code>Control Rig</code>, should reside in <code>Rigs</code> subdirectory.</li>
+<li><code>Anim Sequence</code>, <code>Anim Blueprint</code>, and <code>BlendSpace</code>, should reside in <code>Demo/Animations</code> subdirectory.</li>
+</ul>
+</li>
+<li>If an asset already resides in some matching subdirectory, then the tool shouldn't put it into another subdirectory.</li>
+</ul>
+<h4 id="pitfalls">Pitfalls</h4>
+<ul>
+<li>We can use a <code>TMap&lt;UClass*, FString&gt;</code> to hard code the relationship between an asset type and their matching subdirectory. But the first challenge is to provide the proper <code>include</code> directives so that our desired <code>UClass</code>es are found. When we are still new with C++ and with the build process of Unreal overall, this is quite tricky.</li>
+<li>To move an asset, we'll use <code>UEditorAssetLibrary::RenameLoadedAsset</code> method, but we'll have to make sure the asset is indeed loaded first.</li>
+</ul>
+<h3 id="suggested-solution">Suggested Solution</h3>
+<h4 id="build-cs-file">Build.cs file</h4>
+<ul>
+<li>(1): &quot;<code>IKRig</code>&quot; module is needed for <code>UIKRigDefintion</code> and <code>UIKRetargeter</code> classes.</li>
+<li>(2): &quot;<code>ControlRig</code>&quot; module is needed for <code>UControlRig</code> class, but usually we deal with <code>UControlRigBlueprint</code> class, so we also need &quot;<code>ControlRigDeveloper</code>&quot; module.</li>
+<li>(3): &quot;<code>LevelSequence</code>&quot; module is needed for <code>ULevelSequence</code> class.</li>
+</ul>
+<pre data-lang="cs" style="background-color:#2b303b;color:#c0c5ce;" class="language-cs "><code class="language-cs" data-lang="cs"><span style="color:#b48ead;">using </span><span>UnrealBuildTool;
+</span><span>
+</span><span style="color:#b48ead;">public class </span><span style="color:#ebcb8b;">TruongControlRigs </span><span style="color:#eff1f5;">: </span><span style="color:#a3be8c;">ModuleRules
+</span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">	</span><span style="color:#b48ead;">public </span><span style="color:#8fa1b3;">TruongControlRigs</span><span style="color:#eff1f5;">(ReadOnlyTargetRules </span><span style="color:#bf616a;">Target</span><span style="color:#eff1f5;">) : </span><span style="color:#bf616a;">base</span><span style="color:#eff1f5;">(</span><span style="color:#bf616a;">Target</span><span style="color:#eff1f5;">)
+</span><span style="color:#eff1f5;">	{
+</span><span style="color:#eff1f5;">            </span><span style="color:#65737e;">// --snip--
+</span><span style="color:#eff1f5;">		</span><span style="color:#bf616a;">PrivateDependencyModuleNames</span><span style="color:#eff1f5;">.</span><span style="color:#bf616a;">AddRange</span><span style="color:#eff1f5;">(</span><span>new </span><span style="color:#b48ead;">string</span><span style="color:#eff1f5;">[]
+</span><span style="color:#eff1f5;">		{
+</span><span style="color:#eff1f5;">			</span><span>&quot;</span><span style="color:#a3be8c;">CoreUObject</span><span>&quot;</span><span style="color:#eff1f5;">,
+</span><span style="color:#eff1f5;">			</span><span>&quot;</span><span style="color:#a3be8c;">Engine</span><span>&quot;
+</span><span style="color:#eff1f5;">		});
+</span><span style="color:#eff1f5;">
+</span><span style="color:#eff1f5;">		</span><span style="color:#bf616a;">PublicDependencyModuleNames</span><span style="color:#eff1f5;">.</span><span style="color:#bf616a;">AddRange</span><span style="color:#eff1f5;">(</span><span>new </span><span style="color:#b48ead;">string</span><span style="color:#eff1f5;">[] {
+</span><span style="color:#eff1f5;">			</span><span>&quot;</span><span style="color:#a3be8c;">Core</span><span>&quot;</span><span style="color:#eff1f5;">,
+</span><span style="color:#eff1f5;">			</span><span>&quot;</span><span style="color:#a3be8c;">InputCore</span><span>&quot;</span><span style="color:#eff1f5;">,
+</span><span style="color:#eff1f5;">			</span><span>&quot;</span><span style="color:#a3be8c;">Blutility</span><span>&quot;</span><span style="color:#eff1f5;">,
+</span><span style="color:#eff1f5;">			</span><span>&quot;</span><span style="color:#a3be8c;">EditorScriptingUtilities</span><span>&quot;</span><span style="color:#eff1f5;">,
+</span><span style="color:#eff1f5;">			</span><span>&quot;</span><span style="color:#a3be8c;">UnrealEd</span><span>&quot;</span><span style="color:#eff1f5;">,
+</span><span style="color:#eff1f5;">			</span><span>&quot;</span><span style="color:#a3be8c;">IKRig</span><span>&quot;</span><span style="color:#eff1f5;">, </span><span style="color:#65737e;">// (1)
+</span><span style="color:#eff1f5;">			</span><span>&quot;</span><span style="color:#a3be8c;">ControlRig</span><span>&quot;</span><span style="color:#eff1f5;">, </span><span style="color:#65737e;">// (2)
+</span><span style="color:#eff1f5;">			</span><span>&quot;</span><span style="color:#a3be8c;">ControlRigDeveloper</span><span>&quot;</span><span style="color:#eff1f5;">, </span><span style="color:#65737e;">// (2)
+</span><span style="color:#eff1f5;">			</span><span>&quot;</span><span style="color:#a3be8c;">LevelSequence</span><span>&quot; </span><span style="color:#65737e;">// (3)
+</span><span style="color:#eff1f5;">		});
+</span><span style="color:#eff1f5;">	}
+</span><span style="color:#eff1f5;">}
+</span></code></pre>
+<h4 id="header-file">Header file</h4>
+<p>Then, same drill with the <a href="/ue_cpp/exercise-1/">previous exercise</a>, we define an <code>inline static const</code> variable for our mapping (4). Our method doesn't have any parameters (5) as we're allowing the tool to process everything automatically in this exercise, which is not a very flexible design, but we'll accept that for practice purpose.</p>
+<pre data-lang="cpp" style="background-color:#2b303b;color:#c0c5ce;" class="language-cpp "><code class="language-cpp" data-lang="cpp"><span style="color:#b48ead;">#pragma</span><span> once
+</span><span style="color:#b48ead;">#include </span><span>&quot;</span><span style="color:#a3be8c;">CoreMinimal.h</span><span>&quot;
+</span><span style="color:#b48ead;">#include </span><span>&quot;</span><span style="color:#a3be8c;">AssetActionUtility.h</span><span>&quot;
+</span><span style="color:#b48ead;">#include </span><span>&quot;</span><span style="color:#a3be8c;">PhysicsEngine/PhysicsAsset.h</span><span>&quot;
+</span><span style="color:#b48ead;">#include </span><span>&quot;</span><span style="color:#a3be8c;">Rig/IKRigDefinition.h</span><span>&quot; </span><span style="color:#65737e;">// (1)
+</span><span style="color:#b48ead;">#include </span><span>&quot;</span><span style="color:#a3be8c;">Retargeter/IKRetargeter.h</span><span>&quot; </span><span style="color:#65737e;">// (1)
+</span><span style="color:#b48ead;">#include </span><span>&quot;</span><span style="color:#a3be8c;">ControlRig.h</span><span>&quot; </span><span style="color:#65737e;">// (2)
+</span><span style="color:#b48ead;">#include </span><span>&quot;</span><span style="color:#a3be8c;">ControlRigBlueprint.h</span><span>&quot; </span><span style="color:#65737e;">// (2)
+</span><span style="color:#b48ead;">#include </span><span>&quot;</span><span style="color:#a3be8c;">Animation/BlendSpace1D.h</span><span>&quot;
+</span><span style="color:#b48ead;">#include </span><span>&quot;</span><span style="color:#a3be8c;">LevelSequence.h</span><span>&quot; </span><span style="color:#65737e;">// (3)
+</span><span style="color:#b48ead;">#include </span><span>&quot;</span><span style="color:#a3be8c;">mkCharSetup.generated.h</span><span>&quot;
+</span><span>
+</span><span style="color:#bf616a;">UCLASS</span><span>()
+</span><span style="color:#b48ead;">class </span><span style="color:#eff1f5;">TRUONGCONTROLRIGS_API </span><span style="color:#ebcb8b;">UmkCharSetup </span><span style="color:#eff1f5;">: </span><span style="color:#b48ead;">public </span><span style="color:#a3be8c;">UAssetActionUtility
+</span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">	</span><span style="color:#bf616a;">GENERATED_BODY</span><span style="color:#eff1f5;">()
+</span><span style="color:#b48ead;">private</span><span style="color:#eff1f5;">:
+</span><span style="color:#eff1f5;">	</span><span style="color:#b48ead;">inline static const</span><span style="color:#eff1f5;"> TMap&lt;UClass</span><span>*</span><span style="color:#eff1f5;">, FString&gt; AssetTypeToFolder </span><span>= </span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">		</span><span style="color:#65737e;">// `Meshes` folder
+</span><span style="color:#eff1f5;">		{USkeleton::</span><span style="color:#bf616a;">StaticClass</span><span style="color:#eff1f5;">(), </span><span style="color:#bf616a;">TEXT</span><span style="color:#eff1f5;">(</span><span>&quot;</span><span style="color:#a3be8c;">Meshes</span><span>&quot;</span><span style="color:#eff1f5;">)},
+</span><span style="color:#eff1f5;">		{USkeletalMesh::</span><span style="color:#bf616a;">StaticClass</span><span style="color:#eff1f5;">(), </span><span style="color:#bf616a;">TEXT</span><span style="color:#eff1f5;">(</span><span>&quot;</span><span style="color:#a3be8c;">Meshes</span><span>&quot;</span><span style="color:#eff1f5;">)},
+</span><span style="color:#eff1f5;">		</span><span style="color:#65737e;">// `Rigs` folder
+</span><span style="color:#eff1f5;">		{UPhysicsAsset::</span><span style="color:#bf616a;">StaticClass</span><span style="color:#eff1f5;">(), </span><span style="color:#bf616a;">TEXT</span><span style="color:#eff1f5;">(</span><span>&quot;</span><span style="color:#a3be8c;">Rigs</span><span>&quot;</span><span style="color:#eff1f5;">)},
+</span><span style="color:#eff1f5;">		{UIKRigDefinition::</span><span style="color:#bf616a;">StaticClass</span><span style="color:#eff1f5;">(), </span><span style="color:#bf616a;">TEXT</span><span style="color:#eff1f5;">(</span><span>&quot;</span><span style="color:#a3be8c;">Rigs</span><span>&quot;</span><span style="color:#eff1f5;">)},
+</span><span style="color:#eff1f5;">		{UIKRetargeter::</span><span style="color:#bf616a;">StaticClass</span><span style="color:#eff1f5;">(), </span><span style="color:#bf616a;">TEXT</span><span style="color:#eff1f5;">(</span><span>&quot;</span><span style="color:#a3be8c;">Rigs</span><span>&quot;</span><span style="color:#eff1f5;">)},
+</span><span style="color:#eff1f5;">		{UControlRig::</span><span style="color:#bf616a;">StaticClass</span><span style="color:#eff1f5;">(), </span><span style="color:#bf616a;">TEXT</span><span style="color:#eff1f5;">(</span><span>&quot;</span><span style="color:#a3be8c;">Rigs</span><span>&quot;</span><span style="color:#eff1f5;">)},
+</span><span style="color:#eff1f5;">		{UControlRigBlueprint::</span><span style="color:#bf616a;">StaticClass</span><span style="color:#eff1f5;">(), </span><span style="color:#bf616a;">TEXT</span><span style="color:#eff1f5;">(</span><span>&quot;</span><span style="color:#a3be8c;">Rigs</span><span>&quot;</span><span style="color:#eff1f5;">)},
+</span><span style="color:#eff1f5;">		</span><span style="color:#65737e;">// `Textures` folder
+</span><span style="color:#eff1f5;">		{UTexture::</span><span style="color:#bf616a;">StaticClass</span><span style="color:#eff1f5;">(), </span><span style="color:#bf616a;">TEXT</span><span style="color:#eff1f5;">(</span><span>&quot;</span><span style="color:#a3be8c;">Textures</span><span>&quot;</span><span style="color:#eff1f5;">)},
+</span><span style="color:#eff1f5;">		</span><span style="color:#65737e;">// `Materials` folder
+</span><span style="color:#eff1f5;">		{UMaterial::</span><span style="color:#bf616a;">StaticClass</span><span style="color:#eff1f5;">(), </span><span style="color:#bf616a;">TEXT</span><span style="color:#eff1f5;">(</span><span>&quot;</span><span style="color:#a3be8c;">Materials</span><span>&quot;</span><span style="color:#eff1f5;">)},
+</span><span style="color:#eff1f5;">		</span><span style="color:#65737e;">// `Demo/Animations` folder
+</span><span style="color:#eff1f5;">		{UAnimSequence::</span><span style="color:#bf616a;">StaticClass</span><span style="color:#eff1f5;">(), </span><span style="color:#bf616a;">TEXT</span><span style="color:#eff1f5;">(</span><span>&quot;</span><span style="color:#a3be8c;">Demo/Animations</span><span>&quot;</span><span style="color:#eff1f5;">)},
+</span><span style="color:#eff1f5;">		{UBlendSpace::</span><span style="color:#bf616a;">StaticClass</span><span style="color:#eff1f5;">(), </span><span style="color:#bf616a;">TEXT</span><span style="color:#eff1f5;">(</span><span>&quot;</span><span style="color:#a3be8c;">Demo/Animations</span><span>&quot;</span><span style="color:#eff1f5;">)},
+</span><span style="color:#eff1f5;">		{UBlendSpace1D::</span><span style="color:#bf616a;">StaticClass</span><span style="color:#eff1f5;">(), </span><span style="color:#bf616a;">TEXT</span><span style="color:#eff1f5;">(</span><span>&quot;</span><span style="color:#a3be8c;">Demo/Animations</span><span>&quot;</span><span style="color:#eff1f5;">)},
+</span><span style="color:#eff1f5;">		{UAnimBlueprint::</span><span style="color:#bf616a;">StaticClass</span><span style="color:#eff1f5;">(), </span><span style="color:#bf616a;">TEXT</span><span style="color:#eff1f5;">(</span><span>&quot;</span><span style="color:#a3be8c;">Demo/Animations</span><span>&quot;</span><span style="color:#eff1f5;">)},
+</span><span style="color:#eff1f5;">		</span><span style="color:#65737e;">// `Maps` folder
+</span><span style="color:#eff1f5;">		{UWorld::</span><span style="color:#bf616a;">StaticClass</span><span style="color:#eff1f5;">(), </span><span style="color:#bf616a;">TEXT</span><span style="color:#eff1f5;">(</span><span>&quot;</span><span style="color:#a3be8c;">Maps</span><span>&quot;</span><span style="color:#eff1f5;">)},
+</span><span style="color:#eff1f5;">		{ULevel::</span><span style="color:#bf616a;">StaticClass</span><span style="color:#eff1f5;">(), </span><span style="color:#bf616a;">TEXT</span><span style="color:#eff1f5;">(</span><span>&quot;</span><span style="color:#a3be8c;">Maps</span><span>&quot;</span><span style="color:#eff1f5;">)},
+</span><span style="color:#eff1f5;">		</span><span style="color:#65737e;">// `Sequences` folder
+</span><span style="color:#eff1f5;">		{ULevelSequence::</span><span style="color:#bf616a;">StaticClass</span><span style="color:#eff1f5;">(), </span><span style="color:#bf616a;">TEXT</span><span style="color:#eff1f5;">(</span><span>&quot;</span><span style="color:#a3be8c;">Sequences</span><span>&quot;</span><span style="color:#eff1f5;">)},
+</span><span style="color:#eff1f5;">	}; </span><span style="color:#65737e;">// (4)
+</span><span style="color:#b48ead;">public</span><span style="color:#eff1f5;">:
+</span><span style="color:#eff1f5;">    </span><span style="color:#bf616a;">UFUNCTION</span><span style="color:#eff1f5;">(CallInEditor)
+</span><span style="color:#eff1f5;">	</span><span style="color:#b48ead;">static void </span><span style="color:#8fa1b3;">MoveAssetsToSubDirs</span><span style="color:#eff1f5;">(); </span><span style="color:#65737e;">// (5)
+</span><span style="color:#eff1f5;">}</span><span>;
+</span></code></pre>
+<h4 id="cpp-file">cpp file</h4>
+<ul>
+<li>A selected asset might <em>not</em> be within our <code>AssetTypeToFolder</code> definition, so we'll skip processing it if nothing valid is found in the mapping (6).</li>
+<li>We also don't want to create another subdirectory if some other subdirectory with the same name is already in the path of the asset (7).</li>
+<li>Finally we want to load the asset first (8) before moving it with <code>UEditorAssetLibrary::RenameLoadedAsset</code> (9).</li>
+</ul>
+<pre data-lang="cpp" style="background-color:#2b303b;color:#c0c5ce;" class="language-cpp "><code class="language-cpp" data-lang="cpp"><span style="color:#b48ead;">void </span><span>UmkCharSetup::</span><span style="color:#8fa1b3;">MoveAssetsToSubDirs</span><span>()
+</span><span>{
+</span><span>	</span><span style="color:#b48ead;">for </span><span>(TArray&lt;UObject*&gt; SelectedObjects = UEditorUtilityLibrary::</span><span style="color:#bf616a;">GetSelectedAssets</span><span>(); </span><span style="color:#b48ead;">const</span><span> UObject* Object :
+</span><span>	     SelectedObjects)
+</span><span>	{
+</span><span>		</span><span style="color:#b48ead;">if </span><span>(!</span><span style="color:#bf616a;">ensure</span><span>(Object)) { </span><span style="color:#b48ead;">continue</span><span>; }
+</span><span>
+</span><span>		</span><span style="color:#b48ead;">const</span><span> FString* SubDirName = AssetTypeToFolder.</span><span style="color:#bf616a;">Find</span><span>(Object-&gt;</span><span style="color:#bf616a;">GetClass</span><span>());
+</span><span>		</span><span style="color:#b48ead;">if </span><span>(!(</span><span style="color:#bf616a;">ensure</span><span>(SubDirName) &amp;&amp; !SubDirName-&gt;</span><span style="color:#bf616a;">IsEmpty</span><span>())) </span><span style="color:#65737e;">// (6)
+</span><span>		{
+</span><span>			</span><span style="color:#bf616a;">UE_LOG</span><span>(LogTemp, Warning, </span><span style="color:#bf616a;">TEXT</span><span>(&quot;</span><span style="color:#a3be8c;">No subdirectory defined for class </span><span style="color:#d08770;">%s</span><span>&quot;), *Object-&gt;</span><span style="color:#bf616a;">GetClass</span><span>()-&gt;</span><span style="color:#bf616a;">GetName</span><span>());
+</span><span>			</span><span style="color:#b48ead;">continue</span><span>;
+</span><span>		}
+</span><span>
+</span><span>		FString CurrAssetPath = Object-&gt;</span><span style="color:#bf616a;">GetPackage</span><span>()-&gt;</span><span style="color:#bf616a;">GetPathName</span><span>();
+</span><span>		</span><span style="color:#b48ead;">if </span><span>(CurrAssetPath.</span><span style="color:#bf616a;">Contains</span><span>(*SubDirName)) </span><span style="color:#65737e;">// (7)
+</span><span>		{
+</span><span>			</span><span style="color:#bf616a;">UE_LOG</span><span>(LogTemp, Display, </span><span style="color:#bf616a;">TEXT</span><span>(&quot;</span><span style="color:#a3be8c;">Skipping </span><span style="color:#d08770;">%s</span><span style="color:#a3be8c;"> as it&#39;s already in a correct subdirectory</span><span>&quot;), *CurrAssetPath);
+</span><span>			</span><span style="color:#b48ead;">continue</span><span>;
+</span><span>		}
+</span><span>
+</span><span>		</span><span style="color:#65737e;">// We must load the asset first or else we&#39;ll have problem moving it.
+</span><span>		UObject* LoadedAsset = UEditorAssetLibrary::</span><span style="color:#bf616a;">LoadAsset</span><span>(CurrAssetPath); </span><span style="color:#65737e;">// (8)
+</span><span>		</span><span style="color:#b48ead;">if </span><span>(!</span><span style="color:#bf616a;">ensure</span><span>(LoadedAsset))
+</span><span>		{
+</span><span>			</span><span style="color:#bf616a;">UE_LOG</span><span>(LogTemp, Warning, </span><span style="color:#bf616a;">TEXT</span><span>(&quot;</span><span style="color:#a3be8c;">Failed to load asset at path: </span><span style="color:#d08770;">%s</span><span>&quot;), *CurrAssetPath);
+</span><span>			</span><span style="color:#b48ead;">continue</span><span>;
+</span><span>		}
+</span><span>
+</span><span>		FString NewAssetPath = FPaths::</span><span style="color:#bf616a;">Combine</span><span>(FPaths::</span><span style="color:#bf616a;">GetPath</span><span>(CurrAssetPath), *SubDirName, *Object-&gt;</span><span style="color:#bf616a;">GetName</span><span>());
+</span><span>		UEditorAssetLibrary::</span><span style="color:#bf616a;">RenameLoadedAsset</span><span>(LoadedAsset, NewAssetPath); </span><span style="color:#65737e;">// (9)
+</span><span>	}
+</span><span>}
+</span></code></pre>
+<h4 id="considerations">Considerations</h4>
+<p>A preview of <strong>which goes where</strong> would be helpful for the user before they decide to proceed with the operation, but let's settle with this for now 😼.</p>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+          <i class="far fa-sun"></i><span class="date">2023-03-05</span>
+        
+        
+          <i class="fas fa-tags"></i>
+          
+            <a class="tag" href="https://mushogenshin.com/tags/unreal">&nbsp;unreal</a>
+          
+            <a class="tag" href="https://mushogenshin.com/tags/c++">&nbsp;c++</a>
+          
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter" href="http://twitter.com/share?text=🔖 Exercise 2: Move Assets to SubDirs&url=https:&#x2F;&#x2F;mushogenshin.com&#x2F;ue_cpp&#x2F;exercise-2&hashtags=unreal,c++"></a>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>
