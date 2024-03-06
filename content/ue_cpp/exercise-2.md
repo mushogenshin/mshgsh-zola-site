@@ -23,7 +23,7 @@ tags = ["unreal", "c++"]
 
 #### Pitfalls
 
-- We can use a `TMap<UClass*, FString>` to hard code the relationship between an asset type and their matching subdirectory. But the first challenge is to provide the proper `include` directives so that our desired `UClass`es are found. When we are still new with C++ and with the build process of Unreal overall, this is quite tricky.
+- We can use a `TMap<UClass*, FString>` to hard code the relationship between an asset type and their matching subdirectory. But the first challenge is to provide the proper `include` directives so that our desired `UClass`es can be found. When we are still new with C++ and with the build process of Unreal overall, this is quite tricky.
 - To move an asset, we'll use `UEditorAssetLibrary::RenameLoadedAsset` method, but we'll have to make sure the asset is indeed loaded first.
 
 ### Suggested Solution

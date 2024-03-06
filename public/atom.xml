@@ -114,7 +114,7 @@
 &lt;&#x2F;ul&gt;
 &lt;h4 id=&quot;pitfalls&quot;&gt;Pitfalls&lt;&#x2F;h4&gt;
 &lt;ul&gt;
-&lt;li&gt;We can use a &lt;code&gt;TMap&amp;lt;UClass*, FString&amp;gt;&lt;&#x2F;code&gt; to hard code the relationship between an asset type and their matching subdirectory. But the first challenge is to provide the proper &lt;code&gt;include&lt;&#x2F;code&gt; directives so that our desired &lt;code&gt;UClass&lt;&#x2F;code&gt;es are found. When we are still new with C++ and with the build process of Unreal overall, this is quite tricky.&lt;&#x2F;li&gt;
+&lt;li&gt;We can use a &lt;code&gt;TMap&amp;lt;UClass*, FString&amp;gt;&lt;&#x2F;code&gt; to hard code the relationship between an asset type and their matching subdirectory. But the first challenge is to provide the proper &lt;code&gt;include&lt;&#x2F;code&gt; directives so that our desired &lt;code&gt;UClass&lt;&#x2F;code&gt;es can be found. When we are still new with C++ and with the build process of Unreal overall, this is quite tricky.&lt;&#x2F;li&gt;
 &lt;li&gt;To move an asset, we&#x27;ll use &lt;code&gt;UEditorAssetLibrary::RenameLoadedAsset&lt;&#x2F;code&gt; method, but we&#x27;ll have to make sure the asset is indeed loaded first.&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;h3 id=&quot;suggested-solution&quot;&gt;Suggested Solution&lt;&#x2F;h3&gt;

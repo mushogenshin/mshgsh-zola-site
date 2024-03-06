@@ -91,7 +91,7 @@
 </ul>
 <h4 id="pitfalls">Pitfalls</h4>
 <ul>
-<li>We can use a <code>TMap&lt;UClass*, FString&gt;</code> to hard code the relationship between an asset type and their matching subdirectory. But the first challenge is to provide the proper <code>include</code> directives so that our desired <code>UClass</code>es are found. When we are still new with C++ and with the build process of Unreal overall, this is quite tricky.</li>
+<li>We can use a <code>TMap&lt;UClass*, FString&gt;</code> to hard code the relationship between an asset type and their matching subdirectory. But the first challenge is to provide the proper <code>include</code> directives so that our desired <code>UClass</code>es can be found. When we are still new with C++ and with the build process of Unreal overall, this is quite tricky.</li>
 <li>To move an asset, we'll use <code>UEditorAssetLibrary::RenameLoadedAsset</code> method, but we'll have to make sure the asset is indeed loaded first.</li>
 </ul>
 <h3 id="suggested-solution">Suggested Solution</h3>
