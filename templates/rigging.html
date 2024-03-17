@@ -1,0 +1,15 @@
+{% extends "basic.html" %}
+
+{% block content %}
+<article class="post animated fadeInDown">
+  <h1><a href="{{ section.permalink }}"> Control Rig Studies</a></h1>
+  <div class="post-content">{{ section.content | safe }}</div>
+  <!--  -->
+  <ul>
+    <!-- If you are using pagination, section.pages will be empty. You need to use the paginator object -->
+    {% for page in section.pages | reverse %}
+    <li><a href="{{ page.permalink | safe }}">{{ page.title }}</a></li>
+    {% endfor %}
+  </ul>
+</article>
+{% endblock content %}

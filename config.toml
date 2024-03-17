@@ -54,6 +54,7 @@ highlight_code = true
 # Anatole
 [extra.show]
 ue_cpp = true
+rigging = true
 tags = true
 links = true
 
@@ -81,6 +82,7 @@ language_name = "English"
 home = "Home"
 about = "About"
 ue_cpp = "UE C++"
+rigging = "Rigging"
 tags = "Tags"
 archive = "Archive"
 links = "Links"

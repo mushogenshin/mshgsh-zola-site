@@ -3,7 +3,7 @@ title = "🔖 Exercise 2: Move Assets to SubDirs"
 template = "page.html"
 date = 2023-03-05T15:00:00Z
 [taxonomies]
-tags = ["unreal", "c++"]
+tags = ["Unreal", "C++"]
 +++
 
 - [Goal](#goal)
@@ -160,4 +160,5 @@ void UmkCharSetup::MoveAssetsToSubDirs()
 
 #### Considerations
 
-A preview of **which goes where** would be helpful for the user before they decide to proceed with the operation, but let's settle with this for now 😼.
+- We may provide support for _any_ type of assets -- instead of only the types included in our `TMap` -- by resorting to its class name.
+- A preview of **which goes where** would be helpful for the user before they decide to proceed with the operation, but let's settle with this for now 😼.

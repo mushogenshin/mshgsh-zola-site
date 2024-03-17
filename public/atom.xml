@@ -89,6 +89,16 @@
 </content>
 	</entry>
 	<entry xml:lang="en">
+		<title>🍖 UE: Spine Study - After Jeremie Passerin</title>
+		<published>2023-03-05T15:00:00+00:00</published>
+		<updated>2023-03-05T15:00:00+00:00</updated>
+		<link rel="alternate" href="https://mushogenshin.com/rigging/ue-cr-spine-study/" type="text/html"/>
+		<id>https://mushogenshin.com/rigging/ue-cr-spine-study/</id>
+		<content type="html">&lt;h2 id=&quot;setup-spine-construction-event&quot;&gt;Setup Spine (Construction Event)&lt;&#x2F;h2&gt;
+&lt;h2 id=&quot;spline-ik-forward-solve&quot;&gt;Spline IK (Forward Solve)&lt;&#x2F;h2&gt;
+</content>
+	</entry>
+	<entry xml:lang="en">
 		<title>🔖 Exercise 2: Move Assets to SubDirs</title>
 		<published>2023-03-05T15:00:00+00:00</published>
 		<updated>2023-03-05T15:00:00+00:00</updated>
@@ -241,7 +251,10 @@
 &lt;&#x2F;span&gt;&lt;span&gt;}
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;h4 id=&quot;considerations&quot;&gt;Considerations&lt;&#x2F;h4&gt;
-&lt;p&gt;A preview of &lt;strong&gt;which goes where&lt;&#x2F;strong&gt; would be helpful for the user before they decide to proceed with the operation, but let&#x27;s settle with this for now 😼.&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;We may provide support for &lt;em&gt;any&lt;&#x2F;em&gt; type of assets -- instead of only the types included in our &lt;code&gt;TMap&lt;&#x2F;code&gt; -- by resorting to its class name.&lt;&#x2F;li&gt;
+&lt;li&gt;A preview of &lt;strong&gt;which goes where&lt;&#x2F;strong&gt; would be helpful for the user before they decide to proceed with the operation, but let&#x27;s settle with this for now 😼.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
 </content>
 	</entry>
 	<entry xml:lang="en">

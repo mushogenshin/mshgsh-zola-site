@@ -3,7 +3,7 @@ title = "🔖 Exercise 1: Make Template Folders"
 template = "page.html"
 date = 2023-03-03T21:00:00Z
 [taxonomies]
-tags = ["unreal", "c++"]
+tags = ["Unreal", "C++"]
 +++
 
 - [Goal](#goal)
