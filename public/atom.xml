@@ -89,16 +89,6 @@
 </content>
 	</entry>
 	<entry xml:lang="en">
-		<title>🍖 UE: Spine Study - After Jeremie Passerin</title>
-		<published>2023-03-05T15:00:00+00:00</published>
-		<updated>2023-03-05T15:00:00+00:00</updated>
-		<link rel="alternate" href="https://mushogenshin.com/rigging/ue-cr-spine-study/" type="text/html"/>
-		<id>https://mushogenshin.com/rigging/ue-cr-spine-study/</id>
-		<content type="html">&lt;h2 id=&quot;setup-spine-construction-event&quot;&gt;Setup Spine (Construction Event)&lt;&#x2F;h2&gt;
-&lt;h2 id=&quot;spline-ik-forward-solve&quot;&gt;Spline IK (Forward Solve)&lt;&#x2F;h2&gt;
-</content>
-	</entry>
-	<entry xml:lang="en">
 		<title>🔖 Exercise 2: Move Assets to SubDirs</title>
 		<published>2023-03-05T15:00:00+00:00</published>
 		<updated>2023-03-05T15:00:00+00:00</updated>

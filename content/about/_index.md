@@ -18,3 +18,5 @@ I finally am a US Permanent Resident, which means I'm now authorized to work for
 Now it's time for a new start.
 
 Thanks for passing by!
+
+P.S.: If you want to support me, consider [giving me a coffee](https://ko-fi.com/mushogenshin).
