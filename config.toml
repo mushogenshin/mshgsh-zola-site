@@ -66,9 +66,11 @@ twitter = "mushogenshin"
 # facebook = ""
 instagram = "mushogenshin"
 linkedin = "hoan-trong-nguyen"
+# "More social links" section
 steam = "mushogenshin"
 itch = "mushogenshin"
 patreon = "mushogenshin"
+# TODO: gumroad
 
 # Anatole
 [languages.en]
