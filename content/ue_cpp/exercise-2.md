@@ -3,7 +3,7 @@ title = "🔖 Exercise 2: Move Assets to SubDirs"
 template = "page.html"
 date = 2023-03-05T15:00:00Z
 [taxonomies]
-tags = ["Unreal", "C++"]
+tags = ["unreal", "c++"]
 +++
 
 - [Goal](#goal)

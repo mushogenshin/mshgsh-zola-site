@@ -3,7 +3,7 @@ title = "Houdini Docker Ubuntu Container on Apple Silicon"
 template = "page.html"
 date = 2023-07-27T10:52:00Z
 [taxonomies]
-tags = ["houdini", "docker", "MacOS", "hython"]
+tags = ["houdini", "docker", "mac-os", "hython"]
 [extra]
 summary = "Executing hython results in QEMU cpuinfo errors from USD lib"
 +++
