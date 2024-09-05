@@ -26,7 +26,9 @@
 		<id>https://mushogenshin.com/showreel-2024/</id>
 		<content type="html">&lt;p&gt;Showcasing some Unreal&#x2F;Unity projects where I played a role in the animation pipeline and&#x2F;or the rigging process. Also a bit of my tool development.&lt;&#x2F;p&gt;
 &lt;div &gt;
-    &lt;iframe src=&quot;https:&#x2F;&#x2F;www.youtube-nocookie.com&#x2F;embed&#x2F;VstDNctVLPM?autoplay=1&quot; webkitallowfullscreen mozallowfullscreen allowfullscreen&gt;&lt;&#x2F;iframe&gt;
+    &lt;iframe src=&quot;https:&#x2F;&#x2F;www.youtube.com&#x2F;embed&#x2F;VstDNctVLPM?autoplay=1&quot; webkitallowfullscreen
+        mozallowfullscreen allowfullscreen&gt;
+    &lt;&#x2F;iframe&gt;
 &lt;&#x2F;div&gt;
 &lt;p&gt;If interested you can also view:&lt;&#x2F;p&gt;
 &lt;ul&gt;
@@ -390,9 +392,10 @@
 		<content type="html">&lt;p&gt;In hindsight I slowly realized this was too ambitious and would take forever to complete.&lt;&#x2F;p&gt;
 &lt;!-- ## My original turntable references
 &lt;div &gt;
-    &lt;iframe src=&quot;https:&#x2F;&#x2F;www.youtube-nocookie.com&#x2F;embed&#x2F;RFrn4V_giIs&quot; webkitallowfullscreen mozallowfullscreen allowfullscreen&gt;&lt;&#x2F;iframe&gt;
-&lt;&#x2F;div&gt;
- --&gt;
+    &lt;iframe src=&quot;https:&#x2F;&#x2F;www.youtube.com&#x2F;embed&#x2F;RFrn4V_giIs&quot; webkitallowfullscreen
+        mozallowfullscreen allowfullscreen&gt;
+    &lt;&#x2F;iframe&gt;
+&lt;&#x2F;div&gt; --&gt;
 &lt;p&gt;&lt;img src=&quot;&#x2F;attachments&#x2F;cascina-2016-1.jpeg&quot; alt=&quot;WIP (2016) render&quot; &#x2F;&gt;
 &lt;img src=&quot;&#x2F;attachments&#x2F;cascina-2016-2.jpeg&quot; alt=&quot;WIP (2016) render&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
 &lt;ul&gt;

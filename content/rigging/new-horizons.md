@@ -4,7 +4,7 @@ template = "page.html"
 date = 2024-09-05T15:00:00Z
 draft = false
 [taxonomies]
-tags = ["Control Rig"]
+tags = ["Control-Rig"]
 +++
 
 I first got into rigging around 2010 with Maya and became relatively proficient with it during 2016-2019, but felt I hit a wall with what I could achieve with Maya's Dependency Graph. I saw many folks being able to do insane things with Maya C++ API, but around 2020-2023 I found my deep interests in general programming for pipeline, and got sidetracked.

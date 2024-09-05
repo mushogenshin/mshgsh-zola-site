@@ -4,7 +4,7 @@ template = "page.html"
 date = 2023-03-16T15:00:00Z
 draft = true
 [taxonomies]
-tags = ["Unreal", "Control Rig"]
+tags = ["Unreal", "Control-Rig"]
 +++
 
 ### Features
