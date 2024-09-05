@@ -73,7 +73,7 @@ linkedin = "hoan-trong-nguyen"
 # Anatole
 [languages.en]
 title = "Hoan Nguyen"
-description = "My thoughts on Art and Programming"
+description = "Operating greatly in the realm between Art and Programming"
 generate_feed = true
 taxonomies = [{ name = "tags" }]
 

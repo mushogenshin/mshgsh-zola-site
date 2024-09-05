@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
 	<title>Hoan Nguyen</title>
-	<subtitle>My thoughts on Art and Programming</subtitle>
+	<subtitle>Operating greatly in the realm between Art and Programming</subtitle>
 	<link href="https://mushogenshin.com/atom.xml" rel="self" type="application/atom+xml"/>
   <link href="https://mushogenshin.com"/>
 	<generator uri="https://www.getzola.org/">Zola</generator>
-	<updated>2024-02-25T11:00:00+00:00</updated>
+	<updated>2024-09-05T15:00:00+00:00</updated>
 	<id>https://mushogenshin.com/atom.xml</id>
+	<entry xml:lang="en">
+		<title>New Horizons in CG Rigging</title>
+		<published>2024-09-05T15:00:00+00:00</published>
+		<updated>2024-09-05T15:00:00+00:00</updated>
+		<link rel="alternate" href="https://mushogenshin.com/rigging/new-horizons/" type="text/html"/>
+		<id>https://mushogenshin.com/rigging/new-horizons/</id>
+		<content type="html">&lt;p&gt;I first got into rigging around 2010 with Maya and became relatively proficient with it during 2016-2019, but felt I hit a wall with what I could achieve with Maya&#x27;s Dependency Graph. I saw many folks being able to do insane things with Maya C++ API, but around 2020-2023 I found my deep interests in general programming for pipeline, and got sidetracked.&lt;&#x2F;p&gt;
+&lt;p&gt;Recently this space is getting excited again thanks to SideFX and Epic&#x27;s new innovations with it, and I&#x27;ve been tinkering with both Unreal&#x27;s ControlRig and Houdini&#x27;s APEX rigging and I love their ideas!&lt;&#x2F;p&gt;
+&lt;p&gt;This area is under construction, however. I hope to write up some decent articles with those new rigging contexts, especially how I utilize Unreal&#x27;s ControlRig in my Fossil Skater game from the Unreal Fellowship (Games, Americas) 2024. Please come back later.&lt;&#x2F;p&gt;
+</content>
+	</entry>
 	<entry xml:lang="en">
 		<title>2024 Showreel</title>
 		<published>2024-02-25T11:00:00+00:00</published>
