@@ -61,18 +61,18 @@ links = true
 # Anatole
 [extra.social]
 artstation = "mushogenshin"
-# steam = "mushogenshin"         # supported, just uncomment to enable
+# steam = "mushogenshin"         # supported, uncomment to enable
 github = "mushogenshin"
 linkedin = "hoan-trong-nguyen"
 # stackoverflow = ""         # use user_id
-# epic_dev = "z4o6Y/mushogenshin" # supported, just uncomment to enable
-# itch = "mushogenshin"           # supported, just uncomment to enable
+# epic_dev = "z4o6Y/mushogenshin" # supported, uncomment to enable
 # sketchfab = "mushogenshin"
-# patreon = "mushogenshin" # supported, just uncomment to enable
+# itch = "mushogenshin"           # supported, uncomment to enable
+# gumroad = "mushogenshin"        # supported, uncomment to enable
+# patreon = "mushogenshin"        # supported, uncomment to enable
 twitter = "mushogenshin"
+# instagram = "mushogenshin"      # supported, uncomment to enable
 # facebook = ""
-# instagram = "mushogenshin" # supported, just uncomment to enable
-# TODO: gumroad
 
 # Anatole
 [languages.en]
