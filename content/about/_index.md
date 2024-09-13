@@ -4,10 +4,10 @@ template = "about.html"
 paginate_by = 0
 +++
 
-# ~10 years of Technical Art
+# +10 years of Technical Art Direction
 
 Years went by and I decided to migrate my site from Wordpress to Hugo, and then to Zola.
-During 2017-2021, barely did I update anything, or give an explanation about why I stopped updating my "Battle of Cascina" (2014) and "Busts of Great Thinkers" (2016) projects.
+During 2017-2021, barely did I update anything, or give an explanation about why I stopped updating my ["Battle of Cascina" (2014)](/cascina) and ["Busts of Great Thinkers" (2016)](https://www.thingiverse.com/mushogenshin/designs) projects.
 
 What happened was that after being hired at Virtuos-SPARX\* in 2018 as an "Anatomy Technical Art Lead", I started to dive deeper into Programming and picked up quite many other technical skills since then, e.g. Python, Rust, Vim, Docker, Unity, Unreal, Houdini, Flutter, etc., and in hindsight that was such my big break away from Art. An exception to my moving away from Art is that I still managed to pick up Comparative Animal Anatomy by myself over about three years (thanks to first a good foundation in human anatomy, and then to illuminating books).
 

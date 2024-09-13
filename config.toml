@@ -55,6 +55,7 @@ highlight_code = true
 [extra.show]
 ue_cpp = true
 rigging = true
+fossil_skater = true
 tags = true
 links = true
 
@@ -88,6 +89,7 @@ home = "Home"
 about = "About"
 ue_cpp = "UE C++"
 rigging = "Rigging"
+fossil_skater = "FossilSkater"
 tags = "Tags"
 archive = "Archive"
 links = "Links"
