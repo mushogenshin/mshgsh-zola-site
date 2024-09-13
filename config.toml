@@ -56,7 +56,8 @@ highlight_code = true
 ue_cpp = true
 rigging = true
 fossil_skater = true
-tags = true
+# tags = true
+# archive = true
 links = true
 
 # Anatole
