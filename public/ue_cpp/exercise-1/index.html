@@ -53,7 +53,8 @@
         
         
         <li><a  href="https://mushogenshin.com/">Home</a></li>
-        <li><a  href="https://mushogenshin.com/about/">About</a></li><li><a class="current"  href="https://mushogenshin.com/ue_cpp/">UE C++</a></li><li><a  href="https://mushogenshin.com/rigging/">Rigging</a></li><li><a  href="https://fossil-skater.mushogenshin.com">FossilSkater</a></li><li><a  href="https://mushogenshin.com/links/">Links</a></li></div>
+        <li><a  href="https://mushogenshin.com/about/">About</a></li><li><a class="current"  href="https://mushogenshin.com/ue_cpp/">UE C++</a></li><li><a  href="https://mushogenshin.com/rigging/">Rigging</a></li><li><a  href="https://fossil-skater.mushogenshin.com">FossilSkater</a></li><li><a  href="https://childlike-verse-lang.web.app">Verse Lang</a></li><li><a 
+            href="https://mushogenshin.com/archive/">Archive</a></li><li><a  href="https://mushogenshin.com/links/">Links</a></li></div>
       <div class="information">
         <div class="back_btn">
           <a onclick="window.history.go(-1)" ><i
@@ -80,7 +81,7 @@
 <hr>
 <h4 id="goal">Goal</h4>
 <ul>
-<li>Given an asset name, e.g. name of a character or a prop, the tool should automatically make a series of sub-folders for that asset. For example: given &quot;<code>Velociraptor</code>&quot; string, it must make these folders:
+<li>Given an asset name, e.g. name of a character or a prop, the tool should automatically make a series of sub-folders for that asset. For example: given "<code>Velociraptor</code>" string, it must make these folders:
 <ul>
 <li><code>/Game/Velociraptor/Meshes</code></li>
 <li><code>/Game/Velociraptor/Rigs</code></li>
@@ -99,16 +100,16 @@
 <h4 id="pitfall">Pitfall</h4>
 <p>At the time of my writing, GitHub Copilot will mostly suggest you to use <code>IPlatformFile</code>. With <code>IPlatformFile</code> I managed to make it work on MacOS, but not on Windows. After a couple hours troubleshooting, this is what I found.</p>
 <p>👉 Do not use <code>IPlatformFile</code> if you want nested folders, use <code>IFileManager</code> instead.</p>
-<pre data-lang="cpp" style="background-color:#2b303b;color:#c0c5ce;" class="language-cpp "><code class="language-cpp" data-lang="cpp"><span style="color:#b48ead;">#include </span><span>&quot;</span><span style="color:#a3be8c;">HAL/PlatformFilemanager.h</span><span>&quot;
-</span><span>    </span><span style="color:#65737e;">// --snip--
-</span><span>    </span><span style="color:#65737e;">// DO NOT use this if you want nested folders, as it doesn&#39;t allow
-</span><span>    </span><span style="color:#65737e;">// creating directories recursively, so this will fail on Windows:
-</span><span>    </span><span style="color:#65737e;">// IPlatformFile&amp; PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
+<pre data-lang="cpp" style="background-color:#eff1f5;color:#4f5b66;" class="language-cpp "><code class="language-cpp" data-lang="cpp"><span style="color:#b48ead;">#include </span><span>&quot;</span><span style="color:#a3be8c;">HAL/PlatformFilemanager.h</span><span>&quot;
+</span><span>    </span><span style="color:#a7adba;">// --snip--
+</span><span>    </span><span style="color:#a7adba;">// DO NOT use this if you want nested folders, as it doesn&#39;t allow
+</span><span>    </span><span style="color:#a7adba;">// creating directories recursively, so this will fail on Windows:
+</span><span>    </span><span style="color:#a7adba;">// IPlatformFile&amp; PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
 </span><span>
-</span><span>    </span><span style="color:#65737e;">// Use this instead:
+</span><span>    </span><span style="color:#a7adba;">// Use this instead:
 </span><span>    IFileManager&amp; FileManager = IFileManager::</span><span style="color:#bf616a;">Get</span><span>();
-</span><span>    </span><span style="color:#65737e;">// so that we can pass `true` to the `Tree` argument
-</span><span>    </span><span style="color:#65737e;">// of this `MakeDirectory` method:
+</span><span>    </span><span style="color:#a7adba;">// so that we can pass `true` to the `Tree` argument
+</span><span>    </span><span style="color:#a7adba;">// of this `MakeDirectory` method:
 </span><span>    FileManager.</span><span style="color:#bf616a;">MakeDirectory</span><span>(*FolderPath, </span><span style="color:#d08770;">true</span><span>);
 </span></code></pre>
 <h3 id="suggested-solution">Suggested Solution</h3>
@@ -118,29 +119,29 @@
 <li>Our function doesn't mutate any data it receives, so we should mark it as <code>static</code> (1).</li>
 <li>As a result, our <code>TArray&lt;FString&gt; TemplateFolders</code> where we define the list of folders to be created has to be <code>inline static const</code> (2).</li>
 </ul>
-<pre data-lang="cpp" style="background-color:#2b303b;color:#c0c5ce;" class="language-cpp "><code class="language-cpp" data-lang="cpp"><span style="color:#b48ead;">#pragma</span><span> once
+<pre data-lang="cpp" style="background-color:#eff1f5;color:#4f5b66;" class="language-cpp "><code class="language-cpp" data-lang="cpp"><span style="color:#b48ead;">#pragma</span><span> once
 </span><span style="color:#b48ead;">#include </span><span>&quot;</span><span style="color:#a3be8c;">CoreMinimal.h</span><span>&quot;
 </span><span style="color:#b48ead;">#include </span><span>&quot;</span><span style="color:#a3be8c;">AssetActionUtility.h</span><span>&quot;
 </span><span style="color:#b48ead;">#include </span><span>&quot;</span><span style="color:#a3be8c;">mkCharSetup.generated.h</span><span>&quot;
 </span><span>
 </span><span style="color:#bf616a;">UCLASS</span><span>()
-</span><span style="color:#b48ead;">class </span><span style="color:#eff1f5;">TRUONGCONTROLRIGS_API </span><span style="color:#ebcb8b;">UmkCharSetup </span><span style="color:#eff1f5;">: </span><span style="color:#b48ead;">public </span><span style="color:#a3be8c;">UAssetActionUtility
-</span><span style="color:#eff1f5;">{
-</span><span style="color:#eff1f5;">	</span><span style="color:#bf616a;">GENERATED_BODY</span><span style="color:#eff1f5;">()
-</span><span style="color:#b48ead;">public</span><span style="color:#eff1f5;">:
-</span><span style="color:#eff1f5;">	</span><span style="color:#bf616a;">UFUNCTION</span><span style="color:#eff1f5;">(CallInEditor)
-</span><span style="color:#eff1f5;">	</span><span style="color:#b48ead;">static void </span><span style="color:#8fa1b3;">MakeCharacterFolders</span><span style="color:#eff1f5;">(</span><span style="color:#b48ead;">const</span><span style="color:#eff1f5;"> FString</span><span>&amp; </span><span style="color:#bf616a;">CharacterName</span><span style="color:#eff1f5;">, </span><span style="color:#b48ead;">const</span><span style="color:#eff1f5;"> FString</span><span>&amp; </span><span style="color:#bf616a;">ParentFolder</span><span style="color:#eff1f5;">); </span><span style="color:#65737e;">// (1)
-</span><span style="color:#b48ead;">private</span><span style="color:#eff1f5;">:
-</span><span style="color:#eff1f5;">	</span><span style="color:#b48ead;">inline static const</span><span style="color:#eff1f5;"> TArray&lt;FString&gt; TemplateFolders </span><span>= </span><span style="color:#eff1f5;">{
-</span><span style="color:#eff1f5;">		</span><span>&quot;</span><span style="color:#a3be8c;">Meshes</span><span>&quot;</span><span style="color:#eff1f5;">,
-</span><span style="color:#eff1f5;">		</span><span>&quot;</span><span style="color:#a3be8c;">Rigs</span><span>&quot;</span><span style="color:#eff1f5;">,
-</span><span style="color:#eff1f5;">		</span><span>&quot;</span><span style="color:#a3be8c;">Textures</span><span>&quot;</span><span style="color:#eff1f5;">,
-</span><span style="color:#eff1f5;">		</span><span>&quot;</span><span style="color:#a3be8c;">Materials</span><span>&quot;</span><span style="color:#eff1f5;">,
-</span><span style="color:#eff1f5;">		</span><span>&quot;</span><span style="color:#a3be8c;">Demo/Animations</span><span>&quot;</span><span style="color:#eff1f5;">,
-</span><span style="color:#eff1f5;">		</span><span>&quot;</span><span style="color:#a3be8c;">Maps</span><span>&quot;</span><span style="color:#eff1f5;">,
-</span><span style="color:#eff1f5;">		</span><span>&quot;</span><span style="color:#a3be8c;">Sequences</span><span>&quot;</span><span style="color:#eff1f5;">,
-</span><span style="color:#eff1f5;">	}; </span><span style="color:#65737e;">// (2)
-</span><span style="color:#eff1f5;">}</span><span>;
+</span><span style="color:#b48ead;">class </span><span style="color:#343d46;">TRUONGCONTROLRIGS_API </span><span style="color:#d08770;">UmkCharSetup </span><span style="color:#343d46;">: </span><span style="color:#b48ead;">public </span><span style="color:#a3be8c;">UAssetActionUtility
+</span><span style="color:#343d46;">{
+</span><span style="color:#343d46;">	</span><span style="color:#bf616a;">GENERATED_BODY</span><span style="color:#343d46;">()
+</span><span style="color:#b48ead;">public</span><span style="color:#343d46;">:
+</span><span style="color:#343d46;">	</span><span style="color:#bf616a;">UFUNCTION</span><span style="color:#343d46;">(CallInEditor)
+</span><span style="color:#343d46;">	</span><span style="color:#b48ead;">static void </span><span style="color:#8fa1b3;">MakeCharacterFolders</span><span style="color:#343d46;">(</span><span style="color:#b48ead;">const</span><span style="color:#343d46;"> FString</span><span>&amp; </span><span style="color:#bf616a;">CharacterName</span><span style="color:#343d46;">, </span><span style="color:#b48ead;">const</span><span style="color:#343d46;"> FString</span><span>&amp; </span><span style="color:#bf616a;">ParentFolder</span><span style="color:#343d46;">); </span><span style="color:#a7adba;">// (1)
+</span><span style="color:#b48ead;">private</span><span style="color:#343d46;">:
+</span><span style="color:#343d46;">	</span><span style="color:#b48ead;">inline static const</span><span style="color:#343d46;"> TArray&lt;FString&gt; TemplateFolders </span><span>= </span><span style="color:#343d46;">{
+</span><span style="color:#343d46;">		</span><span>&quot;</span><span style="color:#a3be8c;">Meshes</span><span>&quot;</span><span style="color:#343d46;">,
+</span><span style="color:#343d46;">		</span><span>&quot;</span><span style="color:#a3be8c;">Rigs</span><span>&quot;</span><span style="color:#343d46;">,
+</span><span style="color:#343d46;">		</span><span>&quot;</span><span style="color:#a3be8c;">Textures</span><span>&quot;</span><span style="color:#343d46;">,
+</span><span style="color:#343d46;">		</span><span>&quot;</span><span style="color:#a3be8c;">Materials</span><span>&quot;</span><span style="color:#343d46;">,
+</span><span style="color:#343d46;">		</span><span>&quot;</span><span style="color:#a3be8c;">Demo/Animations</span><span>&quot;</span><span style="color:#343d46;">,
+</span><span style="color:#343d46;">		</span><span>&quot;</span><span style="color:#a3be8c;">Maps</span><span>&quot;</span><span style="color:#343d46;">,
+</span><span style="color:#343d46;">		</span><span>&quot;</span><span style="color:#a3be8c;">Sequences</span><span>&quot;</span><span style="color:#343d46;">,
+</span><span style="color:#343d46;">	}; </span><span style="color:#a7adba;">// (2)
+</span><span style="color:#343d46;">}</span><span>;
 </span></code></pre>
 <h4 id="cpp-file">cpp file</h4>
 <ul>
@@ -149,20 +150,20 @@
 <li>If the directory already exists, we <code>continue</code> to the next iteration (4).</li>
 <li>The <code>FileManager.MakeDirectory</code> returns a <code>bool</code> of <a href="https://docs.unrealengine.com/5.3/en-US/API/Runtime/Core/HAL/FFileManagerGeneric/">whether the operation succeeds</a> (but unfortunately not the reason why it would fail), so we can use that to log when an error occurs (5).</li>
 </ul>
-<pre data-lang="cpp" style="background-color:#2b303b;color:#c0c5ce;" class="language-cpp "><code class="language-cpp" data-lang="cpp"><span style="color:#b48ead;">#include </span><span>&quot;</span><span style="color:#a3be8c;">mkCharSetup.h</span><span>&quot;
+<pre data-lang="cpp" style="background-color:#eff1f5;color:#4f5b66;" class="language-cpp "><code class="language-cpp" data-lang="cpp"><span style="color:#b48ead;">#include </span><span>&quot;</span><span style="color:#a3be8c;">mkCharSetup.h</span><span>&quot;
 </span><span style="color:#b48ead;">#include </span><span>&quot;</span><span style="color:#a3be8c;">EditorUtilityLibrary.h</span><span>&quot;
 </span><span style="color:#b48ead;">#include </span><span>&quot;</span><span style="color:#a3be8c;">HAL/PlatformFilemanager.h</span><span>&quot;
 </span><span>
 </span><span style="color:#b48ead;">void </span><span>UmkCharSetup::</span><span style="color:#8fa1b3;">MakeCharacterFolders</span><span>(</span><span style="color:#b48ead;">const</span><span> FString&amp; </span><span style="color:#bf616a;">CharacterName</span><span>, </span><span style="color:#b48ead;">const</span><span> FString&amp; </span><span style="color:#bf616a;">ParentFolder</span><span>)
 </span><span>{
 </span><span>	IFileManager&amp; FileManager = IFileManager::</span><span style="color:#bf616a;">Get</span><span>();
-</span><span>	</span><span style="color:#65737e;">// Construct the full path to the /Game directory
+</span><span>	</span><span style="color:#a7adba;">// Construct the full path to the /Game directory
 </span><span>	</span><span style="color:#b48ead;">const</span><span> FString ContentDir = FPaths::</span><span style="color:#bf616a;">ProjectContentDir</span><span>();
 </span><span>
 </span><span>	</span><span style="color:#b48ead;">for </span><span>(</span><span style="color:#b48ead;">const</span><span> FString&amp; Folder : TemplateFolders)
 </span><span>	{
 </span><span>		FString FolderPath;
-</span><span>		</span><span style="color:#b48ead;">if </span><span>(ParentFolder.</span><span style="color:#bf616a;">IsEmpty</span><span>()) </span><span style="color:#65737e;">// (3)
+</span><span>		</span><span style="color:#b48ead;">if </span><span>(ParentFolder.</span><span style="color:#bf616a;">IsEmpty</span><span>()) </span><span style="color:#a7adba;">// (3)
 </span><span>		{
 </span><span>			FolderPath = FPaths::</span><span style="color:#bf616a;">Combine</span><span>(ContentDir, CharacterName, Folder);
 </span><span>		}
@@ -173,11 +174,11 @@
 </span><span>
 </span><span>		</span><span style="color:#b48ead;">if </span><span>(FileManager.</span><span style="color:#bf616a;">DirectoryExists</span><span>(*FolderPath))
 </span><span>		{
-</span><span>			</span><span style="color:#b48ead;">continue</span><span>; </span><span style="color:#65737e;">// (4)
+</span><span>			</span><span style="color:#b48ead;">continue</span><span>; </span><span style="color:#a7adba;">// (4)
 </span><span>		}
 </span><span>
 </span><span>		</span><span style="color:#bf616a;">UE_LOG</span><span>(LogHAL, Display, </span><span style="color:#bf616a;">TEXT</span><span>(&quot;</span><span style="color:#a3be8c;">Attempting to make directory: </span><span style="color:#d08770;">%s</span><span>&quot;), *FolderPath);
-</span><span>		</span><span style="color:#b48ead;">if </span><span>(!FileManager.</span><span style="color:#bf616a;">MakeDirectory</span><span>(*FolderPath, </span><span style="color:#d08770;">true</span><span>)) </span><span style="color:#65737e;">// (5)
+</span><span>		</span><span style="color:#b48ead;">if </span><span>(!FileManager.</span><span style="color:#bf616a;">MakeDirectory</span><span>(*FolderPath, </span><span style="color:#d08770;">true</span><span>)) </span><span style="color:#a7adba;">// (5)
 </span><span>		{
 </span><span>			</span><span style="color:#bf616a;">UE_LOG</span><span>(LogHAL, Warning, </span><span style="color:#bf616a;">TEXT</span><span>(&quot;</span><span style="color:#a3be8c;">Failed to create directory at path: </span><span style="color:#d08770;">%s</span><span>&quot;), *FolderPath);
 </span><span>		}

@@ -1,40 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
-	<title>Hoan Nguyen</title>
-	<subtitle>Operating greatly in the realm between Art and Programming</subtitle>
-	<link href="https://mushogenshin.com/atom.xml" rel="self" type="application/atom+xml"/>
-  <link href="https://mushogenshin.com"/>
-	<generator uri="https://www.getzola.org/">Zola</generator>
-	<updated>2024-09-23T23:59:00+00:00</updated>
-	<id>https://mushogenshin.com/atom.xml</id>
-	<entry xml:lang="en">
-		<title>Unreal Fellowship: Games (Americas)</title>
-		<published>2024-09-23T23:59:00+00:00</published>
-		<updated>2024-09-23T23:59:00+00:00</updated>
-		<link rel="alternate" href="https://mushogenshin.com/fellowship-2024/" type="text/html"/>
-		<id>https://mushogenshin.com/fellowship-2024/</id>
-		<content type="html">&lt;p&gt;I was fortunate to be selected for &lt;a href=&quot;https:&#x2F;&#x2F;www.unrealengine.com&#x2F;en-US&#x2F;blog&#x2F;unreal-fellowship-games-application-now-open&quot;&gt;Unreal Fellowship 2024&lt;&#x2F;a&gt;. This year&#x27;s is different as it&#x27;s the first of its kind about games, and I&#x27;m super grateful to Epic Games for organizing this fantastic activity. I made many new friends, and the Fellowship opened a whole new world for me: firstly, as a creative person; secondly, as a Technical Art Director in the industry; and last but not least, as a solo developer in the community.&lt;&#x2F;p&gt;
+    <title>Hoan Nguyen</title>
+    <subtitle>Operating greatly in the realm between Art and Programming</subtitle>
+    <link rel="self" type="application/atom+xml" href="https://mushogenshin.com/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://mushogenshin.com"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2025-02-12T23:59:00+00:00</updated>
+    <id>https://mushogenshin.com/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Childlike Verse Lang: UE Fest 2025 Speaker Proposal</title>
+        <published>2025-02-12T23:59:00+00:00</published>
+        <updated>2025-02-12T23:59:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://mushogenshin.com/childlike-verse/"/>
+        <id>https://mushogenshin.com/childlike-verse/</id>
+        
+        <content type="html" xml:base="https://mushogenshin.com/childlike-verse/">&lt;p&gt;I&#x27;ve spent the better part of the last three months after Unreal Fest Seattle 2024 reading about a specific technology that I believe will significantly impact the future of game development if Epic Games can successfully implement it. I&#x27;ve written about why I&#x27;m convinced of this in an easy-to-understand way, using &lt;a href=&quot;https:&#x2F;&#x2F;childlike-verse-lang.web.app&quot;&gt;humorous illustrations&lt;&#x2F;a&gt; to help explain my points. That technology is the Verse programming language. Although I know many of you may have heard of it since GDC 2023, coming from an artistic background, I feel that many people—especially those without programming experience—might miss the reasons why Verse is more than just another new language, and why learning it could be beneficial for game developers, whether they use Unreal Engine or not.&lt;&#x2F;p&gt;
+&lt;p&gt;I submitted my essay as a speaker proposal for Unreal Fest Orlando 2025. If you think this would be interesting and helpful, please support me by reaching out to the Epic staff who approve speaker submissions.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Unreal Fellowship: Games (Americas)</title>
+        <published>2024-09-23T23:59:00+00:00</published>
+        <updated>2024-09-23T23:59:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://mushogenshin.com/fellowship-2024/"/>
+        <id>https://mushogenshin.com/fellowship-2024/</id>
+        
+        <content type="html" xml:base="https://mushogenshin.com/fellowship-2024/">&lt;p&gt;I was fortunate to be selected for &lt;a href=&quot;https:&#x2F;&#x2F;www.unrealengine.com&#x2F;en-US&#x2F;blog&#x2F;unreal-fellowship-games-application-now-open&quot;&gt;Unreal Fellowship 2024&lt;&#x2F;a&gt;. This year&#x27;s is different as it&#x27;s the first of its kind about games, and I&#x27;m super grateful to Epic Games for organizing this fantastic activity. I made many new friends, and the Fellowship opened a whole new world for me: firstly, as a creative person; secondly, as a Technical Art Director in the industry; and last but not least, as a solo developer in the community.&lt;&#x2F;p&gt;
 &lt;p&gt;My &lt;a href=&quot;https:&#x2F;&#x2F;fossil-skater.mushogenshin.com&quot;&gt;Fossil Skater&lt;&#x2F;a&gt; game -- a racing game where you ride dinosaurs who skate with car-shoes, diving into an erupting volcano to win -- is coming to Steam, Epic Games Store, and Itch, very soon -- tentatively this October 2024.&lt;&#x2F;p&gt;
 </content>
-	</entry>
-	<entry xml:lang="en">
-		<title>New Horizons in CG Rigging</title>
-		<published>2024-09-05T15:00:00+00:00</published>
-		<updated>2024-09-05T15:00:00+00:00</updated>
-		<link rel="alternate" href="https://mushogenshin.com/rigging/new-horizons/" type="text/html"/>
-		<id>https://mushogenshin.com/rigging/new-horizons/</id>
-		<content type="html">&lt;p&gt;I first got into rigging around 2010 with Maya and became relatively proficient with it during 2016-2019, but felt I hit a wall with what I could achieve with Maya&#x27;s Dependency Graph. I saw many folks being able to do insane things with Maya C++ API, but around 2020-2023 I found my deep interests in general programming for pipeline, and got sidetracked.&lt;&#x2F;p&gt;
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>New Horizons in CG Rigging</title>
+        <published>2024-09-05T15:00:00+00:00</published>
+        <updated>2024-09-05T15:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://mushogenshin.com/rigging/new-horizons/"/>
+        <id>https://mushogenshin.com/rigging/new-horizons/</id>
+        
+        <content type="html" xml:base="https://mushogenshin.com/rigging/new-horizons/">&lt;p&gt;I first got into rigging around 2010 with Maya and became relatively proficient with it during 2016-2019, but felt I hit a wall with what I could achieve with Maya&#x27;s Dependency Graph. I saw many folks being able to do insane things with Maya C++ API, but around 2020-2023 I found my deep interests in general programming for pipeline, and got sidetracked.&lt;&#x2F;p&gt;
 &lt;p&gt;Recently this space is getting excited again thanks to SideFX and Epic&#x27;s new innovations with it, and I&#x27;ve been tinkering with both Unreal&#x27;s ControlRig and Houdini&#x27;s APEX rigging and I love their ideas!&lt;&#x2F;p&gt;
 &lt;p&gt;This area is under construction, however. I hope to write up some decent articles with those new rigging contexts, especially how I utilize Unreal&#x27;s ControlRig in my Fossil Skater game from the Unreal Fellowship (Games, Americas) 2024. Please come back later.&lt;&#x2F;p&gt;
 </content>
-	</entry>
-	<entry xml:lang="en">
-		<title>2024 Showreel</title>
-		<published>2024-02-25T11:00:00+00:00</published>
-		<updated>2024-02-25T11:00:00+00:00</updated>
-		<link rel="alternate" href="https://mushogenshin.com/showreel-2024/" type="text/html"/>
-		<id>https://mushogenshin.com/showreel-2024/</id>
-		<content type="html">&lt;p&gt;Showcasing some Unreal&#x2F;Unity projects where I played a role in the animation pipeline and&#x2F;or the rigging process. Also a bit of my tool development.&lt;&#x2F;p&gt;
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>2024 Showreel</title>
+        <published>2024-02-25T11:00:00+00:00</published>
+        <updated>2024-02-25T11:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://mushogenshin.com/showreel-2024/"/>
+        <id>https://mushogenshin.com/showreel-2024/</id>
+        
+        <content type="html" xml:base="https://mushogenshin.com/showreel-2024/">&lt;p&gt;Showcasing some Unreal&#x2F;Unity projects where I played a role in the animation pipeline and&#x2F;or the rigging process. Also a bit of my tool development.&lt;&#x2F;p&gt;
 &lt;div &gt;
     &lt;iframe src=&quot;https:&#x2F;&#x2F;www.youtube.com&#x2F;embed&#x2F;VstDNctVLPM?autoplay=1&quot; webkitallowfullscreen
         mozallowfullscreen allowfullscreen&gt;
@@ -46,34 +99,45 @@
 &lt;li&gt;&lt;a href=&quot;http:&#x2F;&#x2F;bit.ly&#x2F;hoan-resume-2024&quot;&gt;my resume&lt;&#x2F;a&gt;.&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 </content>
-	</entry>
-	<entry xml:lang="en">
-		<title>Houdini Docker Ubuntu Container on Apple Silicon</title>
-		<published>2023-07-27T10:52:00+00:00</published>
-		<updated>2023-07-27T10:52:00+00:00</updated>
-		<link rel="alternate" href="https://mushogenshin.com/houdini-docker-apple/" type="text/html"/>
-		<id>https://mushogenshin.com/houdini-docker-apple/</id>
-		<content type="html">&lt;p&gt;&lt;img src=&quot;&#x2F;attachments&#x2F;houdini-docker-apple-chip-cover.JPG&quot; alt=&quot;Houdini Docker Ubuntu on Apple Silicon&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
-&lt;p&gt;It&#x27;s a great news that SideFX offers &lt;a href=&quot;https:&#x2F;&#x2F;www.sidefx.com&#x2F;download&#x2F;daily-builds&#x2F;?docker=true&quot;&gt;Docker files&lt;&#x2F;a&gt; for their Houdini software: especially when the Houdini Python API already provides a very promising &lt;a href=&quot;https:&#x2F;&#x2F;www.sidefx.com&#x2F;docs&#x2F;houdini&#x2F;hwebserver&#x2F;index.html&quot;&gt;web server&lt;&#x2F;a&gt; module, which together mean powerful, novel, web services can be thought of, given some &amp;quot;&lt;strong&gt;ingenuity and web development skill&lt;&#x2F;strong&gt;&amp;quot; -- a phrase I really like from this &lt;a href=&quot;https:&#x2F;&#x2F;docs.unrealengine.com&#x2F;5.2&#x2F;en-US&#x2F;remote-control-for-unreal-engine&#x2F;&quot;&gt;Unreal Remote Control&lt;&#x2F;a&gt; documentation.&lt;&#x2F;p&gt;
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Houdini Docker Ubuntu Container on Apple Silicon</title>
+        <published>2023-07-27T10:52:00+00:00</published>
+        <updated>2023-07-27T10:52:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://mushogenshin.com/houdini-docker-apple/"/>
+        <id>https://mushogenshin.com/houdini-docker-apple/</id>
+        
+        <content type="html" xml:base="https://mushogenshin.com/houdini-docker-apple/">&lt;p&gt;&lt;img src=&quot;&#x2F;attachments&#x2F;houdini-docker-apple-chip-cover.JPG&quot; alt=&quot;Houdini Docker Ubuntu on Apple Silicon&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;It&#x27;s a great news that SideFX offers &lt;a href=&quot;https:&#x2F;&#x2F;www.sidefx.com&#x2F;download&#x2F;daily-builds&#x2F;?docker=true&quot;&gt;Docker files&lt;&#x2F;a&gt; for their Houdini software: especially when the Houdini Python API already provides a very promising &lt;a href=&quot;https:&#x2F;&#x2F;www.sidefx.com&#x2F;docs&#x2F;houdini&#x2F;hwebserver&#x2F;index.html&quot;&gt;web server&lt;&#x2F;a&gt; module, which together mean powerful, novel, web services can be thought of, given some &quot;&lt;strong&gt;ingenuity and web development skill&lt;&#x2F;strong&gt;&quot; -- a phrase I really like from this &lt;a href=&quot;https:&#x2F;&#x2F;docs.unrealengine.com&#x2F;5.2&#x2F;en-US&#x2F;remote-control-for-unreal-engine&#x2F;&quot;&gt;Unreal Remote Control&lt;&#x2F;a&gt; documentation.&lt;&#x2F;p&gt;
 &lt;p&gt;So I decided to give the &lt;strong&gt;Houdini Docker (Ubuntu)&lt;&#x2F;strong&gt; a spin! In this blog I&#x27;m documenting some interesting things specific to running on Apple silicon that I encountered along the way while having tinkered with it over a weekend.&lt;&#x2F;p&gt;
 &lt;p&gt;I&#x27;m assuming you have followed the necessary steps to edit the EULA date as outlined in the &lt;code&gt;README&lt;&#x2F;code&gt; in the downloaded zip from SideFX.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;1-prevent-docker-desktop-on-apple-silicon-from-defaulting-to-ubuntu-for-arm-architecture&quot;&gt;1. Prevent Docker Desktop on Apple Silicon from defaulting to Ubuntu for ARM architecture&lt;&#x2F;h3&gt;
 &lt;p&gt;I&#x27;m on Docker Desktop &lt;code&gt;v4.21&lt;&#x2F;code&gt; on a M1 MacBook, and all my Ubuntu images if specified simply with a version, e.g. &lt;code&gt;FROM ubuntu:18.04&lt;&#x2F;code&gt;, turn out to be Ubuntu for ARM architecture, -- seemingly because Docker &lt;em&gt;infers&lt;&#x2F;em&gt; from the host --, which in this case is &lt;em&gt;not&lt;&#x2F;em&gt; what we want. So we have to edit the first layer in the &lt;code&gt;Dockerfile&lt;&#x2F;code&gt; downloaded to include the hash if we want Docker to pull the correct Ubuntu for &lt;code&gt;amd64&lt;&#x2F;code&gt; architecture:&lt;&#x2F;p&gt;
-&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;FROM&lt;&#x2F;span&gt;&lt;span&gt; ubuntu:18.04@sha256:dca176c9663a7ba4c1f0e710986f5a25e672842963d95b960191e2d9f7185ebe
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#eff1f5;color:#4f5b66;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;FROM&lt;&#x2F;span&gt;&lt;span&gt; ubuntu:18.04@sha256:dca176c9663a7ba4c1f0e710986f5a25e672842963d95b960191e2d9f7185ebe
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;And fear not, this is just a very first hiccup we&#x27;ll experience going further! Anyhow, at the end of the next step we&#x27;ll be able to build a Docker image with intended architecture, like so:&lt;&#x2F;p&gt;
 &lt;p&gt;&lt;img src=&quot;&#x2F;attachments&#x2F;houdini-docker-amd64.png&quot; alt=&quot;AMD64 Docker image&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;2-bypass-houdini-auto-install-failure-in-the-ubuntu-image-due-to-sse-prompt&quot;&gt;2. Bypass Houdini auto-install failure in the Ubuntu image due to &amp;quot;SSE&amp;quot; prompt&lt;&#x2F;h3&gt;
-&lt;p&gt;Now if we run &lt;code&gt;docker-compose build&lt;&#x2F;code&gt;, the process will exit before it can complete the last layer where it&#x27;s supposed to unzip the Houdini Linux build and run the &lt;code&gt;houdini.install&lt;&#x2F;code&gt; script: it prompts for a Yes&#x2F;No question about whether we want to proceed with &amp;quot;unknown CPU&amp;quot;, saying&lt;&#x2F;p&gt;
-&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;22.69         WARNING:
+&lt;h3 id=&quot;2-bypass-houdini-auto-install-failure-in-the-ubuntu-image-due-to-sse-prompt&quot;&gt;2. Bypass Houdini auto-install failure in the Ubuntu image due to &quot;SSE&quot; prompt&lt;&#x2F;h3&gt;
+&lt;p&gt;Now if we run &lt;code&gt;docker-compose build&lt;&#x2F;code&gt;, the process will exit before it can complete the last layer where it&#x27;s supposed to unzip the Houdini Linux build and run the &lt;code&gt;houdini.install&lt;&#x2F;code&gt; script: it prompts for a Yes&#x2F;No question about whether we want to proceed with &quot;unknown CPU&quot;, saying&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#eff1f5;color:#4f5b66;&quot;&gt;&lt;code&gt;&lt;span&gt;22.69         WARNING:
 &lt;&#x2F;span&gt;&lt;span&gt;22.69   Your CPU (unkown CPU) does not appear
 &lt;&#x2F;span&gt;&lt;span&gt;22.69   to support SSE 4.2 instructions. SSE 4.2 is required to run Houdini.
 &lt;&#x2F;span&gt;&lt;span&gt;22.69
 &lt;&#x2F;span&gt;&lt;span&gt;22.69         Do you wish to continue (y or n) [n] ==&amp;gt; Nothing was installed.
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
-&lt;p&gt;As you can see, the script defaults to &lt;em&gt;&amp;quot;No&amp;quot;&lt;&#x2F;em&gt; for an answer.&lt;&#x2F;p&gt;
-&lt;p&gt;Out of curiosity let&#x27;s hijack this script to proceed none the less. We can tweak the last layers in the &lt;code&gt;Dockerfile&lt;&#x2F;code&gt; so that the &lt;code&gt;houdini.install&lt;&#x2F;code&gt; script defaults the answer to &lt;em&gt;&amp;quot;Yes&amp;quot;&lt;&#x2F;em&gt;, using &lt;code&gt;sed&lt;&#x2F;code&gt; in-place:&lt;&#x2F;p&gt;
-&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;RUN&lt;&#x2F;span&gt;&lt;span&gt; tar&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -xf&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;houdiniInstaller&#x2F;houdini*&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -C&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;houdiniInstaller \
+&lt;p&gt;As you can see, the script defaults to &lt;em&gt;&quot;No&quot;&lt;&#x2F;em&gt; for an answer.&lt;&#x2F;p&gt;
+&lt;p&gt;Out of curiosity let&#x27;s hijack this script to proceed none the less. We can tweak the last layers in the &lt;code&gt;Dockerfile&lt;&#x2F;code&gt; so that the &lt;code&gt;houdini.install&lt;&#x2F;code&gt; script defaults the answer to &lt;em&gt;&quot;Yes&quot;&lt;&#x2F;em&gt;, using &lt;code&gt;sed&lt;&#x2F;code&gt; in-place:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#eff1f5;color:#4f5b66;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;RUN&lt;&#x2F;span&gt;&lt;span&gt; tar&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -xf&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;houdiniInstaller&#x2F;houdini*&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -C&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;houdiniInstaller \
 &lt;&#x2F;span&gt;&lt;span&gt;    &amp;amp;&amp;amp; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;cd&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;houdiniInstaller&#x2F;houdini* \
 &lt;&#x2F;span&gt;&lt;span&gt;    &amp;amp;&amp;amp; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;sed -i &lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;s&#x2F;read ans&#x2F;ans=&amp;quot;y&amp;quot;&#x2F;&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39; houdini.install \
 &lt;&#x2F;span&gt;&lt;span&gt;    &amp;amp;&amp;amp; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;.&#x2F;houdini.install --auto-install --accept-EULA &lt;&#x2F;span&gt;&lt;span&gt;${&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;EULA_DATE&lt;&#x2F;span&gt;&lt;span&gt;} \
@@ -85,16 +149,16 @@
 &lt;ul&gt;
 &lt;li&gt;The first container of &lt;code&gt;sesinetd&lt;&#x2F;code&gt; runs with no problem:&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
-&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;docker-compose&lt;&#x2F;span&gt;&lt;span&gt; run&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -d -p&lt;&#x2F;span&gt;&lt;span&gt; 1715:1715 sesinetd
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#eff1f5;color:#4f5b66;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;docker-compose&lt;&#x2F;span&gt;&lt;span&gt; run&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -d -p&lt;&#x2F;span&gt;&lt;span&gt; 1715:1715 sesinetd
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;&lt;img src=&quot;&#x2F;attachments&#x2F;houdini-docker-sesinetd.png&quot; alt=&quot;sesinetd&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
 &lt;ul&gt;
 &lt;li&gt;What unfortunately won&#x27;t be working (on Apple silicon, that is) is with the second container where we want to execute &lt;code&gt;hython&lt;&#x2F;code&gt;:&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
-&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;docker-compose&lt;&#x2F;span&gt;&lt;span&gt; run hython
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#eff1f5;color:#4f5b66;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;docker-compose&lt;&#x2F;span&gt;&lt;span&gt; run hython
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;From the resulted console, we encounter an obscure message from the USD lib complaining about missing information in the &lt;code&gt;&#x2F;proc&#x2F;cpuinfo&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
-&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;root@hython:&#x2F;#&lt;&#x2F;span&gt;&lt;span&gt; cd &#x2F;opt&#x2F;hfs19.5&#x2F;bin
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#eff1f5;color:#4f5b66;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;root@hython:&#x2F;#&lt;&#x2F;span&gt;&lt;span&gt; cd &#x2F;opt&#x2F;hfs19.5&#x2F;bin
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;root@hython:&#x2F;opt&#x2F;hfs19.5&#x2F;bin#&lt;&#x2F;span&gt;&lt;span&gt; .&#x2F;hython
 &lt;&#x2F;span&gt;&lt;span&gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ArchError:&lt;&#x2F;span&gt;&lt;span&gt; Could not find &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;cpu MHz&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39; in &#x2F;proc&#x2F;cpuinfo
 &lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Function:&lt;&#x2F;span&gt;&lt;span&gt; Arch_ComputeNanosecondsPerTick
@@ -110,14 +174,25 @@
 &lt;p&gt;If anyone has some ideas to overcome this please let me know.&lt;&#x2F;p&gt;
 &lt;p&gt;What for next weekends? I don&#x27;t think I&#x27;ll test Houdini Docker Ubuntu on a Mac with Intel chip, which leaves only the Houdini Docker Windows in sight.&lt;&#x2F;p&gt;
 </content>
-	</entry>
-	<entry xml:lang="en">
-		<title>🔖 Exercise 2: Move Assets to SubDirs</title>
-		<published>2023-03-05T15:00:00+00:00</published>
-		<updated>2023-03-05T15:00:00+00:00</updated>
-		<link rel="alternate" href="https://mushogenshin.com/ue_cpp/exercise-2/" type="text/html"/>
-		<id>https://mushogenshin.com/ue_cpp/exercise-2/</id>
-		<content type="html">&lt;ul&gt;
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>🔖 Exercise 2: Move Assets to SubDirs</title>
+        <published>2023-03-05T15:00:00+00:00</published>
+        <updated>2023-03-05T15:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://mushogenshin.com/ue_cpp/exercise-2/"/>
+        <id>https://mushogenshin.com/ue_cpp/exercise-2/</id>
+        
+        <content type="html" xml:base="https://mushogenshin.com/ue_cpp/exercise-2/">&lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;mushogenshin.com&#x2F;ue_cpp&#x2F;exercise-2&#x2F;#goal&quot;&gt;Goal&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
 &lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;mushogenshin.com&#x2F;ue_cpp&#x2F;exercise-2&#x2F;#Pitfalls&quot;&gt;Pitfalls&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
 &lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;mushogenshin.com&#x2F;ue_cpp&#x2F;exercise-2&#x2F;#suggested-solution&quot;&gt;Suggested Solution&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
@@ -143,85 +218,85 @@
 &lt;h3 id=&quot;suggested-solution&quot;&gt;Suggested Solution&lt;&#x2F;h3&gt;
 &lt;h4 id=&quot;build-cs-file&quot;&gt;Build.cs file&lt;&#x2F;h4&gt;
 &lt;ul&gt;
-&lt;li&gt;(1): &amp;quot;&lt;code&gt;IKRig&lt;&#x2F;code&gt;&amp;quot; module is needed for &lt;code&gt;UIKRigDefintion&lt;&#x2F;code&gt; and &lt;code&gt;UIKRetargeter&lt;&#x2F;code&gt; classes.&lt;&#x2F;li&gt;
-&lt;li&gt;(2): &amp;quot;&lt;code&gt;ControlRig&lt;&#x2F;code&gt;&amp;quot; module is needed for &lt;code&gt;UControlRig&lt;&#x2F;code&gt; class, but usually we deal with &lt;code&gt;UControlRigBlueprint&lt;&#x2F;code&gt; class, so we also need &amp;quot;&lt;code&gt;ControlRigDeveloper&lt;&#x2F;code&gt;&amp;quot; module.&lt;&#x2F;li&gt;
-&lt;li&gt;(3): &amp;quot;&lt;code&gt;LevelSequence&lt;&#x2F;code&gt;&amp;quot; module is needed for &lt;code&gt;ULevelSequence&lt;&#x2F;code&gt; class.&lt;&#x2F;li&gt;
+&lt;li&gt;(1): &quot;&lt;code&gt;IKRig&lt;&#x2F;code&gt;&quot; module is needed for &lt;code&gt;UIKRigDefintion&lt;&#x2F;code&gt; and &lt;code&gt;UIKRetargeter&lt;&#x2F;code&gt; classes.&lt;&#x2F;li&gt;
+&lt;li&gt;(2): &quot;&lt;code&gt;ControlRig&lt;&#x2F;code&gt;&quot; module is needed for &lt;code&gt;UControlRig&lt;&#x2F;code&gt; class, but usually we deal with &lt;code&gt;UControlRigBlueprint&lt;&#x2F;code&gt; class, so we also need &quot;&lt;code&gt;ControlRigDeveloper&lt;&#x2F;code&gt;&quot; module.&lt;&#x2F;li&gt;
+&lt;li&gt;(3): &quot;&lt;code&gt;LevelSequence&lt;&#x2F;code&gt;&quot; module is needed for &lt;code&gt;ULevelSequence&lt;&#x2F;code&gt; class.&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
-&lt;pre data-lang=&quot;cs&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-cs &quot;&gt;&lt;code class=&quot;language-cs&quot; data-lang=&quot;cs&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;using &lt;&#x2F;span&gt;&lt;span&gt;UnrealBuildTool;
+&lt;pre data-lang=&quot;cs&quot; style=&quot;background-color:#eff1f5;color:#4f5b66;&quot; class=&quot;language-cs &quot;&gt;&lt;code class=&quot;language-cs&quot; data-lang=&quot;cs&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;using &lt;&#x2F;span&gt;&lt;span&gt;UnrealBuildTool;
 &lt;&#x2F;span&gt;&lt;span&gt;
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;public class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;TruongControlRigs &lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ModuleRules
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;{
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;public &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;TruongControlRigs&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(ReadOnlyTargetRules &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Target&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;) : &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;base&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Target&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;)
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;	{
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; --snip--
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;PrivateDependencyModuleNames&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;AddRange&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;new &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;string&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;[]
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		{
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;			&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;CoreUObject&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;,
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;			&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Engine&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		});
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;PublicDependencyModuleNames&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;AddRange&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;new &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;string&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;[] {
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;			&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Core&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;,
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;			&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;InputCore&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;,
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;			&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Blutility&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;,
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;			&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;EditorScriptingUtilities&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;,
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;			&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;UnrealEd&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;,
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;			&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;IKRig&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; (1)
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;			&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ControlRig&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; (2)
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;			&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ControlRigDeveloper&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; (2)
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;			&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;LevelSequence&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; (3)
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		});
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;	}
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;}
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;public class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;TruongControlRigs &lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ModuleRules
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;public &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;TruongControlRigs&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(ReadOnlyTargetRules &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Target&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;) : &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;base&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Target&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;	{
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; --snip--
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;PrivateDependencyModuleNames&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;AddRange&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;new &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;string&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;[]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		{
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;			&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;CoreUObject&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;			&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Engine&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		});
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;PublicDependencyModuleNames&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;AddRange&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;new &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;string&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;[] {
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;			&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Core&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;			&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;InputCore&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;			&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Blutility&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;			&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;EditorScriptingUtilities&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;			&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;UnrealEd&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;			&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;IKRig&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; (1)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;			&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ControlRig&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; (2)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;			&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ControlRigDeveloper&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; (2)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;			&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;LevelSequence&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; (3)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		});
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;	}
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;}
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;h4 id=&quot;header-file&quot;&gt;Header file&lt;&#x2F;h4&gt;
 &lt;p&gt;Then, same drill with the &lt;a href=&quot;&#x2F;ue_cpp&#x2F;exercise-1&#x2F;&quot;&gt;previous exercise&lt;&#x2F;a&gt;, we define an &lt;code&gt;inline static const&lt;&#x2F;code&gt; variable for our mapping (4). Our method doesn&#x27;t have any parameters (5) as we&#x27;re allowing the tool to process everything automatically in this exercise, which is not a very flexible design, but we&#x27;ll accept that for practice purpose.&lt;&#x2F;p&gt;
-&lt;pre data-lang=&quot;cpp&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-cpp &quot;&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#pragma&lt;&#x2F;span&gt;&lt;span&gt; once
+&lt;pre data-lang=&quot;cpp&quot; style=&quot;background-color:#eff1f5;color:#4f5b66;&quot; class=&quot;language-cpp &quot;&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#pragma&lt;&#x2F;span&gt;&lt;span&gt; once
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;CoreMinimal.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;AssetActionUtility.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;PhysicsEngine&#x2F;PhysicsAsset.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Rig&#x2F;IKRigDefinition.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; (1)
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Retargeter&#x2F;IKRetargeter.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; (1)
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ControlRig.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; (2)
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ControlRigBlueprint.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; (2)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Rig&#x2F;IKRigDefinition.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; (1)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Retargeter&#x2F;IKRetargeter.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; (1)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ControlRig.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; (2)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ControlRigBlueprint.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; (2)
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Animation&#x2F;BlendSpace1D.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;LevelSequence.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; (3)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;LevelSequence.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; (3)
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;mkCharSetup.generated.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
 &lt;&#x2F;span&gt;&lt;span&gt;
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;UCLASS&lt;&#x2F;span&gt;&lt;span&gt;()
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;TRUONGCONTROLRIGS_API &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;UmkCharSetup &lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;public &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;UAssetActionUtility
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;{
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;GENERATED_BODY&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;()
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;private&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;:
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;inline static const&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt; TMap&amp;lt;UClass&lt;&#x2F;span&gt;&lt;span&gt;*&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;, FString&amp;gt; AssetTypeToFolder &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;{
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; `Meshes` folder
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		{USkeleton::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Meshes&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;)},
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		{USkeletalMesh::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Meshes&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;)},
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; `Rigs` folder
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		{UPhysicsAsset::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Rigs&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;)},
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		{UIKRigDefinition::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Rigs&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;)},
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		{UIKRetargeter::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Rigs&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;)},
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		{UControlRig::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Rigs&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;)},
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		{UControlRigBlueprint::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Rigs&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;)},
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; `Textures` folder
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		{UTexture::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Textures&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;)},
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; `Materials` folder
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		{UMaterial::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Materials&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;)},
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; `Demo&#x2F;Animations` folder
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		{UAnimSequence::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Demo&#x2F;Animations&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;)},
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		{UBlendSpace::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Demo&#x2F;Animations&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;)},
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		{UBlendSpace1D::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Demo&#x2F;Animations&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;)},
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		{UAnimBlueprint::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Demo&#x2F;Animations&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;)},
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; `Maps` folder
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		{UWorld::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Maps&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;)},
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		{ULevel::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Maps&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;)},
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; `Sequences` folder
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		{ULevelSequence::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Sequences&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;)},
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;	}; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; (4)
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;public&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;:
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;UFUNCTION&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(CallInEditor)
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;static void &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;MoveAssetsToSubDirs&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(); &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; (5)
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;TRUONGCONTROLRIGS_API &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;UmkCharSetup &lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;public &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;UAssetActionUtility
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;GENERATED_BODY&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;()
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;private&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;:
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;inline static const&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt; TMap&amp;lt;UClass&lt;&#x2F;span&gt;&lt;span&gt;*&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;, FString&amp;gt; AssetTypeToFolder &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; `Meshes` folder
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		{USkeleton::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Meshes&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;)},
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		{USkeletalMesh::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Meshes&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;)},
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; `Rigs` folder
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		{UPhysicsAsset::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Rigs&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;)},
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		{UIKRigDefinition::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Rigs&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;)},
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		{UIKRetargeter::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Rigs&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;)},
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		{UControlRig::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Rigs&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;)},
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		{UControlRigBlueprint::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Rigs&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;)},
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; `Textures` folder
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		{UTexture::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Textures&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;)},
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; `Materials` folder
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		{UMaterial::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Materials&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;)},
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; `Demo&#x2F;Animations` folder
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		{UAnimSequence::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Demo&#x2F;Animations&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;)},
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		{UBlendSpace::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Demo&#x2F;Animations&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;)},
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		{UBlendSpace1D::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Demo&#x2F;Animations&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;)},
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		{UAnimBlueprint::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Demo&#x2F;Animations&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;)},
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; `Maps` folder
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		{UWorld::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Maps&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;)},
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		{ULevel::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Maps&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;)},
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; `Sequences` folder
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		{ULevelSequence::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;StaticClass&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Sequences&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;)},
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;	}; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; (4)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;public&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;:
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;UFUNCTION&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(CallInEditor)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;static void &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;MoveAssetsToSubDirs&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(); &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; (5)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;;
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;h4 id=&quot;cpp-file&quot;&gt;cpp file&lt;&#x2F;h4&gt;
 &lt;ul&gt;
@@ -229,7 +304,7 @@
 &lt;li&gt;We also don&#x27;t want to create another subdirectory if some other subdirectory with the same name is already in the path of the asset (7).&lt;&#x2F;li&gt;
 &lt;li&gt;Finally we want to load the asset first (8) before moving it with &lt;code&gt;UEditorAssetLibrary::RenameLoadedAsset&lt;&#x2F;code&gt; (9).&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
-&lt;pre data-lang=&quot;cpp&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-cpp &quot;&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;void &lt;&#x2F;span&gt;&lt;span&gt;UmkCharSetup::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;MoveAssetsToSubDirs&lt;&#x2F;span&gt;&lt;span&gt;()
+&lt;pre data-lang=&quot;cpp&quot; style=&quot;background-color:#eff1f5;color:#4f5b66;&quot; class=&quot;language-cpp &quot;&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;void &lt;&#x2F;span&gt;&lt;span&gt;UmkCharSetup::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;MoveAssetsToSubDirs&lt;&#x2F;span&gt;&lt;span&gt;()
 &lt;&#x2F;span&gt;&lt;span&gt;{
 &lt;&#x2F;span&gt;&lt;span&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for &lt;&#x2F;span&gt;&lt;span&gt;(TArray&amp;lt;UObject*&amp;gt; SelectedObjects = UEditorUtilityLibrary::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;GetSelectedAssets&lt;&#x2F;span&gt;&lt;span&gt;(); &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;const&lt;&#x2F;span&gt;&lt;span&gt; UObject* Object :
 &lt;&#x2F;span&gt;&lt;span&gt;	     SelectedObjects)
@@ -237,21 +312,21 @@
 &lt;&#x2F;span&gt;&lt;span&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(!&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ensure&lt;&#x2F;span&gt;&lt;span&gt;(Object)) { &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;continue&lt;&#x2F;span&gt;&lt;span&gt;; }
 &lt;&#x2F;span&gt;&lt;span&gt;
 &lt;&#x2F;span&gt;&lt;span&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;const&lt;&#x2F;span&gt;&lt;span&gt; FString* SubDirName = AssetTypeToFolder.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Find&lt;&#x2F;span&gt;&lt;span&gt;(Object-&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;GetClass&lt;&#x2F;span&gt;&lt;span&gt;());
-&lt;&#x2F;span&gt;&lt;span&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(!(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ensure&lt;&#x2F;span&gt;&lt;span&gt;(SubDirName) &amp;amp;&amp;amp; !SubDirName-&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;IsEmpty&lt;&#x2F;span&gt;&lt;span&gt;())) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; (6)
+&lt;&#x2F;span&gt;&lt;span&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(!(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ensure&lt;&#x2F;span&gt;&lt;span&gt;(SubDirName) &amp;amp;&amp;amp; !SubDirName-&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;IsEmpty&lt;&#x2F;span&gt;&lt;span&gt;())) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; (6)
 &lt;&#x2F;span&gt;&lt;span&gt;		{
 &lt;&#x2F;span&gt;&lt;span&gt;			&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;UE_LOG&lt;&#x2F;span&gt;&lt;span&gt;(LogTemp, Warning, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;No subdirectory defined for class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%s&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;), *Object-&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;GetClass&lt;&#x2F;span&gt;&lt;span&gt;()-&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;GetName&lt;&#x2F;span&gt;&lt;span&gt;());
 &lt;&#x2F;span&gt;&lt;span&gt;			&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;continue&lt;&#x2F;span&gt;&lt;span&gt;;
 &lt;&#x2F;span&gt;&lt;span&gt;		}
 &lt;&#x2F;span&gt;&lt;span&gt;
 &lt;&#x2F;span&gt;&lt;span&gt;		FString CurrAssetPath = Object-&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;GetPackage&lt;&#x2F;span&gt;&lt;span&gt;()-&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;GetPathName&lt;&#x2F;span&gt;&lt;span&gt;();
-&lt;&#x2F;span&gt;&lt;span&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(CurrAssetPath.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Contains&lt;&#x2F;span&gt;&lt;span&gt;(*SubDirName)) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; (7)
+&lt;&#x2F;span&gt;&lt;span&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(CurrAssetPath.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Contains&lt;&#x2F;span&gt;&lt;span&gt;(*SubDirName)) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; (7)
 &lt;&#x2F;span&gt;&lt;span&gt;		{
 &lt;&#x2F;span&gt;&lt;span&gt;			&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;UE_LOG&lt;&#x2F;span&gt;&lt;span&gt;(LogTemp, Display, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Skipping &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%s&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt; as it&amp;#39;s already in a correct subdirectory&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;), *CurrAssetPath);
 &lt;&#x2F;span&gt;&lt;span&gt;			&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;continue&lt;&#x2F;span&gt;&lt;span&gt;;
 &lt;&#x2F;span&gt;&lt;span&gt;		}
 &lt;&#x2F;span&gt;&lt;span&gt;
-&lt;&#x2F;span&gt;&lt;span&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; We must load the asset first or else we&amp;#39;ll have problem moving it.
-&lt;&#x2F;span&gt;&lt;span&gt;		UObject* LoadedAsset = UEditorAssetLibrary::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;LoadAsset&lt;&#x2F;span&gt;&lt;span&gt;(CurrAssetPath); &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; (8)
+&lt;&#x2F;span&gt;&lt;span&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; We must load the asset first or else we&amp;#39;ll have problem moving it.
+&lt;&#x2F;span&gt;&lt;span&gt;		UObject* LoadedAsset = UEditorAssetLibrary::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;LoadAsset&lt;&#x2F;span&gt;&lt;span&gt;(CurrAssetPath); &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; (8)
 &lt;&#x2F;span&gt;&lt;span&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(!&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ensure&lt;&#x2F;span&gt;&lt;span&gt;(LoadedAsset))
 &lt;&#x2F;span&gt;&lt;span&gt;		{
 &lt;&#x2F;span&gt;&lt;span&gt;			&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;UE_LOG&lt;&#x2F;span&gt;&lt;span&gt;(LogTemp, Warning, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Failed to load asset at path: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%s&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;), *CurrAssetPath);
@@ -259,7 +334,7 @@
 &lt;&#x2F;span&gt;&lt;span&gt;		}
 &lt;&#x2F;span&gt;&lt;span&gt;
 &lt;&#x2F;span&gt;&lt;span&gt;		FString NewAssetPath = FPaths::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Combine&lt;&#x2F;span&gt;&lt;span&gt;(FPaths::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;GetPath&lt;&#x2F;span&gt;&lt;span&gt;(CurrAssetPath), *SubDirName, *Object-&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;GetName&lt;&#x2F;span&gt;&lt;span&gt;());
-&lt;&#x2F;span&gt;&lt;span&gt;		UEditorAssetLibrary::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;RenameLoadedAsset&lt;&#x2F;span&gt;&lt;span&gt;(LoadedAsset, NewAssetPath); &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; (9)
+&lt;&#x2F;span&gt;&lt;span&gt;		UEditorAssetLibrary::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;RenameLoadedAsset&lt;&#x2F;span&gt;&lt;span&gt;(LoadedAsset, NewAssetPath); &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; (9)
 &lt;&#x2F;span&gt;&lt;span&gt;	}
 &lt;&#x2F;span&gt;&lt;span&gt;}
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
@@ -269,14 +344,25 @@
 &lt;li&gt;A preview of &lt;strong&gt;which goes where&lt;&#x2F;strong&gt; would be helpful for the user before they decide to proceed with the operation, but let&#x27;s settle with this for now 😼.&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 </content>
-	</entry>
-	<entry xml:lang="en">
-		<title>🔖 Exercise 1: Make Template Folders</title>
-		<published>2023-03-03T21:00:00+00:00</published>
-		<updated>2023-03-03T21:00:00+00:00</updated>
-		<link rel="alternate" href="https://mushogenshin.com/ue_cpp/exercise-1/" type="text/html"/>
-		<id>https://mushogenshin.com/ue_cpp/exercise-1/</id>
-		<content type="html">&lt;ul&gt;
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>🔖 Exercise 1: Make Template Folders</title>
+        <published>2023-03-03T21:00:00+00:00</published>
+        <updated>2023-03-03T21:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://mushogenshin.com/ue_cpp/exercise-1/"/>
+        <id>https://mushogenshin.com/ue_cpp/exercise-1/</id>
+        
+        <content type="html" xml:base="https://mushogenshin.com/ue_cpp/exercise-1/">&lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;mushogenshin.com&#x2F;ue_cpp&#x2F;exercise-1&#x2F;#goal&quot;&gt;Goal&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
 &lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;mushogenshin.com&#x2F;ue_cpp&#x2F;exercise-1&#x2F;#Pitfall&quot;&gt;Pitfall&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
 &lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;mushogenshin.com&#x2F;ue_cpp&#x2F;exercise-1&#x2F;#suggested-solution&quot;&gt;Suggested Solution&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
@@ -285,7 +371,7 @@
 &lt;hr&gt;
 &lt;h4 id=&quot;goal&quot;&gt;Goal&lt;&#x2F;h4&gt;
 &lt;ul&gt;
-&lt;li&gt;Given an asset name, e.g. name of a character or a prop, the tool should automatically make a series of sub-folders for that asset. For example: given &amp;quot;&lt;code&gt;Velociraptor&lt;&#x2F;code&gt;&amp;quot; string, it must make these folders:
+&lt;li&gt;Given an asset name, e.g. name of a character or a prop, the tool should automatically make a series of sub-folders for that asset. For example: given &quot;&lt;code&gt;Velociraptor&lt;&#x2F;code&gt;&quot; string, it must make these folders:
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;&#x2F;Game&#x2F;Velociraptor&#x2F;Meshes&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
 &lt;li&gt;&lt;code&gt;&#x2F;Game&#x2F;Velociraptor&#x2F;Rigs&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
@@ -304,16 +390,16 @@
 &lt;h4 id=&quot;pitfall&quot;&gt;Pitfall&lt;&#x2F;h4&gt;
 &lt;p&gt;At the time of my writing, GitHub Copilot will mostly suggest you to use &lt;code&gt;IPlatformFile&lt;&#x2F;code&gt;. With &lt;code&gt;IPlatformFile&lt;&#x2F;code&gt; I managed to make it work on MacOS, but not on Windows. After a couple hours troubleshooting, this is what I found.&lt;&#x2F;p&gt;
 &lt;p&gt;👉 Do not use &lt;code&gt;IPlatformFile&lt;&#x2F;code&gt; if you want nested folders, use &lt;code&gt;IFileManager&lt;&#x2F;code&gt; instead.&lt;&#x2F;p&gt;
-&lt;pre data-lang=&quot;cpp&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-cpp &quot;&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;HAL&#x2F;PlatformFilemanager.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
-&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; --snip--
-&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; DO NOT use this if you want nested folders, as it doesn&amp;#39;t allow
-&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; creating directories recursively, so this will fail on Windows:
-&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; IPlatformFile&amp;amp; PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
+&lt;pre data-lang=&quot;cpp&quot; style=&quot;background-color:#eff1f5;color:#4f5b66;&quot; class=&quot;language-cpp &quot;&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;HAL&#x2F;PlatformFilemanager.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; --snip--
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; DO NOT use this if you want nested folders, as it doesn&amp;#39;t allow
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; creating directories recursively, so this will fail on Windows:
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; IPlatformFile&amp;amp; PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
 &lt;&#x2F;span&gt;&lt;span&gt;
-&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Use this instead:
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; Use this instead:
 &lt;&#x2F;span&gt;&lt;span&gt;    IFileManager&amp;amp; FileManager = IFileManager::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Get&lt;&#x2F;span&gt;&lt;span&gt;();
-&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; so that we can pass `true` to the `Tree` argument
-&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; of this `MakeDirectory` method:
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; so that we can pass `true` to the `Tree` argument
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; of this `MakeDirectory` method:
 &lt;&#x2F;span&gt;&lt;span&gt;    FileManager.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;MakeDirectory&lt;&#x2F;span&gt;&lt;span&gt;(*FolderPath, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;true&lt;&#x2F;span&gt;&lt;span&gt;);
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;h3 id=&quot;suggested-solution&quot;&gt;Suggested Solution&lt;&#x2F;h3&gt;
@@ -323,29 +409,29 @@
 &lt;li&gt;Our function doesn&#x27;t mutate any data it receives, so we should mark it as &lt;code&gt;static&lt;&#x2F;code&gt; (1).&lt;&#x2F;li&gt;
 &lt;li&gt;As a result, our &lt;code&gt;TArray&amp;lt;FString&amp;gt; TemplateFolders&lt;&#x2F;code&gt; where we define the list of folders to be created has to be &lt;code&gt;inline static const&lt;&#x2F;code&gt; (2).&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
-&lt;pre data-lang=&quot;cpp&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-cpp &quot;&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#pragma&lt;&#x2F;span&gt;&lt;span&gt; once
+&lt;pre data-lang=&quot;cpp&quot; style=&quot;background-color:#eff1f5;color:#4f5b66;&quot; class=&quot;language-cpp &quot;&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#pragma&lt;&#x2F;span&gt;&lt;span&gt; once
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;CoreMinimal.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;AssetActionUtility.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;mkCharSetup.generated.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
 &lt;&#x2F;span&gt;&lt;span&gt;
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;UCLASS&lt;&#x2F;span&gt;&lt;span&gt;()
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;TRUONGCONTROLRIGS_API &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;UmkCharSetup &lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;public &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;UAssetActionUtility
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;{
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;GENERATED_BODY&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;()
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;public&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;:
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;UFUNCTION&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(CallInEditor)
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;static void &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;MakeCharacterFolders&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;const&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt; FString&lt;&#x2F;span&gt;&lt;span&gt;&amp;amp; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CharacterName&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;const&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt; FString&lt;&#x2F;span&gt;&lt;span&gt;&amp;amp; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ParentFolder&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;); &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; (1)
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;private&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;:
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;inline static const&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt; TArray&amp;lt;FString&amp;gt; TemplateFolders &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;{
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Meshes&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;,
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Rigs&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;,
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Textures&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;,
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Materials&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;,
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Demo&#x2F;Animations&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;,
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Maps&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;,
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Sequences&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;,
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;	}; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; (2)
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;TRUONGCONTROLRIGS_API &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;UmkCharSetup &lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;public &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;UAssetActionUtility
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;GENERATED_BODY&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;()
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;public&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;:
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;UFUNCTION&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(CallInEditor)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;static void &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;MakeCharacterFolders&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;const&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt; FString&lt;&#x2F;span&gt;&lt;span&gt;&amp;amp; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CharacterName&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;const&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt; FString&lt;&#x2F;span&gt;&lt;span&gt;&amp;amp; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ParentFolder&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;); &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; (1)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;private&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;:
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;inline static const&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt; TArray&amp;lt;FString&amp;gt; TemplateFolders &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Meshes&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Rigs&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Textures&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Materials&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Demo&#x2F;Animations&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Maps&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;		&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Sequences&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;	}; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; (2)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#343d46;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;;
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;h4 id=&quot;cpp-file&quot;&gt;cpp file&lt;&#x2F;h4&gt;
 &lt;ul&gt;
@@ -354,20 +440,20 @@
 &lt;li&gt;If the directory already exists, we &lt;code&gt;continue&lt;&#x2F;code&gt; to the next iteration (4).&lt;&#x2F;li&gt;
 &lt;li&gt;The &lt;code&gt;FileManager.MakeDirectory&lt;&#x2F;code&gt; returns a &lt;code&gt;bool&lt;&#x2F;code&gt; of &lt;a href=&quot;https:&#x2F;&#x2F;docs.unrealengine.com&#x2F;5.3&#x2F;en-US&#x2F;API&#x2F;Runtime&#x2F;Core&#x2F;HAL&#x2F;FFileManagerGeneric&#x2F;&quot;&gt;whether the operation succeeds&lt;&#x2F;a&gt; (but unfortunately not the reason why it would fail), so we can use that to log when an error occurs (5).&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
-&lt;pre data-lang=&quot;cpp&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-cpp &quot;&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;mkCharSetup.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;pre data-lang=&quot;cpp&quot; style=&quot;background-color:#eff1f5;color:#4f5b66;&quot; class=&quot;language-cpp &quot;&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;mkCharSetup.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;EditorUtilityLibrary.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;HAL&#x2F;PlatformFilemanager.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
 &lt;&#x2F;span&gt;&lt;span&gt;
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;void &lt;&#x2F;span&gt;&lt;span&gt;UmkCharSetup::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;MakeCharacterFolders&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;const&lt;&#x2F;span&gt;&lt;span&gt; FString&amp;amp; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CharacterName&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;const&lt;&#x2F;span&gt;&lt;span&gt; FString&amp;amp; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ParentFolder&lt;&#x2F;span&gt;&lt;span&gt;)
 &lt;&#x2F;span&gt;&lt;span&gt;{
 &lt;&#x2F;span&gt;&lt;span&gt;	IFileManager&amp;amp; FileManager = IFileManager::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Get&lt;&#x2F;span&gt;&lt;span&gt;();
-&lt;&#x2F;span&gt;&lt;span&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Construct the full path to the &#x2F;Game directory
+&lt;&#x2F;span&gt;&lt;span&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; Construct the full path to the &#x2F;Game directory
 &lt;&#x2F;span&gt;&lt;span&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;const&lt;&#x2F;span&gt;&lt;span&gt; FString ContentDir = FPaths::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ProjectContentDir&lt;&#x2F;span&gt;&lt;span&gt;();
 &lt;&#x2F;span&gt;&lt;span&gt;
 &lt;&#x2F;span&gt;&lt;span&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for &lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;const&lt;&#x2F;span&gt;&lt;span&gt; FString&amp;amp; Folder : TemplateFolders)
 &lt;&#x2F;span&gt;&lt;span&gt;	{
 &lt;&#x2F;span&gt;&lt;span&gt;		FString FolderPath;
-&lt;&#x2F;span&gt;&lt;span&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(ParentFolder.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;IsEmpty&lt;&#x2F;span&gt;&lt;span&gt;()) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; (3)
+&lt;&#x2F;span&gt;&lt;span&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(ParentFolder.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;IsEmpty&lt;&#x2F;span&gt;&lt;span&gt;()) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; (3)
 &lt;&#x2F;span&gt;&lt;span&gt;		{
 &lt;&#x2F;span&gt;&lt;span&gt;			FolderPath = FPaths::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Combine&lt;&#x2F;span&gt;&lt;span&gt;(ContentDir, CharacterName, Folder);
 &lt;&#x2F;span&gt;&lt;span&gt;		}
@@ -378,11 +464,11 @@
 &lt;&#x2F;span&gt;&lt;span&gt;
 &lt;&#x2F;span&gt;&lt;span&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(FileManager.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;DirectoryExists&lt;&#x2F;span&gt;&lt;span&gt;(*FolderPath))
 &lt;&#x2F;span&gt;&lt;span&gt;		{
-&lt;&#x2F;span&gt;&lt;span&gt;			&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;continue&lt;&#x2F;span&gt;&lt;span&gt;; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; (4)
+&lt;&#x2F;span&gt;&lt;span&gt;			&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;continue&lt;&#x2F;span&gt;&lt;span&gt;; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; (4)
 &lt;&#x2F;span&gt;&lt;span&gt;		}
 &lt;&#x2F;span&gt;&lt;span&gt;
 &lt;&#x2F;span&gt;&lt;span&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;UE_LOG&lt;&#x2F;span&gt;&lt;span&gt;(LogHAL, Display, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Attempting to make directory: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%s&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;), *FolderPath);
-&lt;&#x2F;span&gt;&lt;span&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(!FileManager.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;MakeDirectory&lt;&#x2F;span&gt;&lt;span&gt;(*FolderPath, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;true&lt;&#x2F;span&gt;&lt;span&gt;)) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; (5)
+&lt;&#x2F;span&gt;&lt;span&gt;		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(!FileManager.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;MakeDirectory&lt;&#x2F;span&gt;&lt;span&gt;(*FolderPath, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;true&lt;&#x2F;span&gt;&lt;span&gt;)) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a7adba;&quot;&gt;&#x2F;&#x2F; (5)
 &lt;&#x2F;span&gt;&lt;span&gt;		{
 &lt;&#x2F;span&gt;&lt;span&gt;			&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;UE_LOG&lt;&#x2F;span&gt;&lt;span&gt;(LogHAL, Warning, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;TEXT&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Failed to create directory at path: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%s&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;), *FolderPath);
 &lt;&#x2F;span&gt;&lt;span&gt;		}
@@ -392,14 +478,25 @@
 &lt;h4 id=&quot;considerations&quot;&gt;Considerations&lt;&#x2F;h4&gt;
 &lt;p&gt;Since this is a &lt;a href=&quot;https:&#x2F;&#x2F;docs.unrealengine.com&#x2F;5.3&#x2F;en-US&#x2F;scripted-actions-in-unreal-engine&#x2F;&quot;&gt;scripted asset action&lt;&#x2F;a&gt;, we have to select &lt;em&gt;some&lt;&#x2F;em&gt; asset to see the our function as an item in the context menu, which is rather inconvenient. We&#x27;ll improve this once we learn about Unreal widgets.&lt;&#x2F;p&gt;
 </content>
-	</entry>
-	<entry xml:lang="en">
-		<title>My Start on &quot;Battle of Cascina (3D)&quot;</title>
-		<published>2023-02-06T20:52:00+00:00</published>
-		<updated>2023-02-06T20:52:00+00:00</updated>
-		<link rel="alternate" href="https://mushogenshin.com/cascina/" type="text/html"/>
-		<id>https://mushogenshin.com/cascina/</id>
-		<content type="html">&lt;p&gt;In hindsight I slowly realized this was too ambitious and would take forever to complete.&lt;&#x2F;p&gt;
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>My Start on &quot;Battle of Cascina (3D)&quot;</title>
+        <published>2023-02-06T20:52:00+00:00</published>
+        <updated>2023-02-06T20:52:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://mushogenshin.com/cascina/"/>
+        <id>https://mushogenshin.com/cascina/</id>
+        
+        <content type="html" xml:base="https://mushogenshin.com/cascina/">&lt;p&gt;In hindsight I slowly realized this was too ambitious and would take forever to complete.&lt;&#x2F;p&gt;
 &lt;!-- ## My original turntable references
 &lt;div &gt;
     &lt;iframe src=&quot;https:&#x2F;&#x2F;www.youtube.com&#x2F;embed&#x2F;RFrn4V_giIs&quot; webkitallowfullscreen
@@ -414,5 +511,6 @@
 &lt;&#x2F;ul&gt;
 &lt;p&gt;What&#x27;s next (2023): I&#x27;m resuming on the project.&lt;&#x2F;p&gt;
 </content>
-	</entry>
+        
+    </entry>
 </feed>
