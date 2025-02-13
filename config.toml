@@ -4,7 +4,7 @@
 # The URL the site will be built for
 base_url = "https://mushogenshin.com"
 
-generate_feed = true
+generate_feeds = true
 
 # Whether to automatically compile all Sass files in the sass directory
 compile_sass = true
@@ -19,7 +19,6 @@ default_language = "en"
 
 taxonomies = [{ name = "tags" }]
 
-highlight_theme = "base16-ocean-light"
 
 # # Anpu theme
 # taxonomies = [
@@ -31,6 +30,7 @@ highlight_theme = "base16-ocean-light"
 # Whether to do syntax highlighting
 # Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
 highlight_code = true
+highlight_theme = "base16-ocean-light"
 
 [extra]
 # Put all your custom variables here
@@ -81,8 +81,7 @@ kofi = "mushogenshin"
 [languages.en]
 title = "Hoan Nguyen"
 description = "Operating greatly in the realm between Art and Programming"
-generate_feed = true
-taxonomies = [{ name = "tags" }]
+generate_feeds = true
 
 [languages.en.translations]
 language_name = "English"
