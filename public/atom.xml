@@ -5,8 +5,42 @@
     <link rel="self" type="application/atom+xml" href="https://mushogenshin.com/atom.xml"/>
     <link rel="alternate" type="text/html" href="https://mushogenshin.com"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
-    <updated>2025-02-12T23:59:00+00:00</updated>
+    <updated>2025-10-30T23:59:00+00:00</updated>
     <id>https://mushogenshin.com/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Examples of Doing Procedural Animation Using Control Rig in Unreal</title>
+        <published>2025-10-30T23:59:00+00:00</published>
+        <updated>2025-10-30T23:59:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://mushogenshin.com/unreal-procedural-anim/"/>
+        <id>https://mushogenshin.com/unreal-procedural-anim/</id>
+        
+        <content type="html" xml:base="https://mushogenshin.com/unreal-procedural-anim/">&lt;p&gt;Have you ever wondered of some different way you can implement your gameplay animation? Since its advent in around 2020, Control Rig has been being under some radical development to make runtime&#x2F;interactive animation in Unreal more flexible to achieve and refactor. In this article I&#x27;d like to use a couple concrete examples and implementations to show how you can use the Control Rig node in AnimBP in concert with other gameplay framework elements you may already be familiar with, in order to either provide alternative solutions to old gameplay animation problems, or to approach new gameplay animation problems with simpler or more modular solutions than traditional ones.&lt;&#x2F;p&gt;
+&lt;p&gt;The examples here come from real game problems I and my team encountered over the one and a half year.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;1-a-ballista-peddler&quot;&gt;1. A ballista peddler&lt;&#x2F;h2&gt;
+&lt;p&gt;In this scenario, a third-person character needs not only to wander about the map, but also to operate a ballista. Think of her as a peddler of destruction, her cart a deadly bolt thrower. We want the player to be able to control the firing weapon action from this character, shooting arrows at whim just by pressing an input. Sounds simple enough, but instead of implementing the ballista&#x27;s mechanics -- its winding up phase and release phase -- using the traditional route of Blend Space, State Machine, with a fixed set of premade Animation Sequence assets, we can create the animation procedurally in relation to the player input.&lt;&#x2F;p&gt;
+&lt;p&gt;If you recognize the bow-and-arrow setup, you&#x27;re correct, this is virtually a 90-degree twist to it, but we&#x27;re using this as an opportunity to illuminate the ease and the power when integrating Control Rig with AnimBP for runtime animation.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;2-dinosaurs-spreading-legs&quot;&gt;2. Dinosaurs spreading legs&lt;&#x2F;h2&gt;
+&lt;p&gt;Imagine you ate some funky mushroom one night and you had this strange urge to put in your game some &quot;Dino skaters&quot;: dinosaurs that doing rollerblading moves in a race. But you needed those animal skating animations done quickly -- say, for three different types of dinosaur in a week --, without breaking your bank, and most importantly, the animations must be reactive to the player input and should allow for composition. The production constraints make it an ideal case to think about procedural animation, where new animations can be easily produced once you got the workflow down, and they are created in context, so that you can test them in your gameplay iteratively.&lt;&#x2F;p&gt;
+&lt;p&gt;For example, when the player wants to start skating towards the right, the animals should dip and lean towards their rights, with their left legs pushed farther away to the side, their long tails following through, their heads wobbling slightly.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;3-a-ragdoll-sometimes-doing-taichi&quot;&gt;3. A ragdoll (sometimes) doing Taichi&lt;&#x2F;h2&gt;
+&lt;p&gt;Our last example involves a pet that players can interact with in multiple modes: the players can drag it around as a ragdoll, and the players can also tug parts of its body, e.g. hands, feet, tail -- and in doing so creating a feeling that the pet is doing Taichi moves. If you&#x27;re familiar, you can quickly see the latter mode is a basic FBIK (Full-Body IK) setup. Two questions then arise, are that:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;How we can seamlessly switch the effect of the interaction mode on the character, i.e. from passively being dragged to a more &quot;autonomous&quot; FBIK?&lt;&#x2F;li&gt;
+&lt;li&gt;In the FBIK mode, without a visible selection model, how can we move specific IK targets accordingly to the player&#x27;s intention, i.e. in order to allow the player to intuitively drag the pet&#x27;s left foot, then its right hand, then its head?&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;These high interactivity requirements serve as an appealing case to realize the role of using Control Rig intensively in gameplay animation.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
     <entry xml:lang="en">
         <title>Childlike Verse Lang: UE Fest 2025 Speaker Proposal</title>
         <published>2025-02-12T23:59:00+00:00</published>

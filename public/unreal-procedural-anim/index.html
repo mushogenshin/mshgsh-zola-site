@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://mushogenshin.com/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://mushogenshin.com/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://mushogenshin.com/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://mushogenshin.com/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://mushogenshin.com/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://mushogenshin.com/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Hoan Nguyen • Examples of Doing Procedural Animation Using Control Rig in Unreal</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Hoan Nguyen" href="https://mushogenshin.com/rss.xml">
+  
+  
+  
+  
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://mushogenshin.com/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://mushogenshin.com/">Hoan Nguyen</a></h3>
+        <div class="description">
+          <p>Operating greatly in the realm between Art and Programming</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="http://artstation.com/mushogenshin" aria-label="Go to ArtStation profile page"><i class="fab fa-artstation"></i></a></li><li><a href="https://github.com/mushogenshin" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://linkedin.com/in/hoan-trong-nguyen" aria-label="Go to Linkedin profile page"><i class="fab fa-linkedin"></i></a></li><li><a href="https://twitter.com/mushogenshin" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a href="https://ko-fi.com/mushogenshin" aria-label="Go to Ko-fi profile page">
+        <img src=https://mushogenshin.com/images/logo_Ko-fi.webp style="width:18px;filter: grayscale(100%);" alt="Ko-fi logo" />
+      </a></li>
+      <br/>
+    </ul>
+    <div class="footer">
+      
+      <span>My </span><a href="https://www.thingiverse.com/mushogenshin/designs">Tributes to Great Thinkers</a>
+      <div class="by_zola"><a href="https://www.linkedin.com/feed/update/urn:li:activity:7231484580854206464" target="_blank">See my first video game!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://mushogenshin.com/">Home</a></li>
+        <li><a  href="https://mushogenshin.com/about/">About</a></li><li><a  href="https://mushogenshin.com/ue_cpp/">UE C++</a></li><li><a  href="https://mushogenshin.com/rigging/">Rigging</a></li><li><a  href="https://fossil-skater.mushogenshin.com">FossilSkater</a></li><li><a  href="https://childlike-verse-lang.web.app">Verse Lang</a></li><li><a 
+            href="https://mushogenshin.com/archive/">Archive</a></li><li><a  href="https://mushogenshin.com/links/">Links</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+        
+        <div class="avatar"><img src="https://mushogenshin.com/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;mushogenshin.com&#x2F;unreal-procedural-anim&#x2F;">Examples of Doing Procedural Animation Using Control Rig in Unreal</a></h1>
+  
+  <div class="post-content"><p>Have you ever wondered of some different way you can implement your gameplay animation? Since its advent in around 2020, Control Rig has been being under some radical development to make runtime/interactive animation in Unreal more flexible to achieve and refactor. In this article I'd like to use a couple concrete examples and implementations to show how you can use the Control Rig node in AnimBP in concert with other gameplay framework elements you may already be familiar with, in order to either provide alternative solutions to old gameplay animation problems, or to approach new gameplay animation problems with simpler or more modular solutions than traditional ones.</p>
+<p>The examples here come from real game problems I and my team encountered over the one and a half year.</p>
+<h2 id="1-a-ballista-peddler">1. A ballista peddler</h2>
+<p>In this scenario, a third-person character needs not only to wander about the map, but also to operate a ballista. Think of her as a peddler of destruction, her cart a deadly bolt thrower. We want the player to be able to control the firing weapon action from this character, shooting arrows at whim just by pressing an input. Sounds simple enough, but instead of implementing the ballista's mechanics -- its winding up phase and release phase -- using the traditional route of Blend Space, State Machine, with a fixed set of premade Animation Sequence assets, we can create the animation procedurally in relation to the player input.</p>
+<p>If you recognize the bow-and-arrow setup, you're correct, this is virtually a 90-degree twist to it, but we're using this as an opportunity to illuminate the ease and the power when integrating Control Rig with AnimBP for runtime animation.</p>
+<h2 id="2-dinosaurs-spreading-legs">2. Dinosaurs spreading legs</h2>
+<p>Imagine you ate some funky mushroom one night and you had this strange urge to put in your game some "Dino skaters": dinosaurs that doing rollerblading moves in a race. But you needed those animal skating animations done quickly -- say, for three different types of dinosaur in a week --, without breaking your bank, and most importantly, the animations must be reactive to the player input and should allow for composition. The production constraints make it an ideal case to think about procedural animation, where new animations can be easily produced once you got the workflow down, and they are created in context, so that you can test them in your gameplay iteratively.</p>
+<p>For example, when the player wants to start skating towards the right, the animals should dip and lean towards their rights, with their left legs pushed farther away to the side, their long tails following through, their heads wobbling slightly.</p>
+<h2 id="3-a-ragdoll-sometimes-doing-taichi">3. A ragdoll (sometimes) doing Taichi</h2>
+<p>Our last example involves a pet that players can interact with in multiple modes: the players can drag it around as a ragdoll, and the players can also tug parts of its body, e.g. hands, feet, tail -- and in doing so creating a feeling that the pet is doing Taichi moves. If you're familiar, you can quickly see the latter mode is a basic FBIK (Full-Body IK) setup. Two questions then arise, are that:</p>
+<ol>
+<li>How we can seamlessly switch the effect of the interaction mode on the character, i.e. from passively being dragged to a more "autonomous" FBIK?</li>
+<li>In the FBIK mode, without a visible selection model, how can we move specific IK targets accordingly to the player's intention, i.e. in order to allow the player to intuitively drag the pet's left foot, then its right hand, then its head?</li>
+</ol>
+<p>These high interactivity requirements serve as an appealing case to realize the role of using Control Rig intensively in gameplay animation.</p>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">2025-10-30</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://mushogenshin.com/tags/control-rig">&nbsp;control-rig</a>
+        
+        <a class="tag" href="https://mushogenshin.com/tags/unreal">&nbsp;unreal</a>
+        
+        <a class="tag" href="https://mushogenshin.com/tags/procedural">&nbsp;procedural</a>
+        
+        <a class="tag" href="https://mushogenshin.com/tags/animation">&nbsp;animation</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=Examples of Doing Procedural Animation Using Control Rig in Unreal&url=https:&#x2F;&#x2F;mushogenshin.com&#x2F;unreal-procedural-anim&#x2F;&hashtags=control-rig,unreal,procedural,animation"></a>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>
