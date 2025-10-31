@@ -25,19 +25,41 @@
         
         <content type="html" xml:base="https://mushogenshin.com/unreal-procedural-anim/">&lt;p&gt;Have you ever wondered of some different way you can implement your gameplay animation? Since its advent in around 2020, Control Rig has been being under some radical development to make runtime&#x2F;interactive animation in Unreal more flexible to achieve and refactor. In this article I&#x27;d like to use a couple concrete examples and implementations to show how you can use the Control Rig node in AnimBP in concert with other gameplay framework elements you may already be familiar with, in order to either provide alternative solutions to old gameplay animation problems, or to approach new gameplay animation problems with simpler or more modular solutions than traditional ones.&lt;&#x2F;p&gt;
 &lt;p&gt;The examples here come from real game problems I and my team encountered over the one and a half year.&lt;&#x2F;p&gt;
-&lt;h2 id=&quot;1-a-ballista-peddler&quot;&gt;1. A ballista peddler&lt;&#x2F;h2&gt;
+&lt;!-- TODO: images with all three examples --&gt;
+&lt;hr &#x2F;&gt;
+&lt;h1 id=&quot;synopsis&quot;&gt;Synopsis&lt;&#x2F;h1&gt;
+&lt;h3 id=&quot;1-a-ballista-peddler&quot;&gt;1. A ballista peddler&lt;&#x2F;h3&gt;
 &lt;p&gt;In this scenario, a third-person character needs not only to wander about the map, but also to operate a ballista. Think of her as a peddler of destruction, her cart a deadly bolt thrower. We want the player to be able to control the firing weapon action from this character, shooting arrows at whim just by pressing an input. Sounds simple enough, but instead of implementing the ballista&#x27;s mechanics -- its winding up phase and release phase -- using the traditional route of Blend Space, State Machine, with a fixed set of premade Animation Sequence assets, we can create the animation procedurally in relation to the player input.&lt;&#x2F;p&gt;
 &lt;p&gt;If you recognize the bow-and-arrow setup, you&#x27;re correct, this is virtually a 90-degree twist to it, but we&#x27;re using this as an opportunity to illuminate the ease and the power when integrating Control Rig with AnimBP for runtime animation.&lt;&#x2F;p&gt;
-&lt;h2 id=&quot;2-dinosaurs-spreading-legs&quot;&gt;2. Dinosaurs spreading legs&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;2-dinosaur-leg-moves&quot;&gt;2. Dinosaur leg moves&lt;&#x2F;h3&gt;
 &lt;p&gt;Imagine you ate some funky mushroom one night and you had this strange urge to put in your game some &quot;Dino skaters&quot;: dinosaurs that doing rollerblading moves in a race. But you needed those animal skating animations done quickly -- say, for three different types of dinosaur in a week --, without breaking your bank, and most importantly, the animations must be reactive to the player input and should allow for composition. The production constraints make it an ideal case to think about procedural animation, where new animations can be easily produced once you got the workflow down, and they are created in context, so that you can test them in your gameplay iteratively.&lt;&#x2F;p&gt;
 &lt;p&gt;For example, when the player wants to start skating towards the right, the animals should dip and lean towards their rights, with their left legs pushed farther away to the side, their long tails following through, their heads wobbling slightly.&lt;&#x2F;p&gt;
-&lt;h2 id=&quot;3-a-ragdoll-sometimes-doing-taichi&quot;&gt;3. A ragdoll (sometimes) doing Taichi&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;3-a-ragdoll-sometimes-doing-taichi&quot;&gt;3. A ragdoll (sometimes) doing Taichi&lt;&#x2F;h3&gt;
 &lt;p&gt;Our last example involves a pet that players can interact with in multiple modes: the players can drag it around as a ragdoll, and the players can also tug parts of its body, e.g. hands, feet, tail -- and in doing so creating a feeling that the pet is doing Taichi moves. If you&#x27;re familiar, you can quickly see the latter mode is a basic FBIK (Full-Body IK) setup. Two questions then arise, are that:&lt;&#x2F;p&gt;
 &lt;ol&gt;
 &lt;li&gt;How we can seamlessly switch the effect of the interaction mode on the character, i.e. from passively being dragged to a more &quot;autonomous&quot; FBIK?&lt;&#x2F;li&gt;
 &lt;li&gt;In the FBIK mode, without a visible selection model, how can we move specific IK targets accordingly to the player&#x27;s intention, i.e. in order to allow the player to intuitively drag the pet&#x27;s left foot, then its right hand, then its head?&lt;&#x2F;li&gt;
 &lt;&#x2F;ol&gt;
 &lt;p&gt;These high interactivity requirements serve as an appealing case to realize the role of using Control Rig intensively in gameplay animation.&lt;&#x2F;p&gt;
+&lt;hr &#x2F;&gt;
+&lt;h1 id=&quot;detailed-analysis-breakdowns&quot;&gt;Detailed Analysis&#x2F;Breakdowns&lt;&#x2F;h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;mushogenshin.com&#x2F;unreal-procedural-anim&#x2F;#1-ballista-peddler&quot;&gt;Ballista Peddler&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;mushogenshin.com&#x2F;unreal-procedural-anim&#x2F;#2-dino-skaters&quot;&gt;Dino Skaters&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;mushogenshin.com&#x2F;unreal-procedural-anim&#x2F;#3-multi-modal-pets&quot;&gt;Multi-modal Pets&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;1-ballista-peddler&quot;&gt;1. Ballista Peddler&lt;&#x2F;h3&gt;
+&lt;h4 id=&quot;1a-winding-up-phase&quot;&gt;1A. Winding up phase&lt;&#x2F;h4&gt;
+&lt;h4 id=&quot;1b-release-phase&quot;&gt;1B. Release phase&lt;&#x2F;h4&gt;
+&lt;hr &#x2F;&gt;
+&lt;h3 id=&quot;2-dino-skaters&quot;&gt;2. Dino Skaters&lt;&#x2F;h3&gt;
+&lt;h4 id=&quot;2a-vehicle-rig&quot;&gt;2A. Vehicle rig&lt;&#x2F;h4&gt;
+&lt;h4 id=&quot;2b-anim-instance&quot;&gt;2B. Anim instance&lt;&#x2F;h4&gt;
+&lt;hr &#x2F;&gt;
+&lt;h3 id=&quot;3-multi-modal-pets&quot;&gt;3. Multi-modal Pets&lt;&#x2F;h3&gt;
+&lt;h4 id=&quot;3a-hit-testable-pets&quot;&gt;3A. Hit-testable pets&lt;&#x2F;h4&gt;
+&lt;h4 id=&quot;3b-interactable-ragdoll&quot;&gt;3B. Interactable ragdoll&lt;&#x2F;h4&gt;
+&lt;h4 id=&quot;3c-interactable-fbik-targets&quot;&gt;3C. Interactable FBIK targets&lt;&#x2F;h4&gt;
 </content>
         
     </entry>
@@ -100,7 +122,7 @@
         <id>https://mushogenshin.com/rigging/new-horizons/</id>
         
         <content type="html" xml:base="https://mushogenshin.com/rigging/new-horizons/">&lt;p&gt;I first got into rigging around 2010 with Maya and became relatively proficient with it during 2016-2019, but felt I hit a wall with what I could achieve with Maya&#x27;s Dependency Graph. I saw many folks being able to do insane things with Maya C++ API, but around 2020-2023 I found my deep interests in general programming for pipeline, and got sidetracked.&lt;&#x2F;p&gt;
-&lt;p&gt;Recently this space is getting excited again thanks to SideFX and Epic&#x27;s new innovations with it, and I&#x27;ve been tinkering with both Unreal&#x27;s ControlRig and Houdini&#x27;s APEX rigging and I love their ideas!&lt;&#x2F;p&gt;
+&lt;p&gt;Recently this space is getting excited again thanks to SideFX and Epic&#x27;s new innovations with it, and I&#x27;ve been tinkering with both Unreal&#x27;s ControlRig and Houdini&#x27;s APEX rigging, and I love their ideas!&lt;&#x2F;p&gt;
 &lt;p&gt;This area is under construction, however. I hope to write up some decent articles with those new rigging contexts, especially how I utilize Unreal&#x27;s ControlRig in my Fossil Skater game from the Unreal Fellowship (Games, Americas) 2024. Please come back later.&lt;&#x2F;p&gt;
 </content>
         
