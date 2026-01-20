@@ -49,9 +49,6 @@
         <loc>https://mushogenshin.com/tags/</loc>
     </url>
     <url>
-        <loc>https://mushogenshin.com/tags/animation/</loc>
-    </url>
-    <url>
         <loc>https://mushogenshin.com/tags/battle-of-cascina/</loc>
     </url>
     <url>
@@ -76,9 +73,6 @@
         <loc>https://mushogenshin.com/tags/mac-os/</loc>
     </url>
     <url>
-        <loc>https://mushogenshin.com/tags/procedural/</loc>
-    </url>
-    <url>
         <loc>https://mushogenshin.com/tags/reel/</loc>
     </url>
     <url>
@@ -97,9 +91,5 @@
     <url>
         <loc>https://mushogenshin.com/ue_cpp/exercise-2/</loc>
         <lastmod>2023-03-05T15:00:00Z</lastmod>
-    </url>
-    <url>
-        <loc>https://mushogenshin.com/unreal-procedural-anim/</loc>
-        <lastmod>2025-10-30T23:59:00Z</lastmod>
     </url>
 </urlset>
