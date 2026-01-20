@@ -1,7 +1,7 @@
-serve:
+s:
 	@echo "Starting the development server..."
 	zola serve
 
-build:
+b:
 	@echo "Building the project..."
 	zola build
