@@ -2,7 +2,7 @@
 title = "Examples of Doing Procedural Animation Using Control Rig in Unreal"
 template = "page.html"
 date = 2025-10-30T23:59:00Z
-draft = false
+draft = true
 [taxonomies]
 tags = ["control-rig", "unreal", "procedural", "animation"]
 [extra]
