@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Space Grotesk", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --font-hand: "Gaegu", cursive;
+
+  --color-paper: #f4f1ea;
+  --color-ink: #1a1815;
+  --color-muted: #8a8378;
+  --color-link: #2f6df0;
+  --color-link-hover: #1c4fc4;
+  --color-art: #e0531f;
+  --color-code: #2450c9;
+}
+
+@keyframes fadeup {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-fadeup {
+  animation: fadeup 0.4s ease both;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--color-link);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--color-link-hover);
+}
+
+/* Custom range input (art <-> code bias slider) — Tailwind has no
+   utility surface for ::-webkit/-moz-range-thumb, so this stays plain CSS. */
+input[type="range"].bias-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+  background: linear-gradient(90deg, #e0531f, #f0c94a, #2f6df0);
+}
+input[type="range"].bias-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2.5px solid #1a1815;
+  cursor: grab;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.18);
+}
+input[type="range"].bias-range::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2.5px solid #1a1815;
+  cursor: grab;
+}
