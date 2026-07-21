@@ -1,0 +1,165 @@
+export type Domain =
+  | "sculpture"
+  | "anatomy"
+  | "rigging"
+  | "unreal"
+  | "apps"
+  | "tools"
+  | "verse";
+
+export interface WorkItem {
+  id: string;
+  title: string;
+  year: number;
+  domain: Domain;
+  /** Position on the 0 (all art) – 100 (all code) spectrum. */
+  meter: number;
+  color: string;
+  blurb: string;
+  slot: string;
+  href: string;
+}
+
+export const ITEMS: WorkItem[] = [
+  {
+    id: "cascina",
+    title: "Battle of Cascina",
+    year: 2014,
+    domain: "sculpture",
+    meter: 8,
+    color: "#f0c94a",
+    blurb:
+      "19 figurative sculptures after Michelangelo’s lost cartoon. Abandoned too soon — now resuming.",
+    slot: "figurative sculpt",
+    href: "#",
+  },
+  {
+    id: "busts",
+    title: "Busts of Great Thinkers",
+    year: 2016,
+    domain: "sculpture",
+    meter: 12,
+    color: "#e78a4e",
+    blurb:
+      "Portrait sculpts: Asimov, Feynman, Sagan, Tesla. Set down mid-flight; back on the bench.",
+    slot: "portrait busts",
+    href: "#",
+  },
+  {
+    id: "anatomy",
+    title: "Comparative Animal Anatomy",
+    year: 2019,
+    domain: "anatomy",
+    meter: 24,
+    color: "#7bc0a0",
+    blurb:
+      "Self-taught over three years. The bridge that makes every rig and deformation read true.",
+    slot: "anatomy plates",
+    href: "#",
+  },
+  {
+    id: "reel",
+    title: "2024 Tech-Art Showreel",
+    year: 2024,
+    domain: "rigging",
+    meter: 42,
+    color: "#d79bd0",
+    blurb:
+      "12+ years of rigging & deformation — PSD, RBF correctives, FACS, the hard shoulders and hips.",
+    slot: "reel still",
+    href: "#",
+  },
+  {
+    id: "fossil",
+    title: "Fossil Skater",
+    year: 2024,
+    domain: "unreal",
+    meter: 54,
+    color: "#2f8fd4",
+    blurb:
+      "Shipped. Dinosaurs race on car-shoes. 100% procedural creature animation — zero keyframes.",
+    slot: "gameplay clip",
+    href: "https://fossil-skater.mushogenshin.com",
+  },
+  {
+    id: "anastomia",
+    title: "Anastomia",
+    year: 2022,
+    domain: "apps",
+    meter: 58,
+    color: "#4f9d69",
+    blurb:
+      "3D animal-anatomy learning app. Unity + Django + Firebase, pipeline for a 15-person team.",
+    slot: "app screens",
+    href: "https://anastomia.app",
+  },
+  {
+    id: "kineograph",
+    title: "Kineograph",
+    year: 2025,
+    domain: "apps",
+    meter: 64,
+    color: "#f0c94a",
+    blurb: "Frame-by-frame motion & transformation study app. Flutter, five platforms.",
+    slot: "app screens",
+    href: "#",
+  },
+  {
+    id: "kinetic",
+    title: "KineticRPG",
+    year: 2025,
+    domain: "unreal",
+    meter: 80,
+    color: "#e0531f",
+    blurb:
+      "Solo UE 5.8 C++ plugin on GAS — data-asset authoring, a text DSL with byte-equal round-trip, node-graph editor.",
+    slot: "editor UI",
+    href: "#",
+  },
+  {
+    id: "rusty",
+    title: "Rusty Hunter",
+    year: 2023,
+    domain: "tools",
+    meter: 88,
+    color: "#8fb2e8",
+    blurb:
+      "Rewrote a studio’s asset platform from Python into Rust + egui. Scaled to 100–150 artists, 30+ productions.",
+    slot: "egui screenshot",
+    href: "#",
+  },
+  {
+    id: "crates",
+    title: "Rust Crates",
+    year: 2024,
+    domain: "tools",
+    meter: 94,
+    color: "#c8c8c8",
+    blurb: "mktree · mkpoi · mkutil · mk_usdcat_all. Public, on crates.io.",
+    slot: "terminal",
+    href: "https://github.com/mushogenshin",
+  },
+  {
+    id: "verse",
+    title: "A Childlike Perspective of Verse",
+    year: 2025,
+    domain: "verse",
+    meter: 84,
+    color: "#7d5bd6",
+    blurb:
+      "A talk at Unreal Fest Bali 2025 — the Verse language explained from a non-programmer’s lens.",
+    slot: "talk poster",
+    href: "https://childlike-verse-lang.web.app",
+  },
+];
+
+export const DOMAINS: Array<"all" | Domain> = [
+  "all",
+  "sculpture",
+  "anatomy",
+  "rigging",
+  "unreal",
+  "apps",
+  "tools",
+  "verse",
+];

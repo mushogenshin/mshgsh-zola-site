@@ -1,0 +1,12 @@
+---
+import Layout from "../layouts/Layout.astro";
+import HomeApp from "../components/HomeApp";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout>
+  <div class="max-w-[1160px] mx-auto px-[28px] pb-20">
+    <HomeApp client:load />
+    <Footer />
+  </div>
+</Layout>
