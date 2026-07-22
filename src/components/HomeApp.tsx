@@ -44,6 +44,11 @@ export default function HomeApp({ throughline }: HomeAppProps) {
   const [collapsed, setCollapsed] = useState<Set<string>>(() => cullFor(50));
   const [entering, setEntering] = useState<Set<string>>(() => new Set());
 
+  // Floating bias pill: the inline slider's container is observed; once it
+  // scrolls out of view a fixed copy of the same control fades in at the bottom.
+  const inlineBiasRef = useRef<HTMLDivElement>(null);
+  const [showFloat, setShowFloat] = useState(false);
+
   const collapsedRef = useRef(collapsed);
   useEffect(() => {
     collapsedRef.current = collapsed;
@@ -136,6 +141,22 @@ export default function HomeApp({ throughline }: HomeAppProps) {
   };
 
   const isGallery = mode === "gallery";
+
+  // Reveal the floating bias pill only in Gallery mode and only while the inline
+  // control is scrolled out of view. IntersectionObserver avoids scroll-event spam
+  // and manual offset math; keyed on isGallery because the inline control (and its
+  // ref) only exists while the Gallery is rendered.
+  useEffect(() => {
+    if (!isGallery) {
+      setShowFloat(false);
+      return;
+    }
+    const el = inlineBiasRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([entry]) => setShowFloat(!entry.isIntersecting));
+    io.observe(el);
+    return () => io.disconnect();
+  }, [isGallery]);
 
   // Live (not debounced): which tiles are past the threshold right now, so
   // they immediately start fading even before their collapse timer is set.
@@ -264,7 +285,10 @@ export default function HomeApp({ throughline }: HomeAppProps) {
           </div>
 
           {/* bias + filter controls */}
-          <div className="my-[30px] mb-[22px] flex gap-[26px] items-center flex-wrap">
+          <div
+            ref={inlineBiasRef}
+            className="my-[30px] mb-[22px] flex gap-[26px] items-center flex-wrap"
+          >
             <div className="flex-[1_1_320px] min-w-[280px]">
               <div className="flex justify-between font-mono text-[10.5px] text-muted mb-[7px]">
                 <span className="text-art">← more ART</span>
@@ -420,6 +444,34 @@ export default function HomeApp({ throughline }: HomeAppProps) {
               browse the work as a gallery →
             </button>
           </div>
+        </div>
+      )}
+
+      {/* Floating bias control — the same bias/setBias, surfaced at bottom-center
+          once the inline slider scrolls away. Centered with auto-margins (never
+          transform: translateX) so the opacity-only entry animation can't erase
+          the centering; the glow pulse lives in global.css. */}
+      {isGallery && showFloat && (
+        <div
+          role="group"
+          aria-label="Art–code spectrum bias"
+          className="fixed left-0 right-0 bottom-[18px] z-[60] mx-auto flex items-center gap-3 w-[min(460px,92vw)] bg-white border-2 border-ink rounded-[40px] px-[18px] py-[10px]"
+          style={{
+            boxShadow: "0 10px 34px rgba(26,24,21,.22), 0 0 34px 7px rgba(139,74,224,.6)",
+            animation: "fadein .28s ease both, glowpulse 2.8s ease-in-out .3s infinite",
+          }}
+        >
+          <span className="font-mono text-[10px] text-art whitespace-nowrap">ART</span>
+          <input
+            type="range"
+            min={0}
+            max={100}
+            value={bias}
+            onChange={(e) => setBias(+e.target.value)}
+            aria-label="Bias the gallery toward art or code"
+            className="bias-range flex-1"
+          />
+          <span className="font-mono text-[10px] text-code whitespace-nowrap">CODE</span>
         </div>
       )}
     </>
