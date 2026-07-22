@@ -295,20 +295,21 @@ export default function HomeApp() {
               const isFading = it.phase === "culled" || it.phase === "entering";
               const fadeScale = it.phase === "culled" ? 0.9 : 0.96;
               return (
-                <a
-                  key={it.id}
-                  href={it.href}
-                  data-id={it.id}
-                  className="block text-inherit"
-                  style={{
-                    opacity: isFading ? 0 : it.op,
-                    transform: `scale(${isFading ? fadeScale : it.scale})`,
-                    transition: TILE_TRANSITION,
-                    pointerEvents: isFading ? "none" : undefined,
-                  }}
-                >
+                <a key={it.id} href={it.href} data-id={it.id} className="block text-inherit">
+                  {/* Visual state (fade + emphasis scale) lives on this inner card, NOT on the
+                      <a> grid child above: auto-animate measures the <a>'s box (transforms
+                      included) to detect reflow, so a live-changing scale() on it reads as a
+                      resize and gets animated — the settle-time shrink/expand kink. Keeping the
+                      <a> transform-free leaves its measured size constant, so auto-animate only
+                      ever animates true positional movement. */}
                   <div
                     className="bg-white border-2 border-ink rounded-xl overflow-hidden shadow-[3px_4px_0_rgba(0,0,0,.13)]"
+                    style={{
+                      opacity: isFading ? 0 : it.op,
+                      transform: `scale(${isFading ? fadeScale : it.scale})`,
+                      transition: TILE_TRANSITION,
+                      pointerEvents: isFading ? "none" : undefined,
+                    }}
                     onMouseEnter={() => setHover(it.id)}
                     onMouseLeave={() => setHover(null)}
                   >
