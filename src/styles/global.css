@@ -98,13 +98,17 @@
     opacity: 1;
     transform: translate(-50%, calc(-100% - var(--gap))) scale(1);
   }
+  35% {
+    opacity: 0.3;
+    transform: translate(-50%, -62%) scale(0.6);
+  }
   55% {
-    opacity: 0.7;
-    transform: translate(-50%, -45%) scale(0.55);
+    opacity: 0;
+    transform: translate(-50%, -52%) scale(0.4);
   }
   100% {
     opacity: 0;
-    transform: translate(-50%, 8%) scale(0.12);
+    transform: translate(-50%, -43%) scale(0.12);
   }
 }
 
