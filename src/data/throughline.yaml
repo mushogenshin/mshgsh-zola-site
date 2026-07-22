@@ -1,0 +1,101 @@
+# The Throughline timeline (Home page → "Throughline" mode).
+#
+# Edit freely: add or remove entries anywhere in this file. You do NOT manage
+# order or layout — entries render chronologically by `year`, and the left/right
+# side of the spine auto-alternates. Just set the fields right.
+#
+# Fields per entry:
+#   id      unique slug (any short kebab-case string; not shown, just a required
+#           anchor — it does NOT affect display order)
+#   year    displayed year or range, e.g. "1999" or "2005–08" (keep the quotes;
+#           the first 4-digit number is what sorts the entry)
+#   title   short headline
+#   accent  one of: art | code | neutral | converge   (see src/config/throughline.ts)
+#   body    one or two sentences; `>-` lets you wrap across lines without newlines
+
+- id: pascal-1999
+  year: "1999"
+  title: First words in Pascal
+  accent: code
+  body: >-
+    A rural, post-war mountain town in Vietnam. The first language I ever
+    spoke to a machine.
+
+- id: architecture-2005
+  year: "2005–08"
+  title: Architecture school, HCMC
+  accent: art
+  body: >-
+    Gifted at drawing, I went looking for structure. Christopher Alexander
+    over everything.
+
+- id: crossed-to-us-2008
+  year: "2008"
+  title: Crossed to the US
+  accent: neutral
+  body: >-
+    Studied abroad. Stayed. It would take fifteen years to reach a green card.
+
+- id: character-animation-2012
+  year: "2012"
+  title: Character animation
+  accent: art
+  body: >-
+    AnimationMentor's 18-month program. Learned to make weight and silhouette
+    believable.
+
+- id: cascina-2014
+  year: "2014"
+  title: Battle of Cascina
+  accent: art
+  body: >-
+    19 figurative sculptures after Michelangelo. Too ambitious; abandoned.
+    Now resuming.
+
+- id: busts-2016
+  year: "2016"
+  title: Busts of Great Thinkers
+  accent: art
+  body: >-
+    Asimov, Feynman, Sagan, Tesla. Also set down too soon — and worth
+    finishing.
+
+- id: python-2018
+  year: "2018"
+  title: Python, and the turn toward code
+  accent: code
+  body: >-
+    Hired as an Anatomy Tech-Art Lead, I dove into pipeline. Vim, Docker, the
+    whole toolbox.
+
+- id: rust-2020
+  year: "2020"
+  title: Rust
+  accent: code
+  body: >-
+    I'd kept two Scheme books since 2010 without grasping them. Systems
+    thinking finally clicked.
+
+- id: rusty-hunter-2023
+  year: "2023"
+  title: Rusty Hunter + green card
+  accent: code
+  body: >-
+    Rewrote a studio's asset platform into Rust. And, at last, authorized to
+    work anywhere in the US.
+
+- id: fossil-skater-2024
+  year: "2024"
+  title: Fossil Skater ships
+  accent: converge
+  body: >-
+    Unreal Fellowship. Dinosaurs skate on car-shoes. Where the art and the
+    code finally converge.
+
+- id: childlike-verse-2025
+  year: "2025"
+  title: Childlike Verse, in Bali
+  accent: code
+  body: >-
+    A talk on the Verse language from a non-programmer's lens. The thread
+    keeps going.

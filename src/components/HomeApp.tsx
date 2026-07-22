@@ -1,8 +1,13 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { DOMAINS, ITEMS } from "../data/items";
-import { EVENTS } from "../data/events";
+import { ACCENT_COLORS, sideForIndex, type ThroughlineEvent } from "../config/throughline";
 import { REFLOW_ANIMATION, SPECTRUM_CONFIG, TILE_TRANSITION } from "../config/spectrum";
+
+interface HomeAppProps {
+  /** Throughline timeline, loaded from src/data/throughline.yaml by index.astro. */
+  throughline: ThroughlineEvent[];
+}
 
 type Mode = "gallery" | "through";
 type Phase = "collapsed" | "culled" | "entering" | "normal";
@@ -28,7 +33,7 @@ function cullFor(dial: number): Set<string> {
   );
 }
 
-export default function HomeApp() {
+export default function HomeApp({ throughline }: HomeAppProps) {
   const [mode, setModeState] = useState<Mode>("gallery");
   const [bias, setBiasState] = useState(50);
   const [domain, setDomain] = useState<string>("all");
@@ -370,34 +375,38 @@ export default function HomeApp() {
 
           <div className="relative mt-[52px] pl-[2px]">
             <div className="absolute left-[calc(50%-1.5px)] top-0 bottom-0 w-[3px] bg-ink max-[680px]:left-1.75" />
-            {EVENTS.map((e, i) => (
-              <div
-                key={i}
-                className="relative grid grid-cols-2 mb-6.5 max-[680px]:block max-[680px]:pl-9.5 max-[680px]:mb-5"
-              >
+            {throughline.map((e, i) => {
+              const side = sideForIndex(i);
+              const color = ACCENT_COLORS[e.accent];
+              return (
                 <div
-                  className={
-                    e.side === "l"
-                      ? "col-start-1 text-right pr-[34px] max-[680px]:text-left max-[680px]:p-0"
-                      : "col-start-2 text-left pl-[34px] max-[680px]:p-0"
-                  }
+                  key={i}
+                  className="relative grid grid-cols-2 mb-6.5 max-[680px]:block max-[680px]:pl-9.5 max-[680px]:mb-5"
                 >
-                  <div className="bg-white border-2 border-ink rounded-xl px-[18px] py-[16px] shadow-[3px_4px_0_rgba(0,0,0,.12)]">
-                    <div className="font-mono text-[13px] font-bold" style={{ color: e.color }}>
-                      {e.year}
+                  <div
+                    className={
+                      side === "l"
+                        ? "col-start-1 text-right pr-[34px] max-[680px]:text-left max-[680px]:p-0"
+                        : "col-start-2 text-left pl-[34px] max-[680px]:p-0"
+                    }
+                  >
+                    <div className="bg-white border-2 border-ink rounded-xl px-[18px] py-[16px] shadow-[3px_4px_0_rgba(0,0,0,.12)]">
+                      <div className="font-mono text-[13px] font-bold" style={{ color }}>
+                        {e.year}
+                      </div>
+                      <div className="text-[18px] font-semibold leading-[1.15] my-[3px]">
+                        {e.title}
+                      </div>
+                      <div className="text-[13px] leading-[1.5] text-[#5c574e]">{e.body}</div>
                     </div>
-                    <div className="text-[18px] font-semibold leading-[1.15] my-[3px]">
-                      {e.title}
-                    </div>
-                    <div className="text-[13px] leading-[1.5] text-[#5c574e]">{e.body}</div>
                   </div>
+                  <div
+                    className="absolute left-[calc(50%-9px)] top-4 w-[18px] h-[18px] rounded-full border-[2.5px] border-ink max-[680px]:-left-px"
+                    style={{ background: color, boxShadow: "0 0 0 4px #f4f1ea" }}
+                  />
                 </div>
-                <div
-                  className="absolute left-[calc(50%-9px)] top-4 w-[18px] h-[18px] rounded-full border-[2.5px] border-ink max-[680px]:-left-px"
-                  style={{ background: e.color, boxShadow: "0 0 0 4px #f4f1ea" }}
-                />
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <div className="text-center mt-[14px]">

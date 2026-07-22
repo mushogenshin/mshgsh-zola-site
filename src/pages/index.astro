@@ -1,12 +1,22 @@
 ---
+import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 import HomeApp from "../components/HomeApp";
 import Footer from "../components/Footer.astro";
+import { parseTimelineYear, type ThroughlineEvent } from "../config/throughline";
+
+// Load the Throughline timeline from its YAML content collection at build time
+// and hand it to the interactive island as plain, serializable data. getCollection
+// orders entries by id (not YAML position), so we sort chronologically by year —
+// the file can be authored in any order. The island derives each entry's side.
+const throughline = (await getCollection("throughline"))
+  .map((entry) => entry.data as ThroughlineEvent)
+  .sort((a, b) => parseTimelineYear(a.year) - parseTimelineYear(b.year));
 ---
 
 <Layout>
   <div class="max-w-[1160px] mx-auto px-[28px] pb-20 max-[600px]:px-4">
-    <HomeApp client:load />
+    <HomeApp client:load throughline={throughline} />
     <Footer />
   </div>
 </Layout>
