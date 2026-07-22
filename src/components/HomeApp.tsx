@@ -4,6 +4,7 @@ import { DOMAINS, ITEMS } from "../data/items";
 import { ACCENT_COLORS, sideForIndex, type ThroughlineEvent } from "../config/throughline";
 import { REFLOW_ANIMATION, SPECTRUM_CONFIG, TILE_TRANSITION } from "../config/spectrum";
 import TutorialHand, { type TutorialPhase } from "./TutorialHand";
+import BiasPill from "./BiasPill";
 
 const SEEN_DIAL_KEY = "mshgsh_seen_dial";
 
@@ -47,10 +48,13 @@ export default function HomeApp({ throughline }: HomeAppProps) {
   const [collapsed, setCollapsed] = useState<Set<string>>(() => cullFor(50));
   const [entering, setEntering] = useState<Set<string>>(() => new Set());
 
-  // Floating bias pill: the inline slider's container is observed; once it
-  // scrolls out of view a fixed copy of the same control fades in at the bottom.
+  // Floating bias pill, three states (hidden / fixed / docked). Two observed
+  // elements drive it: the inline control (has it scrolled past?) and a dock zone
+  // spacer under the grid (has it come into view?). See the derived `floatState`.
   const inlineBiasRef = useRef<HTMLDivElement>(null);
-  const [showFloat, setShowFloat] = useState(false);
+  const dockZoneRef = useRef<HTMLDivElement>(null);
+  const [inlinePast, setInlinePast] = useState(false);
+  const [dockInView, setDockInView] = useState(false);
 
   // First-visit dial tutorial hand. Phase machine:
   // swivel → resting (after 5s) → following → leaving → gone (on first interaction).
@@ -193,6 +197,13 @@ export default function HomeApp({ throughline }: HomeAppProps) {
     try {
       localStorage.setItem(MODE_KEY, m);
     } catch {}
+    // Reset scroll so switching modes never strands you mid-page in the new view.
+    // Routes every entry point through here: header toggle + both bottom CTAs.
+    try {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch {
+      window.scrollTo(0, 0);
+    }
   };
 
   const setBias = (v: number) => {
@@ -208,21 +219,40 @@ export default function HomeApp({ throughline }: HomeAppProps) {
   const isGallery = mode === "gallery";
   const showTutorial = isGallery && tutorialPhase !== "gone";
 
-  // Reveal the floating bias pill only in Gallery mode and only while the inline
-  // control is scrolled out of view. IntersectionObserver avoids scroll-event spam
-  // and manual offset math; keyed on isGallery because the inline control (and its
-  // ref) only exists while the Gallery is rendered.
+  // Two IntersectionObservers drive the pill's three states (cleaner than the
+  // mockup's scroll math): one on the inline control (scrolled past?), one on the
+  // dock-zone spacer (in view?). Keyed on isGallery since both elements only exist
+  // while the Gallery is rendered. The dock observer's -40px bottom rootMargin
+  // mirrors the mockup's `dockZone.top < innerHeight - 40` threshold.
   useEffect(() => {
     if (!isGallery) {
-      setShowFloat(false);
+      setInlinePast(false);
+      setDockInView(false);
       return;
     }
-    const el = inlineBiasRef.current;
-    if (!el) return;
-    const io = new IntersectionObserver(([entry]) => setShowFloat(!entry.isIntersecting));
-    io.observe(el);
-    return () => io.disconnect();
+    const observers: IntersectionObserver[] = [];
+    if (inlineBiasRef.current) {
+      const io = new IntersectionObserver(([e]) => setInlinePast(!e.isIntersecting));
+      io.observe(inlineBiasRef.current);
+      observers.push(io);
+    }
+    if (dockZoneRef.current) {
+      const io = new IntersectionObserver(([e]) => setDockInView(e.isIntersecting), {
+        rootMargin: "0px 0px -40px 0px",
+      });
+      io.observe(dockZoneRef.current);
+      observers.push(io);
+    }
+    return () => observers.forEach((o) => o.disconnect());
   }, [isGallery]);
+
+  // hidden while the inline control is still on screen; once past, it floats fixed
+  // over the grid, then docks in-flow once the dock zone scrolls up into view.
+  const floatState: "hidden" | "fixed" | "docked" = !inlinePast
+    ? "hidden"
+    : dockInView
+      ? "docked"
+      : "fixed";
 
   // Live (not debounced): which tiles are past the threshold right now, so
   // they immediately start fading even before their collapse timer is set.
@@ -451,6 +481,32 @@ export default function HomeApp({ throughline }: HomeAppProps) {
               );
             })}
           </div>
+
+          {/* dock zone: the floating pill docks in-flow here (close under the grid)
+              once this spacer scrolls into view, so it never overlaps the CTA/footer.
+              Layout order below: grid → dock zone → CTA → footer. */}
+          <div
+            ref={dockZoneRef}
+            data-dock-zone
+            className="relative flex items-center justify-center min-h-[70px] pt-[26px]"
+          >
+            {floatState === "docked" && (
+              <BiasPill bias={bias} onBias={setBias} variant="docked" />
+            )}
+          </div>
+
+          {/* symmetric bottom CTA — mirrors the Throughline's "browse as a gallery" */}
+          <div className="text-center mt-[72px]">
+            <div className="font-hand font-bold text-2xl text-muted">
+              prefer the story to the grid?
+            </div>
+            <button
+              onClick={() => setMode("through")}
+              className="mt-4 font-mono text-xs bg-ink text-white rounded-full px-[22px] py-[11px] cursor-pointer border-none"
+            >
+              ↳&nbsp;&nbsp;trace the throughline →
+            </button>
+          </div>
         </div>
       ) : (
         <div className="animate-fadeup" key="through">
@@ -519,35 +575,19 @@ export default function HomeApp({ throughline }: HomeAppProps) {
         </div>
       )}
 
-      {/* Floating bias control — the same bias/setBias, surfaced at bottom-center
-          once the inline slider scrolls away. Centered with auto-margins (never
-          transform: translateX) so the opacity-only entry animation can't erase
-          the centering; the glow pulse lives in global.css. */}
-      {isGallery && showFloat && (
-        <div
-          role="group"
-          aria-label="Art–code spectrum bias"
-          className="fixed left-0 right-0 bottom-[18px] z-[60] mx-auto flex items-center gap-3 w-[min(460px,92vw)] bg-white border-2 border-ink rounded-[40px] px-[18px] py-[10px]"
-          style={{
-            boxShadow: "0 10px 34px rgba(26,24,21,.22), 0 0 34px 7px rgba(139,74,224,.6)",
-            animation: "fadein .28s ease both, glowpulse 2.8s ease-in-out .3s infinite",
-          }}
-        >
-          <span className="font-mono text-[10px] text-art whitespace-nowrap">ART</span>
-          <div className="relative flex-1">
-            <input
-              type="range"
-              min={0}
-              max={100}
-              value={bias}
-              onChange={(e) => setBias(+e.target.value)}
-              aria-label="Bias the gallery toward art or code"
-              className="bias-range w-full block"
-            />
-            {showTutorial && <TutorialHand bias={bias} phase={tutorialPhase} gap={26} />}
-          </div>
-          <span className="font-mono text-[10px] text-code whitespace-nowrap">CODE</span>
-        </div>
+      {/* Floating bias control — the same bias/setBias, surfaced fixed at
+          bottom-center once the inline slider scrolls away (it later docks in-flow;
+          see the dock zone in the Gallery block). The tutorial hand rides the fixed
+          copy only. */}
+      {isGallery && floatState === "fixed" && (
+        <BiasPill
+          bias={bias}
+          onBias={setBias}
+          variant="fixed"
+          tutorial={
+            showTutorial ? <TutorialHand bias={bias} phase={tutorialPhase} gap={26} /> : null
+          }
+        />
       )}
     </>
   );
