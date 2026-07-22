@@ -3,6 +3,9 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { DOMAINS, ITEMS } from "../data/items";
 import { ACCENT_COLORS, sideForIndex, type ThroughlineEvent } from "../config/throughline";
 import { REFLOW_ANIMATION, SPECTRUM_CONFIG, TILE_TRANSITION } from "../config/spectrum";
+import TutorialHand, { type TutorialPhase } from "./TutorialHand";
+
+const SEEN_DIAL_KEY = "mshgsh_seen_dial";
 
 interface HomeAppProps {
   /** Throughline timeline, loaded from src/data/throughline.yaml by index.astro. */
@@ -48,6 +51,18 @@ export default function HomeApp({ throughline }: HomeAppProps) {
   // scrolls out of view a fixed copy of the same control fades in at the bottom.
   const inlineBiasRef = useRef<HTMLDivElement>(null);
   const [showFloat, setShowFloat] = useState(false);
+
+  // First-visit dial tutorial hand. Phase machine:
+  // swivel → resting (after 5s) → following → leaving → gone (on first interaction).
+  const [tutorialPhase, setTutorialPhase] = useState<TutorialPhase>("swivel");
+  // Gates the hand to client-only: false during SSR and first hydration render, so
+  // the cue is never in the server HTML (no flash for returning guests before the
+  // seen check runs, and no dependence on localStorage during SSR).
+  const [mounted, setMounted] = useState(false);
+  const tutDoneRef = useRef(false);
+  const tutRestTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const tutLeaveTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const tutGoneTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const collapsedRef = useRef(collapsed);
   useEffect(() => {
@@ -116,12 +131,53 @@ export default function HomeApp({ throughline }: HomeAppProps) {
     }
   }, []);
 
+  // Dial tutorial: a returning guest (seen flag set) skips straight to 'gone';
+  // a new guest sees the hand rock, then rest after 5s (matching the swivel run).
+  useEffect(() => {
+    setMounted(true);
+    let seen = false;
+    try {
+      seen = !!localStorage.getItem(SEEN_DIAL_KEY);
+    } catch {
+      // localStorage unavailable — treat as a fresh guest and show the cue
+    }
+    if (seen) {
+      tutDoneRef.current = true;
+      setTutorialPhase("gone");
+      return;
+    }
+    tutRestTimer.current = setTimeout(() => {
+      setTutorialPhase((p) => (p === "swivel" ? "resting" : p));
+    }, 5000);
+  }, []);
+
   useEffect(() => {
     return () => {
       collapseTimers.current.forEach((timer) => clearTimeout(timer));
       collapseTimers.current.clear();
       if (cullDebounce.current) clearTimeout(cullDebounce.current);
+      clearTimeout(tutRestTimer.current);
+      clearTimeout(tutLeaveTimer.current);
+      clearTimeout(tutGoneTimer.current);
     };
+  }, []);
+
+  // First interaction with either slider dismisses the tutorial (once): follow the
+  // knob for a beat (momentum), then genie away, and remember it forever.
+  const dismissTutorial = useCallback(() => {
+    if (tutDoneRef.current) return;
+    tutDoneRef.current = true;
+    clearTimeout(tutRestTimer.current);
+    try {
+      localStorage.setItem(SEEN_DIAL_KEY, "1");
+    } catch {
+      // best-effort; if it can't persist, the cue just reappears next visit
+    }
+    setTutorialPhase("following");
+    tutLeaveTimer.current = setTimeout(() => {
+      setTutorialPhase("leaving");
+      tutGoneTimer.current = setTimeout(() => setTutorialPhase("gone"), 620);
+    }, 250);
   }, []);
 
   const setMode = (m: Mode) => {
@@ -132,6 +188,7 @@ export default function HomeApp({ throughline }: HomeAppProps) {
   };
 
   const setBias = (v: number) => {
+    dismissTutorial(); // first drag on either control retires the tutorial hand
     setBiasState(v); // live — slider position + in-range tile opacity/scale track the drag
     try {
       localStorage.setItem(BIAS_KEY, String(v));
@@ -141,6 +198,7 @@ export default function HomeApp({ throughline }: HomeAppProps) {
   };
 
   const isGallery = mode === "gallery";
+  const showTutorial = mounted && isGallery && tutorialPhase !== "gone";
 
   // Reveal the floating bias pill only in Gallery mode and only while the inline
   // control is scrolled out of view. IntersectionObserver avoids scroll-event spam
@@ -292,17 +350,23 @@ export default function HomeApp({ throughline }: HomeAppProps) {
             <div className="flex-[1_1_320px] min-w-[280px]">
               <div className="flex justify-between font-mono text-[10.5px] text-muted mb-[7px]">
                 <span className="text-art">← more ART</span>
-                <span>lean the spectrum</span>
                 <span className="text-code">more CODE →</span>
               </div>
-              <input
-                type="range"
-                min={0}
-                max={100}
-                value={bias}
-                onChange={(e) => setBias(+e.target.value)}
-                className="bias-range w-full"
-              />
+              {/* relative wrapper hosts the tutorial hand so its left:{bias}% maps to the track */}
+              <div className="relative">
+                <input
+                  type="range"
+                  min={0}
+                  max={100}
+                  value={bias}
+                  onChange={(e) => setBias(+e.target.value)}
+                  className="bias-range w-full relative z-[2]"
+                />
+                {showTutorial && <TutorialHand bias={bias} phase={tutorialPhase} gap={18} />}
+              </div>
+              <div className="text-center font-mono text-[10.5px] text-muted mt-[9px]">
+                lean the spectrum
+              </div>
             </div>
             <div className="flex flex-wrap gap-[7px]">
               {DOMAINS.map((d) => (
@@ -462,15 +526,18 @@ export default function HomeApp({ throughline }: HomeAppProps) {
           }}
         >
           <span className="font-mono text-[10px] text-art whitespace-nowrap">ART</span>
-          <input
-            type="range"
-            min={0}
-            max={100}
-            value={bias}
-            onChange={(e) => setBias(+e.target.value)}
-            aria-label="Bias the gallery toward art or code"
-            className="bias-range flex-1"
-          />
+          <div className="relative flex-1">
+            <input
+              type="range"
+              min={0}
+              max={100}
+              value={bias}
+              onChange={(e) => setBias(+e.target.value)}
+              aria-label="Bias the gallery toward art or code"
+              className="bias-range w-full block"
+            />
+            {showTutorial && <TutorialHand bias={bias} phase={tutorialPhase} gap={26} />}
+          </div>
           <span className="font-mono text-[10px] text-code whitespace-nowrap">CODE</span>
         </div>
       )}

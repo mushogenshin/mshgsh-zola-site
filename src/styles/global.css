@@ -56,6 +56,58 @@
   }
 }
 
+/* Dial tutorial hand (Gallery). `swivel` is a single finite, decaying rock that
+   eases to a stop on its own (amplitude ±38°→0°); `genie` shrinks the hand into
+   the knob on dismiss — uniform scale only, never a single-axis collapse. `genie`
+   reads --gap (18px inline / 26px floating) so one keyframe serves both controls. */
+@keyframes swivel {
+  0% {
+    transform: rotate(0);
+  }
+  6% {
+    transform: rotate(-38deg);
+  }
+  20% {
+    transform: rotate(33deg);
+  }
+  34% {
+    transform: rotate(-26deg);
+  }
+  48% {
+    transform: rotate(19deg);
+  }
+  62% {
+    transform: rotate(-13deg);
+  }
+  74% {
+    transform: rotate(8deg);
+  }
+  86% {
+    transform: rotate(-4deg);
+  }
+  94% {
+    transform: rotate(2deg);
+  }
+  100% {
+    transform: rotate(0);
+  }
+}
+
+@keyframes genie {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, calc(-100% - var(--gap))) scale(1);
+  }
+  55% {
+    opacity: 0.7;
+    transform: translate(-50%, -45%) scale(0.55);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 8%) scale(0.12);
+  }
+}
+
 body {
   -webkit-font-smoothing: antialiased;
 }
