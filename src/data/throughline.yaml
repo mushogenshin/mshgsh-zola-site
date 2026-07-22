@@ -10,10 +10,11 @@
 #   year    displayed year or range, e.g. "1999" or "2005–08" (keep the quotes;
 #           the first 4-digit number is what sorts the entry)
 #   title   short headline
-#   accent  one of: art | code | neutral | converge   (see src/config/throughline.ts)
+#   accent  one of: art | code | neutral | life   (see src/config/throughline.ts)
 #   body    one or two sentences; `>-` lets you wrap across lines without newlines
 #   trivia  OPTIONAL light behind-the-scenes fact; shown only when the "trivia" chip is on
 #   life    OPTIONAL `true` = a personal/life beat; hidden unless the "life events" chip is on
+#   hobby   OPTIONAL `true` = a side/hobby art project; hidden unless the "hobby projects" chip is on
 #   side    OPTIONAL 'l'|'r' to pin a side; omit to auto-alternate (use rarely)
 #   order   OPTIONAL tiebreaker for entries sharing a year (lower first; default 0)
 
@@ -41,7 +42,7 @@
 - id: crossed-to-us-2008
   year: "2008"
   title: Crossed to the US
-  accent: neutral
+  accent: life
   life: true
   body: >-
     Studied abroad. Stayed. It would take fifteen years to reach a green card.
@@ -64,6 +65,7 @@
   year: "2014"
   title: Battle of Cascina
   accent: art
+  hobby: true
   body: >-
     19 figurative sculptures after Michelangelo. Too ambitious; abandoned.
     Now resuming.
@@ -75,6 +77,7 @@
   year: "2016"
   title: Busts of Great Thinkers
   accent: art
+  hobby: true
   body: >-
     Asimov, Feynman, Sagan, Tesla. Also set down too soon — and worth
     finishing.
@@ -112,7 +115,7 @@
 - id: green-card-2023
   year: "2023"
   title: Green card, at last
-  accent: neutral
+  accent: life
   life: true
   order: 1
   body: >-
@@ -123,7 +126,7 @@
 - id: fossil-skater-2024
   year: "2024"
   title: Fossil Skater ships
-  accent: converge
+  accent: art
   body: >-
     Unreal Fellowship. Dinosaurs skate on car-shoes. Where the art and the
     code finally converge.

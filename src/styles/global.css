@@ -56,6 +56,22 @@
   }
 }
 
+/* Throughline's floating/docked filter pill — a vivid-orange bloom, distinct from
+   the Gallery bias pill's violet, and a slower 3.5s pulse. Kept separate on purpose. */
+@keyframes glowpulseThrough {
+  0%,
+  100% {
+    box-shadow:
+      0 10px 34px rgba(26, 24, 21, 0.22),
+      0 0 24px 5px rgba(248, 99, 0, 0.55);
+  }
+  50% {
+    box-shadow:
+      0 12px 44px rgba(26, 24, 21, 0.26),
+      0 0 46px 13px rgba(248, 99, 0, 0.9);
+  }
+}
+
 /* Dial tutorial hand (Gallery). `swivel` is a single finite, decaying rock that
    eases to a stop on its own (amplitude ±38°→0°); `genie` shrinks the hand into
    the knob on dismiss — uniform scale only, never a single-axis collapse. `genie`

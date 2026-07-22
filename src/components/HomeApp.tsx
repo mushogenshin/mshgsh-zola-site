@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { DOMAINS, ITEMS } from "../data/items";
 import { r2 } from "../config/r2";
@@ -10,7 +10,17 @@ import BiasPill from "./BiasPill";
 
 const SEEN_DIAL_KEY = "mshgsh_seen_dial";
 const LIFE_KEY = "mshgsh_life";
+const HOBBY_KEY = "mshgsh_hobby";
 const TRIVIA_KEY = "mshgsh_trivia";
+
+/** True when the user prefers reduced motion — FLIP/fades are skipped and toggles snap. */
+function prefersReducedMotion(): boolean {
+  return (
+    typeof window !== "undefined" &&
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+}
 
 /**
  * The electric-current overlay descriptor for each tile, keyed by id. Computed
@@ -44,9 +54,11 @@ function chipClass(active: boolean) {
 }
 
 /**
- * A Throughline toggle chip (life events / trivia). Shares the Gallery chip
- * vocabulary (mono, ink pill, active = ink fill) plus a leading dot indicator:
- * a hollow ink ring when off, filled with `accent` + a soft glow when on.
+ * A Throughline filter chip (life events / hobby projects / trivia). Signals with
+ * its OWN accent, not black — black is reserved for the CTA so chips don't read as
+ * CTA siblings. Active: accent border + a 12% accent tint fill (`${accent}1f`) + ink
+ * text + filled glowing dot. Inactive: light-neutral border, muted text, a hollow
+ * dot that still rings in the accent (a hint of what it controls). See handoff.
  */
 function ToggleChip({
   label,
@@ -64,21 +76,49 @@ function ToggleChip({
       type="button"
       aria-pressed={active}
       onClick={onToggle}
-      className={`inline-flex items-center gap-[7px] font-mono text-[11px] border-2 border-ink rounded-[22px] px-[13px] py-[5px] cursor-pointer transition-all duration-150 ${
-        active ? "bg-ink text-white" : "bg-white text-ink"
-      }`}
+      className="inline-flex items-center gap-[7px] font-mono text-[11px] rounded-[22px] px-[13px] py-[5px] cursor-pointer transition-all duration-150"
+      style={{
+        border: `2px solid ${active ? accent : "#ded7c8"}`,
+        background: active ? `${accent}1f` : "#fff",
+        color: active ? "#1a1815" : "#8a8378",
+        fontWeight: active ? 600 : 400,
+      }}
     >
       <span
         className="w-[7px] h-[7px] rounded-full transition-all duration-150"
         style={{
           background: active ? accent : "transparent",
-          boxShadow: active
-            ? `0 0 0 1.5px ${accent}, 0 0 7px 1px ${accent}`
-            : "0 0 0 1.5px #1a1815",
+          boxShadow: active ? `0 0 0 1.5px ${accent}, 0 0 7px 1px ${accent}` : `0 0 0 1.5px ${accent}`,
         }}
       />
       {label}
     </button>
+  );
+}
+
+/**
+ * Winding-road glyph for the Throughline toggle + CTAs (replaces the old `↳`): an
+ * S-curve road body + an up-arrow head, both `currentColor` strokes so it inherits
+ * the button's text color. NOTE: authored here from the handoff's description —
+ * Design's mockup didn't ship the exact path data, so swap these paths if it differs.
+ */
+function RoadIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="15"
+      height="15"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={className}
+    >
+      <path d="M12 22 C 6.5 17.5, 17.5 13, 12 8" />
+      <path d="M8.7 10.6 L12 7 L15.3 10.6" />
+    </svg>
   );
 }
 
@@ -97,11 +137,23 @@ export default function HomeApp({ throughline }: HomeAppProps) {
   const [domain, setDomain] = useState<string>("all");
   const [hover, setHover] = useState<string | null>(null);
 
-  // Throughline opt-in toggles, both default OFF (first paint = clean work-thread,
-  // no trivia). `life` filters personal entries in/out; `trivia` reveals facts on
-  // already-visible cards. Both persist to localStorage.
+  // Throughline opt-in filters, all default OFF (first paint = clean professional
+  // work-thread, no trivia). `life`/`hobby` filter entries in/out of the set;
+  // `trivia` reveals facts on already-visible cards. All persist to localStorage.
   const [showLife, setShowLife] = useState(false);
+  const [showHobby, setShowHobby] = useState(false);
   const [showTrivia, setShowTrivia] = useState(false);
+  // Rows mid-exit: kept mounted at opacity 0 (height retained) through their fade,
+  // then unmounted at commit so surviving rows FLIP up into the gap. See animateFilter.
+  const [rowLeaving, setRowLeaving] = useState<string[]>([]);
+
+  // Throughline floating/docked filter pill — same three-state model as the Gallery
+  // bias pill, driven by two observed elements (the top chip row, and a dock buffer
+  // under the timeline). See `throughFloatState`.
+  const throughAnchorRef = useRef<HTMLDivElement>(null);
+  const throughDockRef = useRef<HTMLDivElement>(null);
+  const [throughPast, setThroughPast] = useState(false);
+  const [throughDockInView, setThroughDockInView] = useState(false);
 
   // Seeded from the default dial so the first paint already shows the
   // correct cull set — no blank/wrong slots before the mount effect runs.
@@ -136,6 +188,17 @@ export default function HomeApp({ throughline }: HomeAppProps) {
 
   const collapseTimers = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
   const cullDebounce = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  // Timeline FLIP reflow (animated life/hobby toggles). flipFirst holds the "before"
+  // rects, flipArmed tells the layout effect to run a FLIP pass, and scrollAnchorArmed
+  // pins a row so a docked-chip toggle doesn't jump the page. rowBusy guards against
+  // overlapping toggles mid-animation.
+  const flipFirst = useRef<Map<string, DOMRect>>(new Map());
+  const flipArmed = useRef(false);
+  const scrollAnchorArmed = useRef<{ el: HTMLElement; before: number } | null>(null);
+  const rowBusy = useRef(false);
+  const rowLeaveTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const rowBusyTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   // Prime-one-spark: after a reflow (or on mount) a tile's next discharge can be
   // many dormant seconds away, so the grid feels dead. We kick exactly ONE visible
@@ -217,28 +280,157 @@ export default function HomeApp({ throughline }: HomeAppProps) {
         setCollapsed(cullFor(restored)); // reseed for the restored bias, still no animation
       }
       if (localStorage.getItem(LIFE_KEY) === "1") setShowLife(true);
+      if (localStorage.getItem(HOBBY_KEY) === "1") setShowHobby(true);
       if (localStorage.getItem(TRIVIA_KEY) === "1") setShowTrivia(true);
     } catch {
       // localStorage unavailable (private browsing, etc) — fall back to defaults
     }
   }, []);
 
-  // Both toggles persist immediately; life changes the set of entries, trivia only
-  // reveals text on already-visible cards.
-  const toggleLife = () => {
-    const next = !showLife;
-    setShowLife(next);
-    try {
-      localStorage.setItem(LIFE_KEY, next ? "1" : "0");
-    } catch {}
-  };
+  // Which throughline entries are visible under the current filter toggles.
+  const isVisibleEvent = useCallback(
+    (e: ThroughlineEvent, life: boolean, hobby: boolean) =>
+      (life || !e.life) && (hobby || !e.hobby),
+    [],
+  );
+
+  // FLIP the timeline rows: snapshot current row rects, then (after the commit that
+  // this arms) slide each survivor from its old spot to the new one and fade entering
+  // rows in. Actual measurement/animation happens in the layout effect below.
+  const armRowFlip = useCallback(() => {
+    if (prefersReducedMotion()) return; // honor reduced-motion: no FLIP, just snap
+    const first = new Map<string, DOMRect>();
+    document
+      .querySelectorAll<HTMLElement>("[data-row-id]")
+      .forEach((n) => first.set(n.dataset.rowId!, n.getBoundingClientRect()));
+    flipFirst.current = first;
+    flipArmed.current = true;
+  }, []);
+
+  // life/hobby toggle with animated reflow. If rows are leaving, fade them first
+  // (height retained) for 300ms, THEN commit the toggle + FLIP survivors up. Parity
+  // (left/right) is NOT recomputed during the fade — see the render's rowList.
+  const animateFilter = useCallback(
+    (key: "life" | "hobby", lsKey: string, current: boolean, apply: (v: boolean) => void) => {
+      if (rowBusy.current) return;
+      const nextVal = !current;
+      try {
+        localStorage.setItem(lsKey, nextVal ? "1" : "0");
+      } catch {}
+
+      const visIds = (life: boolean, hobby: boolean) =>
+        throughline.filter((e) => isVisibleEvent(e, life, hobby)).map((e) => e.id);
+      const before = new Set(visIds(showLife, showHobby));
+      const after = visIds(
+        key === "life" ? nextVal : showLife,
+        key === "hobby" ? nextVal : showHobby,
+      );
+      const leaving = [...before].filter((id) => !after.includes(id));
+
+      if (prefersReducedMotion()) {
+        apply(nextVal);
+        setRowLeaving([]);
+        return;
+      }
+
+      const commit = () => {
+        rowBusy.current = true;
+        armRowFlip();
+        apply(nextVal);
+        setRowLeaving([]);
+        clearTimeout(rowBusyTimer.current);
+        rowBusyTimer.current = setTimeout(() => {
+          rowBusy.current = false;
+        }, 560);
+      };
+
+      if (leaving.length) {
+        setRowLeaving(leaving); // fade exiting rows (still mounted, height retained)
+        clearTimeout(rowLeaveTimer.current);
+        rowLeaveTimer.current = setTimeout(commit, 300);
+      } else {
+        commit();
+      }
+    },
+    [throughline, showLife, showHobby, isVisibleEvent, armRowFlip],
+  );
+
+  const toggleLife = () => animateFilter("life", LIFE_KEY, showLife, setShowLife);
+  const toggleHobby = () => animateFilter("hobby", HOBBY_KEY, showHobby, setShowHobby);
+
+  // trivia only changes card heights (not the set), so no FLIP — but toggling from the
+  // docked (bottom) chip shifts everything above the viewport, which reads as a jump.
+  // Pin a visible row: measure its viewport top before, scroll by the delta after.
   const toggleTrivia = () => {
     const next = !showTrivia;
+    if (!prefersReducedMotion()) {
+      const rows = Array.from(document.querySelectorAll<HTMLElement>("[data-row]"));
+      const anchor = rows.find((r) => r.getBoundingClientRect().bottom > 120) ?? rows[0] ?? null;
+      if (anchor) scrollAnchorArmed.current = { el: anchor, before: anchor.getBoundingClientRect().top };
+    }
     setShowTrivia(next);
     try {
       localStorage.setItem(TRIVIA_KEY, next ? "1" : "0");
     } catch {}
   };
+
+  // Runs FLIP + scroll-anchor adjustments after the DOM commits (before paint).
+  useLayoutEffect(() => {
+    if (flipArmed.current) {
+      flipArmed.current = false;
+      const first = flipFirst.current;
+      document.querySelectorAll<HTMLElement>("[data-row-id]").forEach((n) => {
+        const id = n.dataset.rowId!;
+        const f = first.get(id);
+        if (!f) {
+          // entering row (no prior rect) → fade in rather than FLIP
+          n.style.opacity = "0";
+          requestAnimationFrame(() =>
+            requestAnimationFrame(() => {
+              n.style.transition = "opacity .45s ease .08s";
+              n.style.opacity = "1";
+              const clear = () => {
+                n.style.transition = "";
+                n.removeEventListener("transitionend", clear);
+              };
+              n.addEventListener("transitionend", clear);
+            }),
+          );
+          return;
+        }
+        const r = n.getBoundingClientRect();
+        const dx = f.left - r.left;
+        const dy = f.top - r.top;
+        if (dx || dy) {
+          n.style.transition = "none";
+          n.style.transform = `translate(${dx}px, ${dy}px)`;
+          void n.getBoundingClientRect(); // force reflow so the next frame animates
+          requestAnimationFrame(() =>
+            requestAnimationFrame(() => {
+              // transform-only transition; cleared on end so the class-based opacity
+              // transition (for leave fades) is restored — avoids inline/React conflict.
+              n.style.transition = "transform .5s cubic-bezier(.4,0,.2,1)";
+              n.style.transform = "";
+              const clear = () => {
+                n.style.transition = "";
+                n.style.transform = "";
+                n.removeEventListener("transitionend", clear);
+              };
+              n.addEventListener("transitionend", clear);
+            }),
+          );
+        }
+      });
+    }
+    if (scrollAnchorArmed.current) {
+      const { el, before } = scrollAnchorArmed.current;
+      scrollAnchorArmed.current = null;
+      if (el.isConnected) {
+        const delta = el.getBoundingClientRect().top - before;
+        if (Math.abs(delta) > 1) window.scrollBy(0, delta);
+      }
+    }
+  });
 
   // Dial tutorial: a returning guest (seen flag set) skips straight to 'gone';
   // a new guest sees the hand rock, then rest after 5s (matching the swivel run).
@@ -283,6 +475,8 @@ export default function HomeApp({ throughline }: HomeAppProps) {
       clearTimeout(tutRestTimer.current);
       clearTimeout(tutLeaveTimer.current);
       clearTimeout(tutGoneTimer.current);
+      clearTimeout(rowLeaveTimer.current);
+      clearTimeout(rowBusyTimer.current);
     };
   }, []);
 
@@ -373,6 +567,75 @@ export default function HomeApp({ throughline }: HomeAppProps) {
       ? "docked"
       : "fixed";
 
+  // Same three-state model for the Throughline filter pill, its own two observers
+  // (top chip row + dock buffer). Keyed on !isGallery since those elements only
+  // exist while the Throughline is rendered.
+  useEffect(() => {
+    if (isGallery) {
+      setThroughPast(false);
+      setThroughDockInView(false);
+      return;
+    }
+    const observers: IntersectionObserver[] = [];
+    if (throughAnchorRef.current) {
+      const io = new IntersectionObserver(([e]) => setThroughPast(!e.isIntersecting));
+      io.observe(throughAnchorRef.current);
+      observers.push(io);
+    }
+    if (throughDockRef.current) {
+      const io = new IntersectionObserver(([e]) => setThroughDockInView(e.isIntersecting), {
+        rootMargin: "0px 0px -40px 0px",
+      });
+      io.observe(throughDockRef.current);
+      observers.push(io);
+    }
+    return () => observers.forEach((o) => o.disconnect());
+  }, [isGallery]);
+
+  const throughFloatState: "hidden" | "fixed" | "docked" = !throughPast
+    ? "hidden"
+    : throughDockInView
+      ? "docked"
+      : "fixed";
+
+  // Rendered timeline rows = currently-visible entries PLUS any still mid-exit, so
+  // exiting rows stay mounted through their fade. Order preserved for stable parity.
+  const throughRows = useMemo(
+    () =>
+      throughline.filter(
+        (e) => isVisibleEvent(e, showLife, showHobby) || rowLeaving.includes(e.id),
+      ),
+    [throughline, showLife, showHobby, rowLeaving, isVisibleEvent],
+  );
+
+  // The three filter chips, reused in the inline row and both floating/docked pills.
+  const filterChips = () => (
+    <>
+      <ToggleChip label="life events" active={showLife} accent="#4f9d69" onToggle={toggleLife} />
+      <ToggleChip
+        label="hobby projects"
+        active={showHobby}
+        accent="#2f8fd4"
+        onToggle={toggleHobby}
+      />
+      <ToggleChip label="trivia" active={showTrivia} accent="#e0a92e" onToggle={toggleTrivia} />
+    </>
+  );
+
+  // The glowing chip pill shared by the fixed and docked Throughline filter controls
+  // (vivid-orange bloom, slower 3.5s pulse — distinct from the Gallery bias pill).
+  const filterPill = (extraClass: string) => (
+    <div
+      className={`inline-flex items-center gap-[9px] bg-white border-2 border-ink rounded-[40px] px-[13px] py-[8px] ${extraClass}`}
+      style={{
+        boxShadow: "0 10px 34px rgba(26,24,21,.22), 0 0 27px 6px rgba(248,99,0,.6)",
+        animation: "fadein .28s ease both, glowpulseThrough 3.5s ease-in-out .3s infinite",
+      }}
+    >
+      {filterChips()}
+    </div>
+  );
+
   // Live (not debounced): which tiles are past the threshold right now, so
   // they immediately start fading even before their collapse timer is set.
   const culledSetLive = useMemo(() => cullFor(bias), [bias]);
@@ -427,9 +690,10 @@ export default function HomeApp({ throughline }: HomeAppProps) {
           </button>
           <button
             onClick={() => setMode("through")}
-            className={`${btnBase} ${!isGallery ? "bg-ink text-white" : "bg-transparent text-ink"}`}
+            className={`${btnBase} inline-flex items-center gap-[6px] ${!isGallery ? "bg-ink text-white" : "bg-transparent text-ink"}`}
           >
-            ↳&nbsp;&nbsp;Throughline
+            <RoadIcon />
+            Throughline
           </button>
         </div>
 
@@ -720,9 +984,10 @@ export default function HomeApp({ throughline }: HomeAppProps) {
             </div>
             <button
               onClick={() => setMode("through")}
-              className="mt-4 font-mono text-xs bg-ink text-white rounded-full px-[22px] py-[11px] cursor-pointer border-none"
+              className="mt-4 inline-flex items-center gap-[7px] font-mono text-xs bg-ink text-white rounded-full px-[22px] py-[11px] cursor-pointer border-none"
             >
-              ↳&nbsp;&nbsp;trace the throughline →
+              <RoadIcon />
+              trace the throughline →
             </button>
           </div>
         </div>
@@ -741,80 +1006,90 @@ export default function HomeApp({ throughline }: HomeAppProps) {
               I ever left it. Drawing, then architecture, then animation, then the long detour
               into code that turned out not to be a detour at all. Follow the thread.
             </p>
-            {/* opt-in toggles, both default OFF: life events (filters the set) and
-                trivia (reveals facts on visible cards) */}
-            <div className="flex items-center gap-2 flex-wrap mt-[22px]">
-              <ToggleChip
-                label="life events"
-                active={showLife}
-                accent="#4f9d69"
-                onToggle={toggleLife}
-              />
-              <ToggleChip label="trivia" active={showTrivia} accent="#f0c94a" onToggle={toggleTrivia} />
+            {/* opt-in filters, all default OFF. Anchored so the floating pill knows
+                when this row has scrolled away. */}
+            <div
+              ref={throughAnchorRef}
+              className="flex items-center gap-2 flex-wrap mt-[22px]"
+            >
+              {filterChips()}
               <span className="font-mono text-[10.5px] text-[#a29b8c]">show more of the thread</span>
             </div>
           </div>
 
           <div className="relative mt-[52px] pl-[2px]">
             <div className="absolute left-[calc(50%-1.5px)] top-0 bottom-0 w-[3px] bg-ink max-[680px]:left-1.75" />
-            {throughline
-              .filter((e) => showLife || !e.life)
-              .map((e, i) => {
-                // side from the VISIBLE index (post life-filter) so the zig-zag holds
-                // under any toggle combo; an authored `side` pins an entry. See handoff.
-                const side = e.side ?? sideForIndex(i);
-                const color = ACCENT_COLORS[e.accent];
-                const revealTrivia = showTrivia && !!e.trivia;
-                return (
+            {throughRows.map((e, i) => {
+              // Parity counts EVERY rendered row (incl. those mid-exit), so sides stay
+              // put during a fade-out; the zig-zag only re-alternates at commit, where
+              // FLIP animates the flip. An authored `side` pins an entry.
+              const side = e.side ?? sideForIndex(i);
+              const color = ACCENT_COLORS[e.accent];
+              const revealTrivia = showTrivia && !!e.trivia;
+              const leaving = rowLeaving.includes(e.id);
+              return (
+                <div
+                  key={e.id}
+                  data-row
+                  data-row-id={e.id}
+                  className="relative grid grid-cols-2 mb-6.5 transition-opacity duration-300 max-[680px]:block max-[680px]:pl-9.5 max-[680px]:mb-5"
+                  style={{ opacity: leaving ? 0 : 1, pointerEvents: leaving ? "none" : undefined }}
+                >
                   <div
-                    key={`${e.year}-${e.title}`}
-                    className="relative grid grid-cols-2 mb-6.5 max-[680px]:block max-[680px]:pl-9.5 max-[680px]:mb-5"
+                    className={
+                      side === "l"
+                        ? "col-start-1 text-right pr-[34px] max-[680px]:text-left max-[680px]:p-0"
+                        : "col-start-2 text-left pl-[34px] max-[680px]:p-0"
+                    }
                   >
-                    <div
-                      className={
-                        side === "l"
-                          ? "col-start-1 text-right pr-[34px] max-[680px]:text-left max-[680px]:p-0"
-                          : "col-start-2 text-left pl-[34px] max-[680px]:p-0"
-                      }
-                    >
-                      <div className="bg-white border-2 border-ink rounded-xl px-[18px] py-[16px] shadow-[3px_4px_0_rgba(0,0,0,.12)]">
-                        <div className="font-mono text-[13px] font-bold" style={{ color }}>
-                          {e.year}
-                        </div>
-                        <div className="text-[18px] font-semibold leading-[1.15] my-[3px]">
-                          {e.title}
-                        </div>
-                        <div className="text-[13px] leading-[1.5] text-[#5c574e]">{e.body}</div>
-                        {/* trivia reveal — inherits the cell's text-align (hugs the spine),
-                            responsive-correct via the cell's max-[680px]:text-left */}
-                        {revealTrivia && (
-                          <div
-                            className="mt-[11px] pt-[10px] border-t border-dashed border-[#d8d2c4]"
-                            style={{ animation: "fadeup .3s ease both" }}
-                          >
-                            <span
-                              className="block font-mono text-[9px] tracking-[.08em] mb-[3px]"
-                              style={{ color }}
-                            >
-                              TRIVIA
-                            </span>
-                            <span className="font-hand text-[15px] leading-[1.35] text-[#6b6559]">
-                              {e.trivia}
-                            </span>
-                          </div>
-                        )}
+                    <div className="bg-white border-2 border-ink rounded-xl px-[18px] py-[16px] shadow-[3px_4px_0_rgba(0,0,0,.12)]">
+                      <div className="font-mono text-[13px] font-bold" style={{ color }}>
+                        {e.year}
                       </div>
+                      <div className="text-[18px] font-semibold leading-[1.15] my-[3px]">
+                        {e.title}
+                      </div>
+                      <div className="text-[13px] leading-[1.5] text-[#5c574e]">{e.body}</div>
+                      {/* trivia reveal — inherits the cell's text-align (hugs the spine),
+                          responsive-correct via the cell's max-[680px]:text-left */}
+                      {revealTrivia && (
+                        <div
+                          className="mt-[11px] pt-[10px] border-t border-dashed border-[#d8d2c4]"
+                          style={{ animation: "fadeup .3s ease both" }}
+                        >
+                          <span
+                            className="block font-mono text-[9px] tracking-[.08em] mb-[3px]"
+                            style={{ color }}
+                          >
+                            TRIVIA
+                          </span>
+                          <span className="font-hand text-[15px] leading-[1.35] text-[#6b6559]">
+                            {e.trivia}
+                          </span>
+                        </div>
+                      )}
                     </div>
-                    <div
-                      className="absolute left-[calc(50%-9px)] top-4 w-[18px] h-[18px] rounded-full border-[2.5px] border-ink max-[680px]:-left-px"
-                      style={{ background: color, boxShadow: "0 0 0 4px #f4f1ea" }}
-                    />
                   </div>
-                );
-              })}
+                  <div
+                    className="absolute left-[calc(50%-9px)] top-4 w-[18px] h-[18px] rounded-full border-[2.5px] border-ink max-[680px]:-left-px"
+                    style={{ background: color, boxShadow: "0 0 0 4px #f4f1ea" }}
+                  />
+                </div>
+              );
+            })}
           </div>
 
-          <div className="text-center mt-[14px]">
+          {/* dock zone: the floating filter pill docks in-flow here (under the
+              timeline, above the CTA) once it scrolls into view. */}
+          <div
+            ref={throughDockRef}
+            data-through-dock
+            className="relative flex items-center justify-center min-h-[70px] pt-[30px]"
+          >
+            {throughFloatState === "docked" && filterPill("relative z-[1]")}
+          </div>
+
+          <div className="text-center mt-[72px]">
             <div className="font-hand font-bold text-2xl text-[#4f9d69]">
               …and the thread keeps going.
             </div>
@@ -825,6 +1100,15 @@ export default function HomeApp({ throughline }: HomeAppProps) {
               browse the work as a gallery →
             </button>
           </div>
+        </div>
+      )}
+
+      {/* Floating Throughline filter pill — the three chips, surfaced fixed at
+          bottom-center once the top chip row scrolls away (then docks; see the dock
+          zone above). Centered via a full-width flex wrapper (no translateX). */}
+      {!isGallery && throughFloatState === "fixed" && (
+        <div className="fixed left-0 right-0 bottom-[18px] z-[60] flex justify-center pointer-events-none">
+          {filterPill("pointer-events-auto")}
         </div>
       )}
 

@@ -11,7 +11,9 @@ import { parseTimelineYear, type ThroughlineEvent } from "../config/throughline"
 // orders entries by id (not YAML position), so we sort chronologically by year —
 // the file can be authored in any order. The island derives each entry's side.
 const throughline = (await getCollection("throughline"))
-  .map((entry) => entry.data as ThroughlineEvent)
+  // carry the collection entry id onto the data — the island uses it as the React
+  // key and the FLIP row key so animated reflow can track rows across toggles.
+  .map((entry) => ({ ...entry.data, id: entry.id }) as ThroughlineEvent)
   .sort(
     (a, b) =>
       parseTimelineYear(a.year) - parseTimelineYear(b.year) || (a.order ?? 0) - (b.order ?? 0),

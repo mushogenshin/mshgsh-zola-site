@@ -4,10 +4,10 @@
  * in `src/data/throughline.yaml`; the mapping to actual colors lives here.
  *
  * Meaning (mirrors the art<->code spine of the site):
- *   art      — art / sculpture / animation milestones (warm)
- *   code     — programming / systems / language milestones (cool)
- *   neutral  — life/biographical beats that aren't art or code (gray)
- *   converge — moments where the two threads meet (green)
+ *   art      — art / sculpture / animation milestones (warm orange)
+ *   code     — programming / systems / language milestones (cool blue)
+ *   neutral  — biographical beats that aren't art or code (gray); kept for real data
+ *   life     — personal/life milestones (green, matching the "life events" chip)
  *
  * NOTE: the Zod schema in `src/content.config.ts` enumerates these same four
  * keys — keep the two in sync if you add or rename an accent.
@@ -16,13 +16,15 @@ export const ACCENT_COLORS = {
   art: "#e0531f",
   code: "#2f6df0",
   neutral: "#8a8a8a",
-  converge: "#4f9d69",
+  life: "#4f9d69",
 } as const;
 
 export type Accent = keyof typeof ACCENT_COLORS;
 
 /** One Throughline timeline entry, as consumed by the UI (post content-collection load). */
 export interface ThroughlineEvent {
+  /** Stable id (the YAML entry `id`); used as the React key and the FLIP row key. */
+  id: string;
   /** Displayed year or range, e.g. "1999" or "2005–08". A string so ranges work. */
   year: string;
   title: string;
@@ -32,6 +34,8 @@ export interface ThroughlineEvent {
   trivia?: string;
   /** Marks a personal/life event (vs. professional); hidden unless the "life events" chip is on. */
   life?: boolean;
+  /** Marks a side/hobby art project; hidden unless the "hobby projects" chip is on. */
+  hobby?: boolean;
   /** Pin this entry to a side of the spine; omit to auto-alternate (see sideForIndex). Use sparingly. */
   side?: "l" | "r";
   /** Tiebreaker for entries sharing a year (e.g. the two 2023 entries); lower sorts first. Default 0. */
