@@ -98,27 +98,27 @@ function ToggleChip({
 }
 
 /**
- * Winding-road glyph for the Throughline toggle + CTAs (replaces the old `↳`): an
- * S-curve road body + an up-arrow head, both `currentColor` strokes so it inherits
- * the button's text color. NOTE: authored here from the handoff's description —
- * Design's mockup didn't ship the exact path data, so swap these paths if it differs.
+ * Winding-road glyph for the Throughline toggle + CTAs (replaces the old `↳`): a
+ * single vertical serpentine stroke — the "winding road ahead" sign motif, echoing
+ * the timeline's winding-road spine. One continuous `currentColor` path (no separate
+ * arrowhead — that read as a question-mark dot), so it inherits the button's color.
+ * Authored from the handoff's description; swap if Design ships exact path data.
  */
 function RoadIcon({ className }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 24 24"
-      width="15"
-      height="15"
+      width="16"
+      height="16"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2"
+      strokeWidth="2.2"
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
       className={className}
     >
-      <path d="M12 22 C 6.5 17.5, 17.5 13, 12 8" />
-      <path d="M8.7 10.6 L12 7 L15.3 10.6" />
+      <path d="M12 21 Q19 17.5 12 14 Q5 10.5 12 7 Q17 4 12 3" />
     </svg>
   );
 }
