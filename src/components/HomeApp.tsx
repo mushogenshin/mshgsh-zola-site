@@ -54,11 +54,12 @@ export default function HomeApp({ throughline }: HomeAppProps) {
 
   // First-visit dial tutorial hand. Phase machine:
   // swivel → resting (after 5s) → following → leaving → gone (on first interaction).
+  // Init 'swivel' so the hand is present in the server HTML and its CSS rock plays
+  // on load without waiting for hydration. A returning guest's seen-check effect
+  // flips this to 'gone' right after hydration (a brief, acceptable flash) — we
+  // can't read localStorage during SSR, so this is the robust trade for making sure
+  // a fresh guest always sees the cue even if JS is slow.
   const [tutorialPhase, setTutorialPhase] = useState<TutorialPhase>("swivel");
-  // Gates the hand to client-only: false during SSR and first hydration render, so
-  // the cue is never in the server HTML (no flash for returning guests before the
-  // seen check runs, and no dependence on localStorage during SSR).
-  const [mounted, setMounted] = useState(false);
   const tutDoneRef = useRef(false);
   const tutRestTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const tutLeaveTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
@@ -134,7 +135,6 @@ export default function HomeApp({ throughline }: HomeAppProps) {
   // Dial tutorial: a returning guest (seen flag set) skips straight to 'gone';
   // a new guest sees the hand rock, then rest after 5s (matching the swivel run).
   useEffect(() => {
-    setMounted(true);
     // Dev-only affordance: `?dial=1` force-replays the cue, ignoring the seen flag,
     // so you can watch it without clearing localStorage. `import.meta.env.DEV` is a
     // static `false` in production builds, so this whole branch is tree-shaken out
@@ -206,7 +206,7 @@ export default function HomeApp({ throughline }: HomeAppProps) {
   };
 
   const isGallery = mode === "gallery";
-  const showTutorial = mounted && isGallery && tutorialPhase !== "gone";
+  const showTutorial = isGallery && tutorialPhase !== "gone";
 
   // Reveal the floating bias pill only in Gallery mode and only while the inline
   // control is scrolled out of view. IntersectionObserver avoids scroll-event spam
