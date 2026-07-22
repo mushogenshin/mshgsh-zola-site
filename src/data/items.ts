@@ -16,7 +16,21 @@ export interface WorkItem {
   meter: number;
   color: string;
   blurb: string;
+  /**
+   * Short text placeholder shown in the tile header when {@link image} is
+   * absent (e.g. "figurative sculpt"). Kept as the graceful fallback so items
+   * can adopt R2 images one at a time — several sculpture assets are still
+   * being collected per the Work Brief.
+   */
   slot: string;
+  /**
+   * R2 bucket key for the tile's cover image, resolved to a full URL via
+   * {@link r2}. Optional: when omitted, the tile falls back to {@link slot}.
+   * Example: `"work/fossil/cover.webp"`.
+   */
+  image?: string;
+  /** Alt text for {@link image}. Defaults to {@link title} when omitted. */
+  imageAlt?: string;
   href: string;
 }
 

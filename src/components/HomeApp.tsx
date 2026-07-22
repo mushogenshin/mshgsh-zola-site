@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { DOMAINS, ITEMS } from "../data/items";
+import { r2 } from "../config/r2";
 import { ACCENT_COLORS, sideForIndex, type ThroughlineEvent } from "../config/throughline";
 import { REFLOW_ANIMATION, SPECTRUM_CONFIG, TILE_TRANSITION } from "../config/spectrum";
 import { teslaForTile } from "../config/tesla";
@@ -459,13 +460,31 @@ export default function HomeApp({ throughline }: HomeAppProps) {
                       className="relative aspect-[4/3] border-b-2 border-ink flex items-end p-[10px]"
                       style={{ background: it.color }}
                     >
-                      <span className="absolute top-[9px] left-[9px] font-mono text-[9.5px] bg-ink text-white px-[7px] py-[2px] rounded-full">
+                      <span className="absolute z-10 top-[9px] left-[9px] font-mono text-[9.5px] bg-ink text-white px-[7px] py-[2px] rounded-full">
                         {it.domain}
                       </span>
-                      <span className="absolute top-[9px] right-[11px] font-mono text-[10px] text-black/50">
+                      <span className="absolute z-10 top-[9px] right-[11px] font-mono text-[10px] text-black/50">
                         {it.year}
                       </span>
-                      <span className="font-mono text-[9px] text-black/50">{it.slot}</span>
+                      {it.image ? (
+                        /* Preflight trap (see CLAUDE.md): this header is a
+                           small positioned box, so Preflight's `img { max-width:
+                           100% }` can resolve against ~0 and collapse the image.
+                           `maxWidth:"none"` inline clears the reset; object-cover
+                           + explicit width/height keeps it filling the 4:3 frame
+                           without CLS. */
+                        <img
+                          src={r2(it.image)}
+                          alt={it.imageAlt ?? it.title}
+                          width={640}
+                          height={480}
+                          loading="lazy"
+                          className="absolute inset-0 w-full h-full object-cover"
+                          style={{ maxWidth: "none" }}
+                        />
+                      ) : (
+                        <span className="font-mono text-[9px] text-black/50">{it.slot}</span>
+                      )}
                     </div>
                     <div className="px-[15px] pb-[15px] pt-[13px]">
                       <div className="text-[16.5px] font-semibold leading-[1.15]">{it.title}</div>

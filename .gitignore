@@ -6,3 +6,7 @@ node_modules/
 dist/
 .astro/
 
+# Local env — real R2 URL lives here; .env.example is the checked-in template
+.env
+.env.local
+
