@@ -135,11 +135,19 @@ export default function HomeApp({ throughline }: HomeAppProps) {
   // a new guest sees the hand rock, then rest after 5s (matching the swivel run).
   useEffect(() => {
     setMounted(true);
+    // Dev-only affordance: `?dial=1` force-replays the cue, ignoring the seen flag,
+    // so you can watch it without clearing localStorage. `import.meta.env.DEV` is a
+    // static `false` in production builds, so this whole branch is tree-shaken out
+    // and never ships.
+    const forceReplay =
+      import.meta.env.DEV && new URLSearchParams(window.location.search).has("dial");
     let seen = false;
-    try {
-      seen = !!localStorage.getItem(SEEN_DIAL_KEY);
-    } catch {
-      // localStorage unavailable — treat as a fresh guest and show the cue
+    if (!forceReplay) {
+      try {
+        seen = !!localStorage.getItem(SEEN_DIAL_KEY);
+      } catch {
+        // localStorage unavailable — treat as a fresh guest and show the cue
+      }
     }
     if (seen) {
       tutDoneRef.current = true;
