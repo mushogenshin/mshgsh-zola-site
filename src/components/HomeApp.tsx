@@ -1,8 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { DOMAINS, ITEMS } from "../data/items";
 import { EVENTS } from "../data/events";
+import { REFLOW_ANIMATION, SPECTRUM_CONFIG, TILE_TRANSITION } from "../config/spectrum";
 
 type Mode = "gallery" | "through";
+type Phase = "collapsed" | "culled" | "entering" | "normal";
 
 const MODE_KEY = "mshgsh_mode";
 const BIAS_KEY = "mshgsh_bias";
@@ -16,21 +19,99 @@ function chipClass(active: boolean) {
   }`;
 }
 
+/** Tiles whose meter sits further than cullThreshold from the dial. */
+function cullFor(dial: number): Set<string> {
+  return new Set(
+    ITEMS.filter((it) => Math.abs(it.meter - dial) > SPECTRUM_CONFIG.cullThreshold).map(
+      (it) => it.id,
+    ),
+  );
+}
+
 export default function HomeApp() {
   const [mode, setModeState] = useState<Mode>("gallery");
   const [bias, setBiasState] = useState(50);
   const [domain, setDomain] = useState<string>("all");
   const [hover, setHover] = useState<string | null>(null);
 
+  // Seeded from the default dial so the first paint already shows the
+  // correct cull set — no blank/wrong slots before the mount effect runs.
+  const [collapsed, setCollapsed] = useState<Set<string>>(() => cullFor(50));
+  const [entering, setEntering] = useState<Set<string>>(() => new Set());
+
+  const collapsedRef = useRef(collapsed);
+  useEffect(() => {
+    collapsedRef.current = collapsed;
+  }, [collapsed]);
+
+  const collapseTimers = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
+  const cullDebounce = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  // Debounced ~180ms after the dial settles: start/cancel per-tile collapse
+  // timers and restore any tile that came back into range. Live opacity/scale
+  // tracking (below, in `items`) is NOT debounced — only this reflow step is.
+  const scheduleCull = useCallback((dial: number) => {
+    const now = cullFor(dial);
+    const prevCollapsed = collapsedRef.current;
+
+    now.forEach((id) => {
+      if (!prevCollapsed.has(id) && !collapseTimers.current.has(id)) {
+        const timer = setTimeout(() => {
+          collapseTimers.current.delete(id);
+          setCollapsed((c) => new Set(c).add(id));
+        }, SPECTRUM_CONFIG.collapseMs);
+        collapseTimers.current.set(id, timer);
+      }
+    });
+
+    collapseTimers.current.forEach((timer, id) => {
+      if (!now.has(id)) {
+        clearTimeout(timer);
+        collapseTimers.current.delete(id);
+      }
+    });
+
+    const toRestore = [...prevCollapsed].filter((id) => !now.has(id));
+    if (toRestore.length) {
+      setCollapsed((c) => {
+        const next = new Set(c);
+        toRestore.forEach((id) => next.delete(id));
+        return next;
+      });
+      setEntering((e) => new Set([...e, ...toRestore]));
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setEntering((e) => {
+            const next = new Set(e);
+            toRestore.forEach((id) => next.delete(id));
+            return next;
+          });
+        });
+      });
+    }
+  }, []);
+
   useEffect(() => {
     try {
       const m = localStorage.getItem(MODE_KEY);
       const b = localStorage.getItem(BIAS_KEY);
       if (m === "gallery" || m === "through") setModeState(m);
-      if (b !== null && !isNaN(+b)) setBiasState(+b);
+      if (b !== null && !isNaN(+b)) {
+        const restored = +b;
+        setBiasState(restored);
+        setCollapsed(cullFor(restored)); // reseed for the restored bias, still no animation
+      }
     } catch {
       // localStorage unavailable (private browsing, etc) — fall back to defaults
     }
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      collapseTimers.current.forEach((timer) => clearTimeout(timer));
+      collapseTimers.current.clear();
+      if (cullDebounce.current) clearTimeout(cullDebounce.current);
+    };
   }, []);
 
   const setMode = (m: Mode) => {
@@ -41,20 +122,26 @@ export default function HomeApp() {
   };
 
   const setBias = (v: number) => {
-    setBiasState(v);
+    setBiasState(v); // live — slider position + in-range tile opacity/scale track the drag
     try {
       localStorage.setItem(BIAS_KEY, String(v));
     } catch {}
+    if (cullDebounce.current) clearTimeout(cullDebounce.current);
+    cullDebounce.current = setTimeout(() => scheduleCull(v), 180); // debounced — the actual reflow
   };
 
   const isGallery = mode === "gallery";
+
+  // Live (not debounced): which tiles are past the threshold right now, so
+  // they immediately start fading even before their collapse timer is set.
+  const culledSetLive = useMemo(() => cullFor(bias), [bias]);
 
   const items = useMemo(
     () =>
       ITEMS.map((it) => {
         const match = domain === "all" || it.domain === domain;
         const dist = Math.abs(it.meter - bias);
-        let op = 1 - (dist / 100) * 0.9;
+        let op = 1 - (dist / 100) * SPECTRUM_CONFIG.fadeStrength;
         let scale = 1 + (1 - dist / 100) * 0.02;
         if (!match) {
           op = 0.1;
@@ -64,10 +151,21 @@ export default function HomeApp() {
           op = 1;
           scale = scale + 0.01;
         }
-        return { ...it, op, scale };
+
+        let phase: Phase;
+        if (collapsed.has(it.id)) phase = "collapsed";
+        else if (culledSetLive.has(it.id)) phase = "culled";
+        else if (entering.has(it.id)) phase = "entering";
+        else phase = "normal";
+
+        return { ...it, op, scale, phase };
       }),
-    [domain, bias, hover],
+    [domain, bias, hover, collapsed, entering, culledSetLive],
   );
+
+  const visibleItems = useMemo(() => items.filter((it) => it.phase !== "collapsed"), [items]);
+
+  const [gridRef] = useAutoAnimate<HTMLDivElement>(REFLOW_ANIMATION);
 
   return (
     <>
@@ -189,59 +287,68 @@ export default function HomeApp() {
           </div>
 
           {/* work grid */}
-          <div className="grid gap-5 [grid-template-columns:repeat(auto-fill,minmax(248px,1fr))]">
-            {items.map((it) => (
-              <a
-                key={it.id}
-                href={it.href}
-                className="block text-inherit"
-                style={{
-                  opacity: it.op,
-                  transform: `scale(${it.scale})`,
-                  transition: "opacity .35s ease, transform .35s ease, box-shadow .2s ease",
-                }}
-              >
-                <div
-                  className="bg-white border-2 border-ink rounded-xl overflow-hidden shadow-[3px_4px_0_rgba(0,0,0,.13)]"
-                  onMouseEnter={() => setHover(it.id)}
-                  onMouseLeave={() => setHover(null)}
+          <div
+            ref={gridRef}
+            className="grid gap-5 [grid-template-columns:repeat(auto-fill,minmax(248px,1fr))]"
+          >
+            {visibleItems.map((it) => {
+              const isFading = it.phase === "culled" || it.phase === "entering";
+              const fadeScale = it.phase === "culled" ? 0.9 : 0.96;
+              return (
+                <a
+                  key={it.id}
+                  href={it.href}
+                  data-id={it.id}
+                  className="block text-inherit"
+                  style={{
+                    opacity: isFading ? 0 : it.op,
+                    transform: `scale(${isFading ? fadeScale : it.scale})`,
+                    transition: TILE_TRANSITION,
+                    pointerEvents: isFading ? "none" : undefined,
+                  }}
                 >
                   <div
-                    className="relative aspect-[4/3] border-b-2 border-ink flex items-end p-[10px]"
-                    style={{ background: it.color }}
+                    className="bg-white border-2 border-ink rounded-xl overflow-hidden shadow-[3px_4px_0_rgba(0,0,0,.13)]"
+                    onMouseEnter={() => setHover(it.id)}
+                    onMouseLeave={() => setHover(null)}
                   >
-                    <span className="absolute top-[9px] left-[9px] font-mono text-[9.5px] bg-ink text-white px-[7px] py-[2px] rounded-full">
-                      {it.domain}
-                    </span>
-                    <span className="absolute top-[9px] right-[11px] font-mono text-[10px] text-black/50">
-                      {it.year}
-                    </span>
-                    <span className="font-mono text-[9px] text-black/50">{it.slot}</span>
-                  </div>
-                  <div className="px-[15px] pb-[15px] pt-[13px]">
-                    <div className="text-[16.5px] font-semibold leading-[1.15]">{it.title}</div>
-                    <div className="text-[12.5px] leading-[1.45] text-[#5c574e] my-[6px] mb-[13px] min-h-[36px]">
-                      {it.blurb}
+                    <div
+                      className="relative aspect-[4/3] border-b-2 border-ink flex items-end p-[10px]"
+                      style={{ background: it.color }}
+                    >
+                      <span className="absolute top-[9px] left-[9px] font-mono text-[9.5px] bg-ink text-white px-[7px] py-[2px] rounded-full">
+                        {it.domain}
+                      </span>
+                      <span className="absolute top-[9px] right-[11px] font-mono text-[10px] text-black/50">
+                        {it.year}
+                      </span>
+                      <span className="font-mono text-[9px] text-black/50">{it.slot}</span>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-mono text-[8px] text-art">ART</span>
-                      <div
-                        className="relative flex-1 h-[5px] rounded-[3px]"
-                        style={{
-                          background: "linear-gradient(90deg,#e0531f,#f0c94a 50%,#2f6df0)",
-                        }}
-                      >
-                        <div
-                          className="absolute top-1/2 w-[11px] h-[11px] rounded-full bg-white border-2 border-ink -translate-y-1/2 -translate-x-1/2"
-                          style={{ left: `${it.meter}%` }}
-                        />
+                    <div className="px-[15px] pb-[15px] pt-[13px]">
+                      <div className="text-[16.5px] font-semibold leading-[1.15]">{it.title}</div>
+                      <div className="text-[12.5px] leading-[1.45] text-[#5c574e] my-[6px] mb-[13px] min-h-[36px]">
+                        {it.blurb}
                       </div>
-                      <span className="font-mono text-[8px] text-code">CODE</span>
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono text-[8px] text-art">ART</span>
+                        <div
+                          className="relative flex-1 h-[5px] rounded-[3px]"
+                          style={{
+                            background: "linear-gradient(90deg,#e0531f,#f0c94a 50%,#2f6df0)",
+                          }}
+                        >
+                          <div
+                            className="absolute top-1/2 w-[11px] h-[11px] rounded-full bg-white border-2 border-ink -translate-y-1/2 -translate-x-1/2"
+                            style={{ left: `${it.meter}%` }}
+                          />
+                        </div>
+                        <span className="font-mono text-[8px] text-code">CODE</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </a>
-            ))}
+                </a>
+              );
+            })}
           </div>
         </div>
       ) : (
