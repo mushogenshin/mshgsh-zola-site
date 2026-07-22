@@ -200,6 +200,14 @@ export default function HomeApp({ throughline }: HomeAppProps) {
   const rowLeaveTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const rowBusyTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
+  // Winding-road spine: a data-driven SVG that's straight with both filters off and
+  // bows into an alternating serpentine when life/hobby are on (see updateSpine).
+  const spineRef = useRef<SVGSVGElement>(null);
+  const spineRaf = useRef(0);
+  const spineAmp = useRef(0);
+  const spineMorphNext = useRef(false); // set on a filter commit so the next redraw tweens
+  const updateSpineRef = useRef<(animate: boolean) => void>(() => {});
+
   // Prime-one-spark: after a reflow (or on mount) a tile's next discharge can be
   // many dormant seconds away, so the grid feels dead. We kick exactly ONE visible
   // electric tile into an immediate spark (never all — too loud). `primed` maps a
@@ -336,6 +344,7 @@ export default function HomeApp({ throughline }: HomeAppProps) {
       const commit = () => {
         rowBusy.current = true;
         armRowFlip();
+        spineMorphNext.current = true; // morph the winding road alongside the row reflow
         apply(nextVal);
         setRowLeaving([]);
         clearTimeout(rowBusyTimer.current);
@@ -431,6 +440,157 @@ export default function HomeApp({ throughline }: HomeAppProps) {
       }
     }
   });
+
+  // The winding-road spine. Straight with both filters off (the clean professional
+  // thread); an alternating bezier serpentine threading every node when a filter is
+  // on, amplitude 0→18→34 by active-filter count. Its ROUGHNESS is data-driven —
+  // each ON filter additively contributes bow-wander (noise), hand-drawn jitter
+  // (shake), and intermittent dimming (dim). Ported verbatim from the mockup; see
+  // handoff/throughline.md "Winding-road spine". Reads node Ys via offsetTop (25 =
+  // node top 16 + radius 9) so positions are correct even mid-FLIP (transform-agnostic).
+  const updateSpine = useCallback(
+    (animate: boolean) => {
+      const svg = spineRef.current;
+      if (!svg) return;
+      const box = svg.closest<HTMLElement>("[data-timeline]");
+      if (!box) return;
+      const mobile = window.innerWidth < 680;
+      const cx = mobile ? 7 : box.clientWidth / 2;
+      const H = box.offsetHeight;
+      const filters = (showLife ? 1 : 0) + (showHobby ? 1 : 0);
+      const targetAmp = mobile ? 0 : filters === 0 ? 0 : filters === 1 ? 18 : 34;
+      const ys = Array.from(box.querySelectorAll<HTMLElement>("[data-row-id]"))
+        .map((r) => r.offsetTop + 25)
+        .sort((a, b) => a - b);
+
+      // additive character: professional path (both off) = 0 = clean straight line
+      const hob = showHobby;
+      const lif = showLife;
+      const noise = Math.min(1, (hob ? 0.55 : 0) + (lif ? 0.7 : 0)); // bow wander
+      const shake = (hob ? 0.6 : 0) + (lif ? 0.8 : 0); // hand-drawn jitter (px)
+      const dim = Math.min(1, (hob ? 0.75 : 0) + (lif ? 0.4 : 0)); // intermittent dimming
+
+      const rand = (k: number) => {
+        const x = Math.sin((k + 1) * 127.1 + 7.3) * 43758.5453;
+        return (x - Math.floor(x)) * 2 - 1; // seeded [-1, 1]
+      };
+      // smooth value-noise: interpolate between seeded randoms so neighbours blend
+      const vnoise = (u: number) => {
+        const i = Math.floor(u);
+        const f = u - i;
+        const a = rand(i * 3.1);
+        const b = rand((i + 1) * 3.1);
+        const s = f * f * (3 - 2 * f);
+        return a + (b - a) * s;
+      };
+      const bez = (t: number, p0: number, p1: number, p2: number, p3: number) => {
+        const u = 1 - t;
+        return u * u * u * p0 + 3 * u * u * t * p1 + 3 * u * t * t * p2 + t * t * t * p3;
+      };
+
+      const straightSVG = () =>
+        `<path d="M ${cx} 0 L ${cx} ${H}" fill="none" stroke="#1a1815" stroke-width="3" stroke-linecap="round"></path>`;
+
+      const curvedSVG = (amp: number) => {
+        const leadTop = 26;
+        const leadBottom = 92; // asymmetric: short entry, long trailing slip
+        const pts = [ys[0] - leadTop, ...ys, ys[ys.length - 1] + leadBottom];
+        const P: Array<{ x: number; y: number }> = [];
+        for (let i = 1; i < pts.length; i++) {
+          const ya = pts[i - 1];
+          const yb = pts[i];
+          const dir = i % 2 === 0 ? 1 : -1;
+          const c1y = ya + (yb - ya) / 3;
+          const c2y = ya + (2 * (yb - ya)) / 3;
+          // scale the bow by segment length so short lead-ins don't overshoot into a loop
+          const segScale = Math.min(1, (yb - ya) / 95);
+          const b1 =
+            cx + dir * amp * segScale * (1 + noise * 0.9 * rand(i)) + noise * amp * segScale * 0.55 * rand(i + 41);
+          const b2 =
+            cx +
+            dir * amp * segScale * (1 + noise * 0.9 * rand(i + 17)) +
+            noise * amp * segScale * 0.55 * rand(i + 83);
+          const steps = 18; // higher sampling → finer shake resolution
+          for (let s = i === 1 ? 0 : 1; s <= steps; s++) {
+            const t = s / steps;
+            let x = bez(t, cx, b1, b2, cx);
+            const y = bez(t, ya, c1y, c2y, yb);
+            const edge = t === 0 || t === 1; // keep node/endpoints exact so dots sit on the line
+            if (!edge) {
+              const k = i * 100 + s;
+              x += shake * segScale * rand(k * 1.3);
+            }
+            P.push({ x, y: y + (edge ? 0 : shake * 0.55 * rand((i * 100 + s) * 2.1 + 5)) });
+          }
+        }
+        // short chunks (sharing endpoints) with opacity from the smooth field → soft dim
+        let out = "";
+        const chunk = 8;
+        let ci = 0;
+        for (let a = 0; a < P.length - 1; a += chunk, ci++) {
+          const end = Math.min(P.length - 1, a + chunk);
+          let d = `M ${P[a].x.toFixed(1)} ${P[a].y.toFixed(1)}`;
+          for (let j = a + 1; j <= end; j++) d += ` L ${P[j].x.toFixed(1)} ${P[j].y.toFixed(1)}`;
+          const op = (1 - dim * 0.6 * (0.5 + 0.5 * vnoise(ci * 0.5))).toFixed(2);
+          out += `<path d="${d}" fill="none" stroke="#1a1815" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="${op}"></path>`;
+        }
+        return out;
+      };
+
+      const render = (amp: number) => {
+        svg.innerHTML = amp < 0.5 || !ys.length ? straightSVG() : curvedSVG(amp);
+      };
+
+      cancelAnimationFrame(spineRaf.current);
+      if (!animate || prefersReducedMotion()) {
+        render(targetAmp);
+        spineAmp.current = targetAmp;
+        return;
+      }
+      const from = spineAmp.current || 0;
+      const to = targetAmp;
+      const t0 = performance.now();
+      const dur = 480;
+      const step = (now: number) => {
+        const k = Math.min(1, (now - t0) / dur);
+        const e = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2; // easeInOutQuad
+        const amp = from + (to - from) * e;
+        render(amp);
+        spineAmp.current = amp;
+        if (k < 1) spineRaf.current = requestAnimationFrame(step);
+      };
+      spineRaf.current = requestAnimationFrame(step);
+    },
+    [showLife, showHobby],
+  );
+
+  // Keep a ref to the latest updateSpine so the (mount-once) resize listener always
+  // calls the current closure without re-subscribing.
+  useEffect(() => {
+    updateSpineRef.current = updateSpine;
+  }, [updateSpine]);
+
+  // Redraw/morph the spine after layout commits. Keyed on everything that moves the
+  // nodes: mode, filters, trivia (heights), and rows mid-exit. A filter commit arms
+  // spineMorphNext so this tweens; everything else redraws instantly.
+  useLayoutEffect(() => {
+    if (mode !== "through") return;
+    const animate = spineMorphNext.current;
+    spineMorphNext.current = false;
+    updateSpine(animate);
+  }, [mode, showLife, showHobby, showTrivia, rowLeaving, updateSpine]);
+
+  // Resize + a safety redraw after fonts/layout settle (spine depends on measured px).
+  useEffect(() => {
+    const onResize = () => updateSpineRef.current(false);
+    window.addEventListener("resize", onResize);
+    const safety = setTimeout(() => updateSpineRef.current(false), 80);
+    return () => {
+      window.removeEventListener("resize", onResize);
+      clearTimeout(safety);
+      cancelAnimationFrame(spineRaf.current);
+    };
+  }, []);
 
   // Dial tutorial: a returning guest (seen flag set) skips straight to 'gone';
   // a new guest sees the hand rock, then rest after 5s (matching the swivel run).
@@ -1017,8 +1177,16 @@ export default function HomeApp({ throughline }: HomeAppProps) {
             </div>
           </div>
 
-          <div className="relative mt-[52px] pl-[2px]">
-            <div className="absolute left-[calc(50%-1.5px)] top-0 bottom-0 w-[3px] bg-ink max-[680px]:left-1.75" />
+          <div data-timeline className="relative mt-[52px] pl-[2px]">
+            {/* Winding-road spine — updateSpine fills this <svg> imperatively (straight
+                by default, serpentine when filters are on). Rendered first / z-0 so the
+                node dots (below) sit on top of the line. No viewBox → 1 unit = 1px. */}
+            <svg
+              ref={spineRef}
+              data-spine
+              className="absolute inset-0 w-full h-full overflow-visible pointer-events-none z-0"
+              aria-hidden="true"
+            />
             {throughRows.map((e, i) => {
               // Parity counts EVERY rendered row (incl. those mid-exit), so sides stay
               // put during a fade-out; the zig-zag only re-alternates at commit, where
