@@ -112,6 +112,17 @@
   }
 }
 
+/* Electric-current meters (see src/config/tesla.ts): the discharge is a
+   continuous animation, so honor reduced-motion by freezing it to a static,
+   faint vein instead of a pulsing one. The overlay's animation/opacity are set
+   inline, so !important is required to override them from here. */
+@media (prefers-reduced-motion: reduce) {
+  [data-tesla] {
+    animation: none !important;
+    opacity: 0.18 !important;
+  }
+}
+
 body {
   -webkit-font-smoothing: antialiased;
 }

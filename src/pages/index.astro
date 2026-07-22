@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 import HomeApp from "../components/HomeApp";
+import TeslaDefs from "../components/TeslaDefs.astro";
 import Footer from "../components/Footer.astro";
 import { parseTimelineYear, type ThroughlineEvent } from "../config/throughline";
 
@@ -15,6 +16,8 @@ const throughline = (await getCollection("throughline"))
 ---
 
 <Layout>
+  {/* Global SVG filter defs + flicker keyframes for the tile electric-current meters. */}
+  <TeslaDefs />
   <div class="max-w-[1160px] mx-auto px-[28px] pb-20 max-[600px]:px-4">
     <HomeApp client:load throughline={throughline} />
     <Footer />

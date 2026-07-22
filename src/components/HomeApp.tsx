@@ -3,10 +3,22 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { DOMAINS, ITEMS } from "../data/items";
 import { ACCENT_COLORS, sideForIndex, type ThroughlineEvent } from "../config/throughline";
 import { REFLOW_ANIMATION, SPECTRUM_CONFIG, TILE_TRANSITION } from "../config/spectrum";
+import { teslaForTile } from "../config/tesla";
 import TutorialHand, { type TutorialPhase } from "./TutorialHand";
 import BiasPill from "./BiasPill";
 
 const SEEN_DIAL_KEY = "mshgsh_seen_dial";
+
+/**
+ * The electric-current overlay descriptor for each tile, keyed by id. Computed
+ * once at module load: every field is a pure function of the tile's (constant)
+ * `meter`, and the seeded vein paths MUST NOT be regenerated per render or the
+ * wire visibly twitches on every dial move (see `tesla.ts`). Mid-spectrum tiles
+ * map to `null`.
+ */
+const TESLA_BY_ID: Record<string, ReturnType<typeof teslaForTile>> = Object.fromEntries(
+  ITEMS.map((it) => [it.id, teslaForTile(it.meter)]),
+);
 
 interface HomeAppProps {
   /** Throughline timeline, loaded from src/data/throughline.yaml by index.astro. */
@@ -468,8 +480,70 @@ export default function HomeApp({ throughline }: HomeAppProps) {
                             background: "linear-gradient(90deg,#e0531f,#f0c94a 50%,#2f6df0)",
                           }}
                         >
+                          {/* Electric-current discharge on the extreme (art-/code-heavy)
+                              tiles only. Purely decorative: pointer-events:none and stacked
+                              below the marker (marker z-[3] vs overlay z-index:2 from
+                              teslaForTile) so it never blocks the link or hides the read-only
+                              position marker. See src/config/tesla.ts. */}
+                          {(() => {
+                            const tesla = TESLA_BY_ID[it.id];
+                            if (!tesla) return null;
+                            return (
+                              <div style={tesla.overlayStyle} data-tesla>
+                                <svg
+                                  width="100%"
+                                  height="26"
+                                  viewBox="0 0 200 26"
+                                  preserveAspectRatio="none"
+                                  style={{
+                                    position: "absolute",
+                                    top: "50%",
+                                    left: 0,
+                                    transform: "translateY(-50%)",
+                                    // Preflight sets svg{display:block} (fine here, it's
+                                    // absolutely positioned); force overflow:visible so the
+                                    // jitter/glow isn't clipped to the 26px box.
+                                    overflow: "visible",
+                                  }}
+                                >
+                                  {/* glow strand */}
+                                  <path
+                                    d={tesla.veinPath}
+                                    fill="none"
+                                    stroke={tesla.strokeGlow}
+                                    strokeWidth={tesla.veinW}
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    vectorEffect="non-scaling-stroke"
+                                    filter={tesla.filterUrl}
+                                  />
+                                  {/* mid strand */}
+                                  <path
+                                    d={tesla.veinPath2}
+                                    fill="none"
+                                    stroke={tesla.strokeMid}
+                                    strokeWidth={tesla.veinW2}
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    vectorEffect="non-scaling-stroke"
+                                    filter={tesla.filterUrl}
+                                  />
+                                  {/* crisp core wire — no filter (reuses path 1) */}
+                                  <path
+                                    d={tesla.veinPath}
+                                    fill="none"
+                                    stroke={tesla.strokeCore}
+                                    strokeWidth={tesla.veinW3}
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    vectorEffect="non-scaling-stroke"
+                                  />
+                                </svg>
+                              </div>
+                            );
+                          })()}
                           <div
-                            className="absolute top-1/2 w-[3px] h-[11px] rounded-[1.5px] bg-ink -translate-y-1/2 -translate-x-1/2 shadow-[0_0_0_1px_rgba(255,255,255,0.85)]"
+                            className="absolute top-1/2 z-[3] w-[3px] h-[11px] rounded-[1.5px] bg-ink -translate-y-1/2 -translate-x-1/2 shadow-[0_0_0_1px_rgba(255,255,255,0.85)]"
                             style={{ left: `${it.meter}%` }}
                           />
                         </div>

@@ -1,0 +1,60 @@
+---
+/**
+ * Global, document-once definitions for the electric-current meters (see
+ * `src/config/tesla.ts`): the four turbulence-displacement filters and the two
+ * flicker `@keyframes`.
+ *
+ * Rendered server-side (not inside the hydrated React island) so this static
+ * markup ships in the initial HTML and costs nothing at hydration. The per-tile
+ * overlay in `HomeApp` references these filters by id (`url(#teslaArtF)`) and
+ * these keyframes by name — SVG filter refs and CSS keyframes are both
+ * document-global, so they resolve wherever this component sits in the page.
+ *
+ * The SMIL `<animate>` sweeps run natively from static markup; no JS needed. The
+ * mockup's runtime clone-and-replace only existed because the params were briefly
+ * tweakable — they are baked constants now.
+ */
+import { TESLA_FILTER_DEFS, TESLA_KEYFRAMES_CSS } from "../config/tesla";
+---
+
+<svg width="0" height="0" style="position:absolute;pointer-events:none" aria-hidden="true">
+  <defs>
+    {
+      TESLA_FILTER_DEFS.map((f) => (
+        <filter id={f.id} x="-30%" y="-160%" width="160%" height="420%">
+          <feTurbulence
+            type="turbulence"
+            baseFrequency={f.base}
+            numOctaves="2"
+            seed={f.seed}
+            result="n"
+          >
+            <animate
+              id={f.animId}
+              attributeName="baseFrequency"
+              dur={`${f.dur}s`}
+              values={f.values}
+              repeatCount="indefinite"
+            />
+          </feTurbulence>
+          <feDisplacementMap
+            in="SourceGraphic"
+            in2="n"
+            scale="3.2"
+            xChannelSelector="R"
+            yChannelSelector="G"
+            result="d"
+          />
+          <feGaussianBlur in="d" stdDeviation="0.7" result="g" />
+          <feMerge>
+            <feMergeNode in="g" />
+            <feMergeNode in="d" />
+          </feMerge>
+        </filter>
+      ))
+    }
+  </defs>
+</svg>
+
+{/* Precomputed flicker keyframes; is:inline keeps Astro from scoping/hoisting it. */}
+<style is:inline set:html={TESLA_KEYFRAMES_CSS}></style>
