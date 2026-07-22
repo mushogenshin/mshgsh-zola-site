@@ -19,6 +19,12 @@ const throughline = defineCollection({
     title: z.string(),
     accent: z.enum(["art", "code", "neutral", "converge"]),
     body: z.string(),
+    // Optional (see handoff/throughline.md): trivia fact, life-event flag, an
+    // authored side override, and a same-year sort tiebreaker.
+    trivia: z.string().optional(),
+    life: z.boolean().optional(),
+    side: z.enum(["l", "r"]).optional(),
+    order: z.number().optional(),
   }),
 });
 

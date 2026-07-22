@@ -28,13 +28,22 @@ export interface ThroughlineEvent {
   title: string;
   accent: Accent;
   body: string;
+  /** Optional behind-the-scenes fact, revealed only when the "trivia" chip is on. */
+  trivia?: string;
+  /** Marks a personal/life event (vs. professional); hidden unless the "life events" chip is on. */
+  life?: boolean;
+  /** Pin this entry to a side of the spine; omit to auto-alternate (see sideForIndex). Use sparingly. */
+  side?: "l" | "r";
+  /** Tiebreaker for entries sharing a year (e.g. the two 2023 entries); lower sorts first. Default 0. */
+  order?: number;
 }
 
 /**
- * Which side of the center spine an entry sits on (desktop). Derived purely from
- * position so the timeline auto-alternates — inserting or reordering events in the
- * YAML never requires hand-flipping sides. Even index → right, odd → left, matching
- * the original hand-authored layout.
+ * Which side of the center spine an entry sits on (desktop). Derived from the
+ * entry's index **in the currently-visible list** (i.e. computed after the life
+ * filter), so the zig-zag survives any toggle combination — never from a fixed
+ * authored value. Even visible-index → right, odd → left. An authored `side`
+ * overrides this per entry (rare). See handoff/throughline.md "side logic".
  */
 export function sideForIndex(index: number): "l" | "r" {
   return index % 2 === 0 ? "r" : "l";

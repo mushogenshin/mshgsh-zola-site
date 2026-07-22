@@ -12,7 +12,10 @@ import { parseTimelineYear, type ThroughlineEvent } from "../config/throughline"
 // the file can be authored in any order. The island derives each entry's side.
 const throughline = (await getCollection("throughline"))
   .map((entry) => entry.data as ThroughlineEvent)
-  .sort((a, b) => parseTimelineYear(a.year) - parseTimelineYear(b.year));
+  .sort(
+    (a, b) =>
+      parseTimelineYear(a.year) - parseTimelineYear(b.year) || (a.order ?? 0) - (b.order ?? 0),
+  );
 ---
 
 <Layout>

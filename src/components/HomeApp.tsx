@@ -9,6 +9,8 @@ import TutorialHand, { type TutorialPhase } from "./TutorialHand";
 import BiasPill from "./BiasPill";
 
 const SEEN_DIAL_KEY = "mshgsh_seen_dial";
+const LIFE_KEY = "mshgsh_life";
+const TRIVIA_KEY = "mshgsh_trivia";
 
 /**
  * The electric-current overlay descriptor for each tile, keyed by id. Computed
@@ -41,6 +43,45 @@ function chipClass(active: boolean) {
   }`;
 }
 
+/**
+ * A Throughline toggle chip (life events / trivia). Shares the Gallery chip
+ * vocabulary (mono, ink pill, active = ink fill) plus a leading dot indicator:
+ * a hollow ink ring when off, filled with `accent` + a soft glow when on.
+ */
+function ToggleChip({
+  label,
+  active,
+  accent,
+  onToggle,
+}: {
+  label: string;
+  active: boolean;
+  accent: string;
+  onToggle: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      aria-pressed={active}
+      onClick={onToggle}
+      className={`inline-flex items-center gap-[7px] font-mono text-[11px] border-2 border-ink rounded-[22px] px-[13px] py-[5px] cursor-pointer transition-all duration-150 ${
+        active ? "bg-ink text-white" : "bg-white text-ink"
+      }`}
+    >
+      <span
+        className="w-[7px] h-[7px] rounded-full transition-all duration-150"
+        style={{
+          background: active ? accent : "transparent",
+          boxShadow: active
+            ? `0 0 0 1.5px ${accent}, 0 0 7px 1px ${accent}`
+            : "0 0 0 1.5px #1a1815",
+        }}
+      />
+      {label}
+    </button>
+  );
+}
+
 /** Tiles whose meter sits further than cullThreshold from the dial. */
 function cullFor(dial: number): Set<string> {
   return new Set(
@@ -55,6 +96,12 @@ export default function HomeApp({ throughline }: HomeAppProps) {
   const [bias, setBiasState] = useState(50);
   const [domain, setDomain] = useState<string>("all");
   const [hover, setHover] = useState<string | null>(null);
+
+  // Throughline opt-in toggles, both default OFF (first paint = clean work-thread,
+  // no trivia). `life` filters personal entries in/out; `trivia` reveals facts on
+  // already-visible cards. Both persist to localStorage.
+  const [showLife, setShowLife] = useState(false);
+  const [showTrivia, setShowTrivia] = useState(false);
 
   // Seeded from the default dial so the first paint already shows the
   // correct cull set — no blank/wrong slots before the mount effect runs.
@@ -89,6 +136,16 @@ export default function HomeApp({ throughline }: HomeAppProps) {
 
   const collapseTimers = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
   const cullDebounce = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  // Prime-one-spark: after a reflow (or on mount) a tile's next discharge can be
+  // many dormant seconds away, so the grid feels dead. We kick exactly ONE visible
+  // electric tile into an immediate spark (never all — too loud). `primed` maps a
+  // tile id to a bump counter; bumping it re-keys that tile's overlay so it
+  // remounts with `primedAnimation` (negative delay → ignites now). A monotonic
+  // rotor picks a different tile each time. See handoff/electric-current.md.
+  const [primed, setPrimed] = useState<Record<string, number>>({});
+  const primeRotor = useRef(0);
+  const primeTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   // Debounced ~180ms after the dial settles: start/cancel per-tile collapse
   // timers and restore any tile that came back into range. Live opacity/scale
@@ -134,6 +191,21 @@ export default function HomeApp({ throughline }: HomeAppProps) {
     }
   }, []);
 
+  // Kick one currently-visible electric tile into an immediate discharge. Reads
+  // live collapse state via the ref so it's safe to call from a timer. Rotates
+  // through the eligible tiles (monotonic counter mod count) so repeated resets
+  // spark different tiles; bumping a tile's `primed` counter re-keys its overlay
+  // (see the grid) to remount it with the negative-delay `primedAnimation`.
+  const primeOneSpark = useCallback(() => {
+    const eligible = ITEMS.filter(
+      (it) => TESLA_BY_ID[it.id] && !collapsedRef.current.has(it.id),
+    );
+    if (eligible.length === 0) return;
+    const chosen = eligible[primeRotor.current % eligible.length];
+    primeRotor.current += 1;
+    setPrimed((p) => ({ ...p, [chosen.id]: (p[chosen.id] ?? 0) + 1 }));
+  }, []);
+
   useEffect(() => {
     try {
       const m = localStorage.getItem(MODE_KEY);
@@ -144,10 +216,29 @@ export default function HomeApp({ throughline }: HomeAppProps) {
         setBiasState(restored);
         setCollapsed(cullFor(restored)); // reseed for the restored bias, still no animation
       }
+      if (localStorage.getItem(LIFE_KEY) === "1") setShowLife(true);
+      if (localStorage.getItem(TRIVIA_KEY) === "1") setShowTrivia(true);
     } catch {
       // localStorage unavailable (private browsing, etc) — fall back to defaults
     }
   }, []);
+
+  // Both toggles persist immediately; life changes the set of entries, trivia only
+  // reveals text on already-visible cards.
+  const toggleLife = () => {
+    const next = !showLife;
+    setShowLife(next);
+    try {
+      localStorage.setItem(LIFE_KEY, next ? "1" : "0");
+    } catch {}
+  };
+  const toggleTrivia = () => {
+    const next = !showTrivia;
+    setShowTrivia(next);
+    try {
+      localStorage.setItem(TRIVIA_KEY, next ? "1" : "0");
+    } catch {}
+  };
 
   // Dial tutorial: a returning guest (seen flag set) skips straight to 'gone';
   // a new guest sees the hand rock, then rest after 5s (matching the swivel run).
@@ -176,11 +267,19 @@ export default function HomeApp({ throughline }: HomeAppProps) {
     }, 5000);
   }, []);
 
+  // One spark shortly after mount, so the grid greets a fresh visitor with a
+  // beat of life instead of a wall of dormant tiles.
+  useEffect(() => {
+    const t = setTimeout(primeOneSpark, 500);
+    return () => clearTimeout(t);
+  }, [primeOneSpark]);
+
   useEffect(() => {
     return () => {
       collapseTimers.current.forEach((timer) => clearTimeout(timer));
       collapseTimers.current.clear();
       if (cullDebounce.current) clearTimeout(cullDebounce.current);
+      clearTimeout(primeTimer.current);
       clearTimeout(tutRestTimer.current);
       clearTimeout(tutLeaveTimer.current);
       clearTimeout(tutGoneTimer.current);
@@ -226,7 +325,14 @@ export default function HomeApp({ throughline }: HomeAppProps) {
       localStorage.setItem(BIAS_KEY, String(v));
     } catch {}
     if (cullDebounce.current) clearTimeout(cullDebounce.current);
-    cullDebounce.current = setTimeout(() => scheduleCull(v), 180); // debounced — the actual reflow
+    cullDebounce.current = setTimeout(() => {
+      scheduleCull(v); // debounced — the actual reflow
+      // ~120ms after the reflow settles, kick one tile so the new arrangement
+      // doesn't sit dormant. Cleared/rescheduled on every drag so only the final
+      // settle primes.
+      clearTimeout(primeTimer.current);
+      primeTimer.current = setTimeout(primeOneSpark, 120);
+    }, 180);
   };
 
   const isGallery = mode === "gallery";
@@ -507,8 +613,26 @@ export default function HomeApp({ throughline }: HomeAppProps) {
                           {(() => {
                             const tesla = TESLA_BY_ID[it.id];
                             if (!tesla) return null;
+                            // When this tile is the one primed after a reset, swap in the
+                            // negative-delay animation and re-key the overlay so React
+                            // remounts it — restarting the CSS animation from its ignition
+                            // point. The nonce in the key means re-priming the same tile
+                            // (rotor wrap) fires a fresh spark. Everything else re-renders
+                            // (hover/dial) leave the key and style string untouched, so
+                            // they never disturb an in-flight spark.
+                            const nonce = primed[it.id];
+                            const isPrimed = nonce != null;
                             return (
-                              <div style={tesla.overlayStyle} data-tesla>
+                              <div
+                                key={isPrimed ? `tesla-${it.id}-${nonce}` : `tesla-${it.id}`}
+                                data-tesla
+                                data-electric={tesla.kind}
+                                style={
+                                  isPrimed
+                                    ? { ...tesla.overlayStyle, animation: tesla.primedAnimation }
+                                    : tesla.overlayStyle
+                                }
+                              >
                                 <svg
                                   width="100%"
                                   height="26"
@@ -562,6 +686,7 @@ export default function HomeApp({ throughline }: HomeAppProps) {
                             );
                           })()}
                           <div
+                            key="marker"
                             className="absolute top-1/2 z-[3] w-[3px] h-[11px] rounded-[1.5px] bg-ink -translate-y-1/2 -translate-x-1/2 shadow-[0_0_0_1px_rgba(255,255,255,0.85)]"
                             style={{ left: `${it.meter}%` }}
                           />
@@ -616,42 +741,77 @@ export default function HomeApp({ throughline }: HomeAppProps) {
               I ever left it. Drawing, then architecture, then animation, then the long detour
               into code that turned out not to be a detour at all. Follow the thread.
             </p>
+            {/* opt-in toggles, both default OFF: life events (filters the set) and
+                trivia (reveals facts on visible cards) */}
+            <div className="flex items-center gap-2 flex-wrap mt-[22px]">
+              <ToggleChip
+                label="life events"
+                active={showLife}
+                accent="#4f9d69"
+                onToggle={toggleLife}
+              />
+              <ToggleChip label="trivia" active={showTrivia} accent="#f0c94a" onToggle={toggleTrivia} />
+              <span className="font-mono text-[10.5px] text-[#a29b8c]">show more of the thread</span>
+            </div>
           </div>
 
           <div className="relative mt-[52px] pl-[2px]">
             <div className="absolute left-[calc(50%-1.5px)] top-0 bottom-0 w-[3px] bg-ink max-[680px]:left-1.75" />
-            {throughline.map((e, i) => {
-              const side = sideForIndex(i);
-              const color = ACCENT_COLORS[e.accent];
-              return (
-                <div
-                  key={i}
-                  className="relative grid grid-cols-2 mb-6.5 max-[680px]:block max-[680px]:pl-9.5 max-[680px]:mb-5"
-                >
+            {throughline
+              .filter((e) => showLife || !e.life)
+              .map((e, i) => {
+                // side from the VISIBLE index (post life-filter) so the zig-zag holds
+                // under any toggle combo; an authored `side` pins an entry. See handoff.
+                const side = e.side ?? sideForIndex(i);
+                const color = ACCENT_COLORS[e.accent];
+                const revealTrivia = showTrivia && !!e.trivia;
+                return (
                   <div
-                    className={
-                      side === "l"
-                        ? "col-start-1 text-right pr-[34px] max-[680px]:text-left max-[680px]:p-0"
-                        : "col-start-2 text-left pl-[34px] max-[680px]:p-0"
-                    }
+                    key={`${e.year}-${e.title}`}
+                    className="relative grid grid-cols-2 mb-6.5 max-[680px]:block max-[680px]:pl-9.5 max-[680px]:mb-5"
                   >
-                    <div className="bg-white border-2 border-ink rounded-xl px-[18px] py-[16px] shadow-[3px_4px_0_rgba(0,0,0,.12)]">
-                      <div className="font-mono text-[13px] font-bold" style={{ color }}>
-                        {e.year}
+                    <div
+                      className={
+                        side === "l"
+                          ? "col-start-1 text-right pr-[34px] max-[680px]:text-left max-[680px]:p-0"
+                          : "col-start-2 text-left pl-[34px] max-[680px]:p-0"
+                      }
+                    >
+                      <div className="bg-white border-2 border-ink rounded-xl px-[18px] py-[16px] shadow-[3px_4px_0_rgba(0,0,0,.12)]">
+                        <div className="font-mono text-[13px] font-bold" style={{ color }}>
+                          {e.year}
+                        </div>
+                        <div className="text-[18px] font-semibold leading-[1.15] my-[3px]">
+                          {e.title}
+                        </div>
+                        <div className="text-[13px] leading-[1.5] text-[#5c574e]">{e.body}</div>
+                        {/* trivia reveal — inherits the cell's text-align (hugs the spine),
+                            responsive-correct via the cell's max-[680px]:text-left */}
+                        {revealTrivia && (
+                          <div
+                            className="mt-[11px] pt-[10px] border-t border-dashed border-[#d8d2c4]"
+                            style={{ animation: "fadeup .3s ease both" }}
+                          >
+                            <span
+                              className="block font-mono text-[9px] tracking-[.08em] mb-[3px]"
+                              style={{ color }}
+                            >
+                              TRIVIA
+                            </span>
+                            <span className="font-hand text-[15px] leading-[1.35] text-[#6b6559]">
+                              {e.trivia}
+                            </span>
+                          </div>
+                        )}
                       </div>
-                      <div className="text-[18px] font-semibold leading-[1.15] my-[3px]">
-                        {e.title}
-                      </div>
-                      <div className="text-[13px] leading-[1.5] text-[#5c574e]">{e.body}</div>
                     </div>
+                    <div
+                      className="absolute left-[calc(50%-9px)] top-4 w-[18px] h-[18px] rounded-full border-[2.5px] border-ink max-[680px]:-left-px"
+                      style={{ background: color, boxShadow: "0 0 0 4px #f4f1ea" }}
+                    />
                   </div>
-                  <div
-                    className="absolute left-[calc(50%-9px)] top-4 w-[18px] h-[18px] rounded-full border-[2.5px] border-ink max-[680px]:-left-px"
-                    style={{ background: color, boxShadow: "0 0 0 4px #f4f1ea" }}
-                  />
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
 
           <div className="text-center mt-[14px]">

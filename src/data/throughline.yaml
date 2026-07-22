@@ -2,7 +2,7 @@
 #
 # Edit freely: add or remove entries anywhere in this file. You do NOT manage
 # order or layout — entries render chronologically by `year`, and the left/right
-# side of the spine auto-alternates. Just set the fields right.
+# side of the spine auto-alternates over the *visible* entries. Just set the fields.
 #
 # Fields per entry:
 #   id      unique slug (any short kebab-case string; not shown, just a required
@@ -12,6 +12,10 @@
 #   title   short headline
 #   accent  one of: art | code | neutral | converge   (see src/config/throughline.ts)
 #   body    one or two sentences; `>-` lets you wrap across lines without newlines
+#   trivia  OPTIONAL light behind-the-scenes fact; shown only when the "trivia" chip is on
+#   life    OPTIONAL `true` = a personal/life beat; hidden unless the "life events" chip is on
+#   side    OPTIONAL 'l'|'r' to pin a side; omit to auto-alternate (use rarely)
+#   order   OPTIONAL tiebreaker for entries sharing a year (lower first; default 0)
 
 - id: pascal-1999
   year: "1999"
@@ -20,6 +24,9 @@
   body: >-
     A rural, post-war mountain town in Vietnam. The first language I ever
     spoke to a machine.
+  trivia: >-
+    The whole class shared one computer for an hour a week. I learned loops
+    before I owned a pencil sharpener.
 
 - id: architecture-2005
   year: "2005–08"
@@ -28,13 +35,19 @@
   body: >-
     Gifted at drawing, I went looking for structure. Christopher Alexander
     over everything.
+  trivia: >-
+    I still reach for A Pattern Language when I'm naming software modules.
 
 - id: crossed-to-us-2008
   year: "2008"
   title: Crossed to the US
   accent: neutral
+  life: true
   body: >-
     Studied abroad. Stayed. It would take fifteen years to reach a green card.
+  trivia: >-
+    Fifteen years on student and work visas before the green card finally
+    cleared in 2023.
 
 - id: character-animation-2012
   year: "2012"
@@ -43,6 +56,9 @@
   body: >-
     AnimationMentor's 18-month program. Learned to make weight and silhouette
     believable.
+  trivia: >-
+    I can eyeball 24fps timing by ear — I count frames the way a drummer counts
+    beats.
 
 - id: cascina-2014
   year: "2014"
@@ -51,6 +67,9 @@
   body: >-
     19 figurative sculptures after Michelangelo. Too ambitious; abandoned.
     Now resuming.
+  trivia: >-
+    Michelangelo never finished the original either — the cartoon was lost.
+    Small comfort.
 
 - id: busts-2016
   year: "2016"
@@ -75,14 +94,31 @@
   body: >-
     I'd kept two Scheme books since 2010 without grasping them. Systems
     thinking finally clicked.
+  trivia: >-
+    Those Scheme books finally made sense on the third re-read — a decade after
+    I bought them.
 
 - id: rusty-hunter-2023
   year: "2023"
-  title: Rusty Hunter + green card
+  title: Rusty Hunter
   accent: code
   body: >-
-    Rewrote a studio's asset platform into Rust. And, at last, authorized to
-    work anywhere in the US.
+    Rewrote a studio's asset platform into Rust. Scaled to 100–150 artists
+    across 30+ productions.
+  trivia: >-
+    The Python original took ~40s to index a project; the Rust rewrite does it
+    in under a second.
+
+- id: green-card-2023
+  year: "2023"
+  title: Green card, at last
+  accent: neutral
+  life: true
+  order: 1
+  body: >-
+    Authorized to work anywhere in the US — fifteen years after I first arrived.
+  trivia: >-
+    The approval landed the same year Rusty Hunter shipped. A good year.
 
 - id: fossil-skater-2024
   year: "2024"
@@ -91,6 +127,9 @@
   body: >-
     Unreal Fellowship. Dinosaurs skate on car-shoes. Where the art and the
     code finally converge.
+  trivia: >-
+    Zero keyframes shipped — every stride is procedural. The dinosaurs
+    improvise their own footwork.
 
 - id: childlike-verse-2025
   year: "2025"
