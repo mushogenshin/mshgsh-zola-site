@@ -64,9 +64,16 @@ export default function TutorialHand({ bias, phase, gap }: TutorialHandProps) {
       >
         <img
           src="/hand-tutorial.png"
-          width={32}
           alt=""
-          style={{ display: "block", filter: "drop-shadow(0 1px 1px rgba(0,0,0,.22))" }}
+          style={{
+            display: "block",
+            // Explicit width + max-width:none defeats Tailwind Preflight's
+            // `img { max-width: 100%; height: auto }`, which otherwise resolves to
+            // 100% of the width:0 pivot wrapper and collapses the hand to 0x0.
+            width: 32,
+            maxWidth: "none",
+            filter: "drop-shadow(0 1px 1px rgba(0,0,0,.22))",
+          }}
         />
       </div>
     </div>
