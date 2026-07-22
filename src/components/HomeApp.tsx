@@ -71,7 +71,7 @@ export default function HomeApp() {
 
   return (
     <>
-      <header className="flex items-center justify-between gap-5 flex-wrap pt-[26px] pb-[22px]">
+      <header className="flex items-center justify-between gap-5 flex-wrap pt-[26px] pb-[22px] max-[600px]:justify-center max-[600px]:text-center">
         <div>
           <div className="font-hand font-bold text-[30px] leading-[.9] -rotate-2 inline-block">
             Hoan Nguyen
@@ -115,7 +115,7 @@ export default function HomeApp() {
       {isGallery ? (
         <div className="animate-fadeup" key="gallery">
           {/* split hero */}
-          <div className="relative grid grid-cols-2 min-h-[280px] border-[2.5px] border-ink rounded-2xl overflow-hidden shadow-[6px_7px_0_rgba(0,0,0,.14)]">
+          <div className="relative grid grid-cols-2 min-h-[280px] border-[2.5px] border-ink rounded-2xl overflow-hidden shadow-[6px_7px_0_rgba(0,0,0,.14)] max-[680px]:flex max-[680px]:flex-col max-[680px]:min-h-0 max-[680px]:shadow-[5px_6px_0_rgba(0,0,0,.14)]">
             <div
               className="p-[22px_24px] flex flex-col justify-between"
               style={{
@@ -150,7 +150,7 @@ export default function HomeApp() {
                 pipeline &amp; systems
               </div>
             </div>
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(62%,440px)] bg-white border-[2.5px] border-ink rounded-[13px] p-[22px_24px] text-center shadow-[4px_5px_0_rgba(0,0,0,.16)]">
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(62%,440px)] bg-white border-[2.5px] border-ink rounded-[13px] p-[22px_24px] text-center shadow-[4px_5px_0_rgba(0,0,0,.16)] max-[680px]:static max-[680px]:left-auto max-[680px]:top-auto max-[680px]:translate-x-0 max-[680px]:translate-y-0 max-[680px]:w-auto max-[680px]:rounded-none max-[680px]:border-0 max-[680px]:border-t-[2.5px] max-[680px]:shadow-none max-[680px]:p-[20px_22px]">
               <div className="text-[20px] font-semibold leading-[1.25]">
                 Operating greatly in the realm between{" "}
                 <span className="font-hand font-bold text-art text-[26px]">Art</span> &amp;{" "}
@@ -262,14 +262,17 @@ export default function HomeApp() {
           </div>
 
           <div className="relative mt-[52px] pl-[2px]">
-            <div className="absolute left-[calc(50%-1.5px)] top-0 bottom-0 w-[3px] bg-ink" />
+            <div className="absolute left-[calc(50%-1.5px)] top-0 bottom-0 w-[3px] bg-ink max-[680px]:left-1.75" />
             {EVENTS.map((e, i) => (
-              <div key={i} className="relative grid grid-cols-2 mb-[26px]">
+              <div
+                key={i}
+                className="relative grid grid-cols-2 mb-6.5 max-[680px]:block max-[680px]:pl-9.5 max-[680px]:mb-5"
+              >
                 <div
                   className={
                     e.side === "l"
-                      ? "col-start-1 text-right pr-[34px]"
-                      : "col-start-2 text-left pl-[34px]"
+                      ? "col-start-1 text-right pr-[34px] max-[680px]:text-left max-[680px]:p-0"
+                      : "col-start-2 text-left pl-[34px] max-[680px]:p-0"
                   }
                 >
                   <div className="bg-white border-2 border-ink rounded-xl px-[18px] py-[16px] shadow-[3px_4px_0_rgba(0,0,0,.12)]">
@@ -283,7 +286,7 @@ export default function HomeApp() {
                   </div>
                 </div>
                 <div
-                  className="absolute left-[calc(50%-9px)] top-4 w-[18px] h-[18px] rounded-full border-[2.5px] border-ink"
+                  className="absolute left-[calc(50%-9px)] top-4 w-[18px] h-[18px] rounded-full border-[2.5px] border-ink max-[680px]:-left-px"
                   style={{ background: e.color, boxShadow: "0 0 0 4px #f4f1ea" }}
                 />
               </div>
