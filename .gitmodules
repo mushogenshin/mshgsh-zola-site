@@ -1,9 +1,9 @@
 [submodule "themes/float"]
-	path = themes/float
+	path = legacy/themes/float
 	url = https://gitlab.com/float-theme/float.git
 [submodule "themes/anpu"]
-	path = themes/anpu
+	path = legacy/themes/anpu
 	url = https://github.com/zbrox/anpu-zola-theme
 [submodule "themes/anatole"]
-	path = themes/anatole
+	path = legacy/themes/anatole
 	url = git@github.com:mushogenshin/anatole-zola.git
