@@ -141,16 +141,14 @@ export default function HomeApp() {
       ITEMS.map((it) => {
         const match = domain === "all" || it.domain === domain;
         const dist = Math.abs(it.meter - bias);
+        // Distance from the dial is conveyed by opacity only. Visible tiles stay
+        // at a uniform 1:1 (no emphasis or hover scale bump) so every read-only
+        // art<->code tick renders at an identical size across the grid — scaling
+        // the whole tile stretched the marker. Cull/enter scale-down still lives
+        // in the JSX below, but those frames are invisible so the tick isn't seen.
         let op = 1 - (dist / 100) * SPECTRUM_CONFIG.fadeStrength;
-        let scale = 1 + (1 - dist / 100) * 0.02;
-        if (!match) {
-          op = 0.1;
-          scale = 0.97;
-        }
-        if (hover === it.id) {
-          op = 1;
-          scale = scale + 0.01;
-        }
+        if (!match) op = 0.1;
+        if (hover === it.id) op = 1;
 
         let phase: Phase;
         if (collapsed.has(it.id)) phase = "collapsed";
@@ -158,7 +156,7 @@ export default function HomeApp() {
         else if (entering.has(it.id)) phase = "entering";
         else phase = "normal";
 
-        return { ...it, op, scale, phase };
+        return { ...it, op, phase };
       }),
     [domain, bias, hover, collapsed, entering, culledSetLive],
   );
@@ -296,17 +294,18 @@ export default function HomeApp() {
               const fadeScale = it.phase === "culled" ? 0.9 : 0.96;
               return (
                 <a key={it.id} href={it.href} data-id={it.id} className="block text-inherit">
-                  {/* Visual state (fade + emphasis scale) lives on this inner card, NOT on the
-                      <a> grid child above: auto-animate measures the <a>'s box (transforms
-                      included) to detect reflow, so a live-changing scale() on it reads as a
-                      resize and gets animated — the settle-time shrink/expand kink. Keeping the
-                      <a> transform-free leaves its measured size constant, so auto-animate only
-                      ever animates true positional movement. */}
+                  {/* Fade + cull/enter scale live on this inner card, NOT on the <a> grid child
+                      above: auto-animate measures the <a>'s box (transforms included) to detect
+                      reflow, so a transform on it can read as a resize and get animated — the
+                      settle-time shrink/expand kink. Keeping the <a> transform-free leaves its
+                      measured size constant, so auto-animate only ever animates true positional
+                      movement. Visible tiles render at scale 1 (emphasis is opacity-only); only
+                      culled/entering tiles scale down, and they're invisible while they do. */}
                   <div
                     className="bg-white border-2 border-ink rounded-xl overflow-hidden shadow-[3px_4px_0_rgba(0,0,0,.13)]"
                     style={{
                       opacity: isFading ? 0 : it.op,
-                      transform: `scale(${isFading ? fadeScale : it.scale})`,
+                      transform: `scale(${isFading ? fadeScale : 1})`,
                       transition: TILE_TRANSITION,
                       pointerEvents: isFading ? "none" : undefined,
                     }}
@@ -339,7 +338,7 @@ export default function HomeApp() {
                           }}
                         >
                           <div
-                            className="absolute top-1/2 w-[11px] h-[11px] rounded-full bg-white border-2 border-ink -translate-y-1/2 -translate-x-1/2"
+                            className="absolute top-1/2 w-[3px] h-[11px] rounded-[1.5px] bg-ink -translate-y-1/2 -translate-x-1/2 shadow-[0_0_0_1px_rgba(255,255,255,0.85)]"
                             style={{ left: `${it.meter}%` }}
                           />
                         </div>
