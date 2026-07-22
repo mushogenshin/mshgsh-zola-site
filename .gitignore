@@ -10,3 +10,6 @@ dist/
 .env
 .env.local
 
+# Cloudflare API token for wrangler (secret) — never committed
+.wrangler.env
+
