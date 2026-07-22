@@ -36,6 +36,10 @@ export interface ThroughlineEvent {
   life?: boolean;
   /** Marks a side/hobby art project; hidden unless the "hobby projects" chip is on. */
   hobby?: boolean;
+  /** Marks an education/training milestone. Unlike life/hobby the "school" chip
+   *  defaults ON, so these show by default; the chip toggles them OFF. Content-only
+   *  (does not affect the spine's shape). */
+  school?: boolean;
   /** Pin this entry to a side of the spine; omit to auto-alternate (see sideForIndex). Use sparingly. */
   side?: "l" | "r";
   /** Tiebreaker for entries sharing a year (e.g. the two 2023 entries); lower sorts first. Default 0. */

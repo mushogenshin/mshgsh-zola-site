@@ -11,6 +11,7 @@ import BiasPill from "./BiasPill";
 const SEEN_DIAL_KEY = "mshgsh_seen_dial";
 const LIFE_KEY = "mshgsh_life";
 const HOBBY_KEY = "mshgsh_hobby";
+const SCHOOL_KEY = "mshgsh_school";
 const TRIVIA_KEY = "mshgsh_trivia";
 
 /** True when the user prefers reduced motion — FLIP/fades are skipped and toggles snap. */
@@ -142,6 +143,8 @@ export default function HomeApp({ throughline }: HomeAppProps) {
   // `trivia` reveals facts on already-visible cards. All persist to localStorage.
   const [showLife, setShowLife] = useState(false);
   const [showHobby, setShowHobby] = useState(false);
+  // school defaults ON (education entries show by default; the chip toggles them OFF).
+  const [showSchool, setShowSchool] = useState(true);
   const [showTrivia, setShowTrivia] = useState(false);
   // Rows mid-exit: kept mounted at opacity 0 (height retained) through their fade,
   // then unmounted at commit so surviving rows FLIP up into the gap. See animateFilter.
@@ -289,6 +292,8 @@ export default function HomeApp({ throughline }: HomeAppProps) {
       }
       if (localStorage.getItem(LIFE_KEY) === "1") setShowLife(true);
       if (localStorage.getItem(HOBBY_KEY) === "1") setShowHobby(true);
+      // school defaults ON — only an explicit "0" turns it off (absent = on).
+      if (localStorage.getItem(SCHOOL_KEY) === "0") setShowSchool(false);
       if (localStorage.getItem(TRIVIA_KEY) === "1") setShowTrivia(true);
     } catch {
       // localStorage unavailable (private browsing, etc) — fall back to defaults
@@ -297,8 +302,8 @@ export default function HomeApp({ throughline }: HomeAppProps) {
 
   // Which throughline entries are visible under the current filter toggles.
   const isVisibleEvent = useCallback(
-    (e: ThroughlineEvent, life: boolean, hobby: boolean) =>
-      (life || !e.life) && (hobby || !e.hobby),
+    (e: ThroughlineEvent, life: boolean, hobby: boolean, school: boolean) =>
+      (life || !e.life) && (hobby || !e.hobby) && (school || !e.school),
     [],
   );
 
@@ -319,19 +324,25 @@ export default function HomeApp({ throughline }: HomeAppProps) {
   // (height retained) for 300ms, THEN commit the toggle + FLIP survivors up. Parity
   // (left/right) is NOT recomputed during the fade — see the render's rowList.
   const animateFilter = useCallback(
-    (key: "life" | "hobby", lsKey: string, current: boolean, apply: (v: boolean) => void) => {
+    (
+      key: "life" | "hobby" | "school",
+      lsKey: string,
+      current: boolean,
+      apply: (v: boolean) => void,
+    ) => {
       if (rowBusy.current) return;
       const nextVal = !current;
       try {
         localStorage.setItem(lsKey, nextVal ? "1" : "0");
       } catch {}
 
-      const visIds = (life: boolean, hobby: boolean) =>
-        throughline.filter((e) => isVisibleEvent(e, life, hobby)).map((e) => e.id);
-      const before = new Set(visIds(showLife, showHobby));
+      const visIds = (life: boolean, hobby: boolean, school: boolean) =>
+        throughline.filter((e) => isVisibleEvent(e, life, hobby, school)).map((e) => e.id);
+      const before = new Set(visIds(showLife, showHobby, showSchool));
       const after = visIds(
         key === "life" ? nextVal : showLife,
         key === "hobby" ? nextVal : showHobby,
+        key === "school" ? nextVal : showSchool,
       );
       const leaving = [...before].filter((id) => !after.includes(id));
 
@@ -361,11 +372,12 @@ export default function HomeApp({ throughline }: HomeAppProps) {
         commit();
       }
     },
-    [throughline, showLife, showHobby, isVisibleEvent, armRowFlip],
+    [throughline, showLife, showHobby, showSchool, isVisibleEvent, armRowFlip],
   );
 
   const toggleLife = () => animateFilter("life", LIFE_KEY, showLife, setShowLife);
   const toggleHobby = () => animateFilter("hobby", HOBBY_KEY, showHobby, setShowHobby);
+  const toggleSchool = () => animateFilter("school", SCHOOL_KEY, showSchool, setShowSchool);
 
   // trivia only changes card heights (not the set), so no FLIP — but toggling from the
   // docked (bottom) chip shifts everything above the viewport, which reads as a jump.
@@ -578,7 +590,7 @@ export default function HomeApp({ throughline }: HomeAppProps) {
     const animate = spineMorphNext.current;
     spineMorphNext.current = false;
     updateSpine(animate);
-  }, [mode, showLife, showHobby, showTrivia, rowLeaving, updateSpine]);
+  }, [mode, showLife, showHobby, showSchool, showTrivia, rowLeaving, updateSpine]);
 
   // Resize + a safety redraw after fonts/layout settle (spine depends on measured px).
   useEffect(() => {
@@ -763,15 +775,17 @@ export default function HomeApp({ throughline }: HomeAppProps) {
   const throughRows = useMemo(
     () =>
       throughline.filter(
-        (e) => isVisibleEvent(e, showLife, showHobby) || rowLeaving.includes(e.id),
+        (e) => isVisibleEvent(e, showLife, showHobby, showSchool) || rowLeaving.includes(e.id),
       ),
-    [throughline, showLife, showHobby, rowLeaving, isVisibleEvent],
+    [throughline, showLife, showHobby, showSchool, rowLeaving, isVisibleEvent],
   );
 
-  // The three filter chips, reused in the inline row and both floating/docked pills.
+  // The filter chips, reused in the inline row and both floating/docked pills. Order:
+  // life · school · hobby · trivia (school defaults ON, so it starts active).
   const filterChips = () => (
     <>
       <ToggleChip label="life events" active={showLife} accent="#4f9d69" onToggle={toggleLife} />
+      <ToggleChip label="school" active={showSchool} accent="#7d5bd6" onToggle={toggleSchool} />
       <ToggleChip
         label="hobby projects"
         active={showHobby}

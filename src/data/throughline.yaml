@@ -15,6 +15,8 @@
 #   trivia  OPTIONAL light behind-the-scenes fact; shown only when the "trivia" chip is on
 #   life    OPTIONAL `true` = a personal/life beat; hidden unless the "life events" chip is on
 #   hobby   OPTIONAL `true` = a side/hobby art project; hidden unless the "hobby projects" chip is on
+#   school  OPTIONAL `true` = an education/training milestone; the "school" chip defaults ON
+#           (so these show by default; the chip toggles them OFF)
 #   side    OPTIONAL 'l'|'r' to pin a side; omit to auto-alternate (use rarely)
 #   order   OPTIONAL tiebreaker for entries sharing a year (lower first; default 0)
 
@@ -33,6 +35,7 @@
   year: "2005–08"
   title: Architecture school, HCMC
   accent: art
+  school: true
   body: >-
     Gifted at drawing, I went looking for structure. Christopher Alexander
     over everything.
@@ -54,6 +57,7 @@
   year: "2012"
   title: Character animation
   accent: art
+  school: true
   body: >-
     AnimationMentor's 18-month program. Learned to make weight and silhouette
     believable.

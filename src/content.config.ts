@@ -24,6 +24,7 @@ const throughline = defineCollection({
     trivia: z.string().optional(),
     life: z.boolean().optional(),
     hobby: z.boolean().optional(),
+    school: z.boolean().optional(),
     side: z.enum(["l", "r"]).optional(),
     order: z.number().optional(),
   }),
