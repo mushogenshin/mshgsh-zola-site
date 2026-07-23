@@ -19,6 +19,12 @@
 #           (so these show by default; the chip toggles them OFF)
 #   side    OPTIONAL 'l'|'r' to pin a side; omit to auto-alternate (use rarely)
 #   order   OPTIONAL tiebreaker for entries sharing a year (lower first; default 0)
+#   detail  OPTIONAL Thread Detail page (/thread/{slug}); absent → no page. Fields:
+#           slug (stable share URL) · standfirst · marginalia · strands [non-work chips]
+#           · narrative [paras] · crossSection [{strand, chips:[{label, thread?|work?}]}]
+#           · produced [gallery-ids] · hindsight {from, text}. A chip with only `label`
+#           is a plain fact; +thread links to another moment; +work opens the in-place
+#           work panel. See handoff/thread-detail.md.
 
 - id: pascal-1999
   year: "1999"
@@ -115,6 +121,42 @@
   trivia: >-
     The Python original took ~40s to index a project; the Rust rewrite does it
     in under a second.
+  detail:
+    slug: 2023-rusty-hunter
+    standfirst: >-
+      The Rust rewrite nobody asked for — a studio’s asset platform, rebuilt so the
+      compiler caught at build time what production kept catching at runtime.
+    marginalia: "nobody asked for this one."
+    strands: [life]
+    narrative:
+      - >-
+        The studio’s asset-management app was structurally stuck — a mayapy backend
+        frozen on Python 2, a Python 3 frontend, a decade of accretion across
+        ten-plus TDs, duck-typed errors surfacing in front of artists on deadline. I
+        led a rewrite in Rust: the compiler catching at build time what production
+        kept catching at runtime, immediate-mode UI so stale state stopped existing
+        by construction.
+      - >-
+        It scaled to 100–150 artists across thirty-plus productions. A headless
+        WebSocket service became the shared source of truth for delivery lists —
+        settling the write conflicts and, just as usefully, the arguments about what
+        had actually shipped.
+    crossSection:
+      - strand: work
+        chips:
+          - label: "led the Rust rewrite at Virtuos"
+          - label: "adopted on The Quarry, Quantumania, Obi-Wan"
+      - strand: life
+        chips:
+          - label: "green card cleared this year →"
+            thread: "2023-green-card"
+    produced: [rusty]
+    hindsight:
+      from: "2026"
+      text: >-
+        I keep calling it the rewrite nobody asked for, but that’s the point: the
+        friction nobody filed a ticket about is exactly the work worth doing. Two
+        years on, it’s still healthy.
 
 - id: green-card-2023
   year: "2023"
@@ -126,6 +168,37 @@
     Authorized to work anywhere in the US — fifteen years after I first arrived.
   trivia: >-
     The approval landed the same year Rusty Hunter shipped. A good year.
+  detail:
+    slug: 2023-green-card
+    standfirst: >-
+      Fifteen years after I first landed on a student visa, the green card finally
+      cleared — the same year Rusty Hunter shipped.
+    marginalia: "fifteen years to belong."
+    strands: [life]
+    narrative:
+      - >-
+        The approval arrived fifteen years after I first crossed over on a student
+        visa — a decade and a half of student and work permits, of building a career
+        on renewable permission. In 2023 it finally became permanent.
+      - >-
+        It landed the same year Rusty Hunter shipped across thirty-plus productions.
+        Stability and the best work of my career, in the same twelve months.
+    crossSection:
+      - strand: work
+        chips:
+          - label: "Rusty Hunter — the Rust rewrite →"
+            thread: "2023-rusty-hunter"
+          - label: "Senior TA at Virtuos"
+      - strand: life
+        chips:
+          - label: "green card approved — authorized to work anywhere"
+    produced: [rusty]
+    hindsight:
+      from: "2026"
+      text: >-
+        The paperwork and the breakthrough arrived together, and I almost missed the
+        first because the second was louder. Permission to stay turned out to be
+        permission to bet on myself.
 
 - id: fossil-skater-2024
   year: "2024"
@@ -137,6 +210,50 @@
   trivia: >-
     Zero keyframes shipped — every stride is procedural. The dinosaurs
     improvise their own footwork.
+  detail:
+    slug: 2024-fossil-skater-ships
+    standfirst: >-
+      The year everything ran at once — a fellowship, a solo game, a showreel, a
+      resignation. Where the art and the code finally converge.
+    marginalia: "four strands, one knot."
+    strands: [school, hobby, life]
+    narrative:
+      - >-
+        Epic’s Unreal Fellowship gave me three weeks and an excuse. Out came
+        <em>Fossil Skater</em> — dinosaurs racing on vehicles worn as skates, one
+        per leg, every stride procedural, zero authored keyframes. Twelve years of
+        rigging went into creatures that improvise their own footwork; I showed it at
+        Unreal Fest Seattle that fall.
+      - >-
+        The same year I cut a decade of deformation work into a showreel, pushed my
+        first crates to crates.io, and — in October — left Virtuos to run
+        Mushogenshin Media full-time. Every strand of the thread pulled tight at once.
+    crossSection:
+      - strand: work
+        chips:
+          - label: "Senior TA at Virtuos — thru Oct"
+          - label: "Rusty Hunter on 30+ productions →"
+            thread: "2023-rusty-hunter"
+      - strand: school
+        chips:
+          - label: "Unreal Fellowship 2024: Games"
+      - strand: hobby
+        chips:
+          - label: "Fossil Skater — 3 weeks, solo →"
+            work: "fossil"
+          - label: "first crates on crates.io →"
+            work: "crates"
+      - strand: life
+        chips:
+          - label: "left Virtuos in Oct — independent, full-time"
+    produced: [fossil, reel, crates]
+    hindsight:
+      from: "2026"
+      text: >-
+        I’d spent ten years treating art and code as two careers politely sharing one
+        body. Fossil Skater is the only work that lands dead-center on my own
+        spectrum — and it took three weeks, not ten years. The lesson wasn’t speed.
+        It was that the seam is the job.
 
 - id: childlike-verse-2025
   year: "2025"
@@ -145,3 +262,35 @@
   body: >-
     A talk on the Verse language from a non-programmer's lens. The thread
     keeps going.
+  detail:
+    slug: 2025-childlike-verse
+    standfirst: >-
+      A conference talk explaining Epic’s Verse language from a non-programmer’s lens
+      — pitched to the room I came from.
+    marginalia: "verse, for people who sculpt."
+    strands: [hobby]
+    narrative:
+      - >-
+        At Unreal Fest Bali 2025 I explained Verse — Epic’s programming language —
+        from the perspective of someone who came to code through sculpture and
+        animation, not computer science. The structured-concurrency work in
+        KineticRPG was the practice behind the theory.
+      - >-
+        The thread that started with first words in Pascal in a post-war mountain
+        town keeps going: now I’m the one handing the language back to the room I
+        came from.
+    crossSection:
+      - strand: hobby
+        chips:
+          - label: "KineticRPG — UE 5.8 plugin on GAS →"
+            work: "kinetic"
+      - strand: work
+        chips:
+          - label: "Mushogenshin Media — independent, full-time"
+    produced: [verse, kinetic]
+    hindsight:
+      from: "2026"
+      text: >-
+        Standing in front of that room, I realized the whole career had been one long
+        attempt to translate between the two languages I speak. The talk was just the
+        first time I said it out loud.

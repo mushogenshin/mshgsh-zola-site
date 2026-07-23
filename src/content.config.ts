@@ -1,6 +1,7 @@
 import { defineCollection, z } from "astro:content";
 import { file } from "astro/loaders";
 import { BANNER_FX_VALUES, DOMAIN_VALUES } from "./config/gallery";
+import { STRAND_VALUES } from "./config/throughline";
 
 /**
  * Throughline timeline, loaded from a single hand-editable YAML file
@@ -28,6 +29,33 @@ const throughline = defineCollection({
     school: z.boolean().optional(),
     side: z.enum(["l", "r"]).optional(),
     order: z.number().optional(),
+    // Optional Thread Detail page payload (`/thread/{slug}`); see ThreadDetail in
+    // src/config/throughline.ts. `narrative`/`hindsight.text` are trusted authored HTML.
+    detail: z
+      .object({
+        slug: z.string(),
+        standfirst: z.string(),
+        marginalia: z.string().optional(),
+        strands: z.array(z.enum(STRAND_VALUES)).optional(),
+        narrative: z.array(z.string()).optional(),
+        crossSection: z
+          .array(
+            z.object({
+              strand: z.enum(STRAND_VALUES),
+              chips: z.array(
+                z.object({
+                  label: z.string(),
+                  thread: z.string().optional(),
+                  work: z.string().optional(),
+                }),
+              ),
+            }),
+          )
+          .optional(),
+        produced: z.array(z.string()).optional(),
+        hindsight: z.object({ from: z.string(), text: z.string() }).optional(),
+      })
+      .optional(),
   }),
 });
 

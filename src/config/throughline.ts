@@ -21,6 +21,70 @@ export const ACCENT_COLORS = {
 
 export type Accent = keyof typeof ACCENT_COLORS;
 
+/**
+ * The four "strands" a Thread Detail page (`/thread/{slug}`) runs in parallel — the
+ * same taxonomy as Home's Throughline filter chips, kept here as the single source
+ * of truth for both. Order = the cross-section lane order on the detail page.
+ *   work   — the day job / studio work (implied on every moment; not shown as a masthead chip)
+ *   school — education / training
+ *   hobby  — side / personal projects
+ *   life   — personal / life beats
+ */
+export const STRAND_VALUES = ["work", "school", "hobby", "life"] as const;
+export type Strand = (typeof STRAND_VALUES)[number];
+
+/** Strand → lane/chip color (= Home's filter-chip colors). */
+export const STRAND_COLORS: Record<Strand, string> = {
+  work: "#1a1815",
+  school: "#7d5bd6",
+  hobby: "#2f8fd4",
+  life: "#4f9d69",
+};
+
+/**
+ * A single cross-section chip on a Thread Detail page. The linking mode IS the
+ * storytelling mechanism — a chip is exactly one of:
+ *   - plain: {@link label} only — a fact, no link (tinted pill).
+ *   - thread link: {@link label} + {@link thread} — jump to another moment, with a
+ *     label authored *per telling* (never derived from the target title, so the same
+ *     moment can be referenced differently from different years).
+ *   - work panel: {@link label} + {@link work} — opens the in-place work panel
+ *     (a gallery id), so the thread view stays put.
+ */
+export interface ThreadChip {
+  label: string;
+  /** Slug of another thread moment ({@link ThreadDetail.slug}). */
+  thread?: string;
+  /** Gallery id whose condensed detail opens in the slide-over panel. */
+  work?: string;
+}
+
+/**
+ * The optional Thread Detail payload for a Throughline entry. An entry WITHOUT this
+ * simply has no `/thread/{slug}` page — author them incrementally. See
+ * handoff/thread-detail.md. `narrative`/`hindsight.text` are TRUSTED authored HTML
+ * (committed copy, rendered via set:html), same rule as {@link WorkItem.body}.
+ */
+export interface ThreadDetail {
+  /** Stable, shareable URL slug, e.g. "2024-fossil-skater-ships". The share target
+   *  and the key that `thread`-typed chips + prev/next reference — keep it stable. */
+  slug: string;
+  /** One-line deck under the H1. */
+  standfirst: string;
+  /** Short Gaegu aside, masthead top-right (rotate −1.5°). */
+  marginalia?: string;
+  /** Non-work strands to show as masthead chips (work is always implied). */
+  strands?: Strand[];
+  /** 1–3 narrative paragraphs (trusted HTML). */
+  narrative?: string[];
+  /** The cross-section: one lane per strand, each a list of typed chips. */
+  crossSection?: { strand: Strand; chips: ThreadChip[] }[];
+  /** Gallery ids produced in this period → cards that open the work panel. */
+  produced?: string[];
+  /** Retrospective note — "HINDSIGHT · WRITTEN FROM {from}". */
+  hindsight?: { from: string; text: string };
+}
+
 /** One Throughline timeline entry, as consumed by the UI (post content-collection load). */
 export interface ThroughlineEvent {
   /** Stable id (the YAML entry `id`); used as the React key and the FLIP row key. */
@@ -44,6 +108,8 @@ export interface ThroughlineEvent {
   side?: "l" | "r";
   /** Tiebreaker for entries sharing a year (e.g. the two 2023 entries); lower sorts first. Default 0. */
   order?: number;
+  /** Optional per-moment detail page payload (`/thread/{slug}`); absent → no page. */
+  detail?: ThreadDetail;
 }
 
 /**
