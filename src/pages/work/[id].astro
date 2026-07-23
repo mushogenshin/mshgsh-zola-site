@@ -7,12 +7,13 @@
  * faithfully from the approved full-page mock ("Work Detail.dc.html", Cascina) — see
  * handoff/work-detail.md. Fully static: the only motion is the ElectricVein on the
  * big meter (extreme works only), which is CSS/SMIL, so no client JS island is
- * needed. A tiny progressive-enhancement <script> makes "← gallery" restore grid
- * state via history.back() when we arrived from within the site.
+ * needed. "← gallery" is a deterministic link to /#gallery — Home in Gallery mode
+ * (NOT history.back(), which could land on a previous work page in a prev/next chain).
  *
  * Related / prev / next carry NO authored data — they're derived here from the
- * gallery collection sorted by `meter`: prev/next follow sort order, and the two
- * meter-nearest works become the "nearby on the spectrum" cards.
+ * gallery collection sorted by `meter`: prev/next follow sort order; each "nearby on
+ * the spectrum" card is the nearest work in one spectrum direction that isn't already
+ * the prev/next rail (collision-avoided), or omitted if that direction is exhausted.
  */
 import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
@@ -31,15 +32,29 @@ export async function getStaticPaths() {
   return gallery.map((work, i) => {
     const prev = i > 0 ? gallery[i - 1] : null;
     const next = i < gallery.length - 1 ? gallery[i + 1] : null;
-    // The two works closest on the spectrum (by |Δmeter|), then shown art→code.
-    const nearby = gallery
-      .filter((w) => w.id !== work.id)
-      .sort(
-        (a, b) =>
-          Math.abs(a.meter - work.meter) - Math.abs(b.meter - work.meter) || a.meter - b.meter,
-      )
-      .slice(0, 2)
-      .sort((a, b) => a.meter - b.meter);
+    // "Nearby on the spectrum": one suggestion per spectrum direction — the nearest
+    // work that ISN'T already the prev/next rail (or self). Because prev/next ARE the
+    // immediate meter-neighbors, the naive "two closest by |Δmeter|" just duplicates
+    // them; here we step outward from the work (art-ward and code-ward) and take the
+    // first non-colliding work in each direction, omitting the card if that direction
+    // is exhausted. Prev/next stay authoritative; nearby only ever adds something new.
+    const shown = new Set([work.id, prev?.id, next?.id].filter(Boolean) as string[]);
+    let artward: WorkItem | null = null;
+    for (let j = i - 1; j >= 0; j--) {
+      if (!shown.has(gallery[j].id)) {
+        artward = gallery[j];
+        break;
+      }
+    }
+    let codeward: WorkItem | null = null;
+    for (let j = i + 1; j < gallery.length; j++) {
+      if (!shown.has(gallery[j].id)) {
+        codeward = gallery[j];
+        break;
+      }
+    }
+    // Already in art→code order (artward is the lower-meter side).
+    const nearby = [artward, codeward].filter(Boolean) as WorkItem[];
     return { params: { id: work.id }, props: { work, prev, next, nearby } };
   });
 }
@@ -103,8 +118,7 @@ const nodeLeft = (i: number, n: number): number => (n <= 1 ? 44 : 6 + (76 * i) /
                 Hoan Nguyen
               </div>
               <a
-                href="/"
-                data-back
+                href="/#gallery"
                 style={`${MONO};font-size:11.5px;color:#1a1815;border:2px solid #1a1815;border-radius:20px;padding:4px 12px;background:#fff;box-shadow:2px 2px 0 rgba(0,0,0,.12)`}
               >
                 ← gallery
@@ -294,7 +308,7 @@ const nodeLeft = (i: number, n: number): number => (n <= 1 ? 44 : 6 + (76 * i) /
           {/* 7 — related (nearest neighbors on the spectrum) */}
           {
             nearby.length > 0 && (
-              <div class="wd-related">
+              <div class={`wd-related${nearby.length === 1 ? " solo" : ""}`}>
                 {nearby.map((n) => (
                   <a
                     href={`/work/${n.id}`}
@@ -359,6 +373,11 @@ const nodeLeft = (i: number, n: number): number => (n <= 1 ? 44 : 6 + (76 * i) /
     gap: 14px;
     margin-top: 30px;
   }
+  /* One-sided extremes yield a single nearby card — let it fill the row rather
+     than sit lopsided in a two-column grid. */
+  .wd-related.solo {
+    grid-template-columns: 1fr;
+  }
   @media (max-width: 760px) {
     .wd-hero,
     .wd-writeup,
@@ -371,19 +390,3 @@ const nodeLeft = (i: number, n: number): number => (n <= 1 ? 44 : 6 + (76 * i) /
     }
   }
 </style>
-
-<script>
-  // "← gallery" restores the grid with bias + filters + scroll intact. Bias/filters
-  // persist in localStorage and the browser restores scroll via bfcache, so when we
-  // arrived from within the site we prefer history.back(); otherwise the real href
-  // ("/") applies — so it still works with JS off, on direct load, or in a new tab.
-  document.querySelectorAll("a[data-back]").forEach((el) => {
-    el.addEventListener("click", (e) => {
-      const ref = document.referrer;
-      if (history.length > 1 && ref && new URL(ref).origin === location.origin) {
-        e.preventDefault();
-        history.back();
-      }
-    });
-  });
-</script>

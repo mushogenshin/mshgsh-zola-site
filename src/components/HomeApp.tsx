@@ -336,11 +336,13 @@ export default function HomeApp({ throughline, gallery }: HomeAppProps) {
     } catch {
       // localStorage unavailable (private browsing, etc) — fall back to defaults
     }
-    // Deep-link: a Work Detail page's "trace the throughline →" points at
-    // /#throughline. Honor it here, overriding the persisted mode, so the link
-    // lands directly in Throughline mode. (setModeState, not setMode: a deep-link
-    // shouldn't rewrite the user's persisted preference — same as the restore above.)
-    if (window.location.hash === "#throughline") setModeState("through");
+    // Deep-links from Work Detail pages override the persisted mode: "← gallery"
+    // (/#gallery) lands in Gallery mode, "trace the throughline →" (/#throughline)
+    // in Throughline mode. setModeState (not setMode) so a deep-link doesn't rewrite
+    // the user's persisted preference — same as the restore above.
+    const deepLinkHash = window.location.hash;
+    if (deepLinkHash === "#throughline") setModeState("through");
+    else if (deepLinkHash === "#gallery") setModeState("gallery");
   }, []);
 
   // Which throughline entries are visible under the current filter toggles.
