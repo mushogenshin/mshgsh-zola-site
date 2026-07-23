@@ -1,7 +1,14 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { DOMAINS, type WorkItem } from "../config/gallery";
+import {
+  BANNER_FX_DEFAULT,
+  BANNER_FX_VALUES,
+  DOMAINS,
+  type BannerFx,
+  type WorkItem,
+} from "../config/gallery";
 import { r2 } from "../config/r2";
+import BannerOverlay from "./BannerOverlay";
 import { ACCENT_COLORS, sideForIndex, type ThroughlineEvent } from "../config/throughline";
 import { REFLOW_ANIMATION, SPECTRUM_CONFIG, TILE_TRANSITION } from "../config/spectrum";
 import { teslaForTile } from "../config/tesla";
@@ -161,6 +168,13 @@ export default function HomeApp({ throughline, gallery }: HomeAppProps) {
   const [bias, setBiasState] = useState(50);
   const [domain, setDomain] = useState<string>("all");
   const [hover, setHover] = useState<string | null>(null);
+  // Hero banner cover swap: the hovered tile's glimpse image + its reveal effect,
+  // kept sticky so the exit fade still shows the image (see BannerOverlay). `on`
+  // is derived from the live hover below.
+  const [bannerSrcFx, setBannerSrcFx] = useState<{ src: string; fx: BannerFx }>({
+    src: "",
+    fx: BANNER_FX_DEFAULT,
+  });
 
   // Throughline opt-in filters, all default OFF (first paint = clean professional
   // work-thread, no trivia). `life`/`hobby` filter entries in/out of the set;
@@ -728,6 +742,29 @@ export default function HomeApp({ throughline, gallery }: HomeAppProps) {
   const isGallery = mode === "gallery";
   const showTutorial = isGallery && tutorialPhase !== "gone";
 
+  // Assign each tile a banner reveal effect: its `bannerFx` override, else a random
+  // one. Recomputed per page load (fresh Math.random each mount); only read on hover
+  // (client), so the differing SSR value is never rendered → no hydration mismatch.
+  const bannerFxById = useMemo(
+    () =>
+      Object.fromEntries(
+        gallery.map((g) => [
+          g.id,
+          g.bannerFx ?? BANNER_FX_VALUES[Math.floor(Math.random() * BANNER_FX_VALUES.length)],
+        ]),
+      ) as Record<string, BannerFx>,
+    [gallery],
+  );
+  const hoveredItem = useMemo(() => gallery.find((g) => g.id === hover) ?? null, [gallery, hover]);
+  const bannerOn = isGallery && !!hoveredItem?.bannerImagePreview;
+  // Update the sticky banner src+fx only when hovering a tile that HAS a preview, so
+  // leaving a tile keeps the last image on screen while `on` fades it out.
+  useEffect(() => {
+    if (hoveredItem?.bannerImagePreview) {
+      setBannerSrcFx({ src: r2(hoveredItem.bannerImagePreview), fx: bannerFxById[hoveredItem.id] });
+    }
+  }, [hoveredItem, bannerFxById]);
+
   // Two IntersectionObservers drive the pill's three states (cleaner than the
   // mockup's scroll math): one on the inline control (scrolled past?), one on the
   // dock-zone spacer (in view?). Keyed on isGallery since both elements only exist
@@ -913,10 +950,13 @@ export default function HomeApp({ throughline, gallery }: HomeAppProps) {
 
       {isGallery ? (
         <div className="animate-fadeup" key="gallery">
-          {/* split hero */}
+          {/* split hero (position:relative + overflow:hidden already) — hosts the
+              banner cover swap as its first child; columns get position:relative and
+              the tagline card z-[2] so it stays above the overlay (z-1). */}
           <div className="relative grid grid-cols-2 min-h-[280px] border-[2.5px] border-ink rounded-2xl overflow-hidden shadow-[6px_7px_0_rgba(0,0,0,.14)] max-[680px]:flex max-[680px]:flex-col max-[680px]:min-h-0 max-[680px]:shadow-[5px_6px_0_rgba(0,0,0,.14)]">
+            <BannerOverlay src={bannerSrcFx.src} on={bannerOn} fx={bannerSrcFx.fx} />
             <div
-              className="p-[22px_24px] flex flex-col justify-between"
+              className="relative p-[22px_24px] flex flex-col justify-between"
               style={{
                 background:
                   "repeating-linear-gradient(48deg,#f5dccb,#f5dccb 11px,#f8e6d9 11px,#f8e6d9 22px)",
@@ -932,7 +972,7 @@ export default function HomeApp({ throughline, gallery }: HomeAppProps) {
               </div>
             </div>
             <div
-              className="p-[22px_24px] flex flex-col justify-between items-end text-right"
+              className="relative p-[22px_24px] flex flex-col justify-between items-end text-right"
               style={{
                 background:
                   "repeating-linear-gradient(48deg,#d6e0f7,#d6e0f7 11px,#e4ebfa 11px,#e4ebfa 22px)",
@@ -949,7 +989,7 @@ export default function HomeApp({ throughline, gallery }: HomeAppProps) {
                 pipeline &amp; systems
               </div>
             </div>
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(62%,440px)] bg-white border-[2.5px] border-ink rounded-[13px] p-[22px_24px] text-center shadow-[4px_5px_0_rgba(0,0,0,.16)] max-[680px]:static max-[680px]:left-auto max-[680px]:top-auto max-[680px]:translate-x-0 max-[680px]:translate-y-0 max-[680px]:w-auto max-[680px]:rounded-none max-[680px]:border-0 max-[680px]:border-t-[2.5px] max-[680px]:shadow-none max-[680px]:p-[20px_22px]">
+            <div className="absolute z-[2] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(62%,440px)] bg-white border-[2.5px] border-ink rounded-[13px] p-[22px_24px] text-center shadow-[4px_5px_0_rgba(0,0,0,.16)] max-[680px]:static max-[680px]:left-auto max-[680px]:top-auto max-[680px]:translate-x-0 max-[680px]:translate-y-0 max-[680px]:w-auto max-[680px]:rounded-none max-[680px]:border-0 max-[680px]:border-t-[2.5px] max-[680px]:shadow-none max-[680px]:p-[20px_22px]">
               <div className="text-[20px] font-semibold leading-[1.25]">
                 Operating greatly in the realm between{" "}
                 <span className="font-hand font-bold text-art text-[26px]">Art</span> &amp;{" "}

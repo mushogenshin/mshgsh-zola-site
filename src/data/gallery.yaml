@@ -24,6 +24,11 @@
 #            r2(), so it migrates with the bucket) OR a full "https://…" URL (used
 #            as-is). Replaces the slot placeholder.
 #   imageAlt OPTIONAL alt text for the image; defaults to `title`
+#   bannerImagePreview  OPTIONAL R2 key (or URL) for a WIDER/alternate glimpse that
+#            swaps over the ART|CODE hero banner while this tile is hovered. Use a
+#            DIFFERENT asset from `image` (never the thumbnail).
+#   bannerFx OPTIONAL pin the reveal effect: wipe | mask | noise. Omit → a random
+#            effect is assigned per page load.
 #   order    OPTIONAL tiebreaker for tiles sharing a `meter` (lower sorts first)
 
 - id: cascina
@@ -37,6 +42,7 @@
     — now resuming.
   slot: figurative sculpt
   image: cascina/cascina-2016-b.webp
+  bannerImagePreview: cascina/cascina-2016-a.webp
   href: "#"
 
 - id: busts

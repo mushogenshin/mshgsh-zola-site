@@ -1,6 +1,6 @@
 import { defineCollection, z } from "astro:content";
 import { file } from "astro/loaders";
-import { DOMAIN_VALUES } from "./config/gallery";
+import { BANNER_FX_VALUES, DOMAIN_VALUES } from "./config/gallery";
 
 /**
  * Throughline timeline, loaded from a single hand-editable YAML file
@@ -49,9 +49,12 @@ const gallery = defineCollection({
     blurb: z.string(),
     slot: z.string(),
     href: z.string(),
-    // Optional: adopt R2 cover images one tile at a time; `order` breaks meter ties.
+    // Optional: adopt R2 cover images one tile at a time; `order` breaks meter ties;
+    // bannerImagePreview swaps a glimpse over the hero on hover (a DIFFERENT asset).
     image: z.string().optional(),
     imageAlt: z.string().optional(),
+    bannerImagePreview: z.string().optional(),
+    bannerFx: z.enum(BANNER_FX_VALUES).optional(),
     order: z.number().optional(),
   }),
 });
