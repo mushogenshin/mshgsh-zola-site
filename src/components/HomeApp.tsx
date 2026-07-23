@@ -23,6 +23,21 @@ function prefersReducedMotion(): boolean {
   );
 }
 
+/**
+ * Pick a legible ink for text sitting on a given tile `color`: dark ink `#1a1815`
+ * on light colors, white on dark ones, via sRGB relative luminance (threshold 0.45).
+ * Used by the hover text treatment (the tile body adopts its own color on hover).
+ */
+function bestInk(hex: string): string {
+  const c = hex.replace("#", "");
+  const lin = (i: number) => {
+    const v = parseInt(c.slice(i, i + 2), 16) / 255;
+    return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+  };
+  const L = 0.2126 * lin(0) + 0.7152 * lin(2) + 0.0722 * lin(4);
+  return L > 0.45 ? "#1a1815" : "#ffffff";
+}
+
 interface HomeAppProps {
   /** Throughline timeline, loaded from src/data/throughline.yaml by index.astro. */
   throughline: ThroughlineEvent[];
@@ -989,6 +1004,13 @@ export default function HomeApp({ throughline, gallery }: HomeAppProps) {
             {visibleItems.map((it) => {
               const isFading = it.phase === "culled" || it.phase === "entering";
               const fadeScale = it.phase === "culled" ? 0.9 : 0.96;
+              // Hover text treatment: the body (not the header) adopts the tile's
+              // own color, ink flips to a luminance-picked legible tone, and the
+              // ART↔CODE meter fades out. Transitions live on the elements always,
+              // so the revert animates too. See handoff/tile-images-and-hover.md.
+              const ink = bestInk(it.color);
+              const dark = ink === "#ffffff";
+              const hv = hover === it.id;
               return (
                 <a key={it.id} href={it.href} data-id={it.id} className="block text-inherit">
                   {/* Fade + cull/enter scale live on this inner card, NOT on the <a> grid child
@@ -1039,12 +1061,36 @@ export default function HomeApp({ throughline, gallery }: HomeAppProps) {
                         <span className="font-mono text-[9px] text-black/50">{it.slot}</span>
                       )}
                     </div>
-                    <div className="px-[15px] pb-[15px] pt-[13px]">
-                      <div className="text-[16.5px] font-semibold leading-[1.15]">{it.title}</div>
-                      <div className="text-[12.5px] leading-[1.45] text-[#5c574e] my-[6px] mb-[13px] min-h-[36px]">
+                    <div
+                      className="px-[15px] pb-[15px] pt-[13px]"
+                      style={{
+                        background: hv ? it.color : "#fff",
+                        transition: "background .25s ease",
+                      }}
+                    >
+                      <div
+                        className="text-[16.5px] font-semibold leading-[1.15]"
+                        style={{ color: hv ? ink : "#1a1815", transition: "color .25s ease" }}
+                      >
+                        {it.title}
+                      </div>
+                      <div
+                        className="text-[12.5px] leading-[1.45] my-[6px] mb-[13px] min-h-[36px]"
+                        style={{
+                          color: hv
+                            ? dark
+                              ? "rgba(255,255,255,.85)"
+                              : "rgba(0,0,0,.62)"
+                            : "#5c574e",
+                          transition: "color .25s ease",
+                        }}
+                      >
                         {it.blurb}
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div
+                        className="flex items-center gap-2"
+                        style={{ opacity: hv ? 0 : 1, transition: "opacity .3s ease" }}
+                      >
                         <span className="font-mono text-[8px] text-art">ART</span>
                         <div
                           className="relative flex-1 h-[5px] rounded-[3px]"
