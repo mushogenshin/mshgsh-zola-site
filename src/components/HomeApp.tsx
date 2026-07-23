@@ -3,6 +3,7 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import {
   BANNER_FX_DEFAULT,
   BANNER_FX_VALUES,
+  BANNER_SWAP_TAGLINE_RETAINED,
   DOMAINS,
   type BannerFx,
   type WorkItem,
@@ -764,6 +765,10 @@ export default function HomeApp({ throughline, gallery }: HomeAppProps) {
   );
   const hoveredItem = useMemo(() => gallery.find((g) => g.id === hover) ?? null, [gallery, hover]);
   const bannerOn = isGallery && !!hoveredItem?.bannerImagePreview;
+  // When BANNER_SWAP_TAGLINE_RETAINED is false, fade the centered tagline card out
+  // while a hover-banner covers the hero so the cover reads clean (default retains it,
+  // so this is normally false). `!== false` ⇒ undefined counts as retained.
+  const taglineHidden = bannerOn && BANNER_SWAP_TAGLINE_RETAINED === false;
   // Update the sticky banner src+fx only when hovering a tile that HAS a preview, so
   // leaving a tile keeps the last image on screen while `on` fades it out.
   useEffect(() => {
@@ -996,7 +1001,10 @@ export default function HomeApp({ throughline, gallery }: HomeAppProps) {
                 pipeline &amp; systems
               </div>
             </div>
-            <div className="absolute z-[2] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(62%,440px)] bg-white border-[2.5px] border-ink rounded-[13px] p-[22px_24px] text-center shadow-[4px_5px_0_rgba(0,0,0,.16)] max-[680px]:static max-[680px]:left-auto max-[680px]:top-auto max-[680px]:translate-x-0 max-[680px]:translate-y-0 max-[680px]:w-auto max-[680px]:rounded-none max-[680px]:border-0 max-[680px]:border-t-[2.5px] max-[680px]:shadow-none max-[680px]:p-[20px_22px]">
+            <div
+              className="absolute z-[2] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(62%,440px)] bg-white border-[2.5px] border-ink rounded-[13px] p-[22px_24px] text-center transition-opacity duration-300 shadow-[4px_5px_0_rgba(0,0,0,.16)] max-[680px]:static max-[680px]:left-auto max-[680px]:top-auto max-[680px]:translate-x-0 max-[680px]:translate-y-0 max-[680px]:w-auto max-[680px]:rounded-none max-[680px]:border-0 max-[680px]:border-t-[2.5px] max-[680px]:shadow-none max-[680px]:p-[20px_22px]"
+              style={{ opacity: taglineHidden ? 0 : 1, pointerEvents: taglineHidden ? "none" : undefined }}
+            >
               <div className="text-[20px] font-semibold leading-[1.25]">
                 Operating greatly in the realm between{" "}
                 <span className="font-hand font-bold text-art text-[26px]">Art</span> &amp;{" "}

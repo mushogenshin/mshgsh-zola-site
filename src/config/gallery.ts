@@ -38,6 +38,21 @@ export type BannerFx = (typeof BANNER_FX_VALUES)[number];
 /** Fallback effect used at rest (no tile hovered), before any random pick applies. */
 export const BANNER_FX_DEFAULT: BannerFx = "wipe";
 
+/**
+ * Whether the centered hero tagline card ("Operating greatly in the realm between
+ * Art & Programming") stays visible while a hover-banner covers the ART|CODE hero.
+ *   true  (default) — card is retained on top of the swapped-in banner (no change).
+ *   false           — card fades out (opacity 0 + pointer-events:none) while the
+ *                     banner is on, so the cover image reads clean; fades back on exit.
+ * Only takes effect in Gallery mode while a banner is actively covering the hero
+ * (`bannerOn`). See handoff/banner-swap-tagline-retained.md.
+ *
+ * Annotated `: boolean` (not left as the literal `true`) precisely because it is a
+ * toggle: flip this one line to `false` to enable the fade. The literal type would
+ * narrow to `true` and make the `=== false` read at the call site a type error.
+ */
+export const BANNER_SWAP_TAGLINE_RETAINED: boolean = true;
+
 /** Tuning for the `noise` variant (attributes on <feTurbulence>/<feFuncA>). */
 export const BANNER_NOISE = {
   freq: 0.012, // baseFrequency (y = x·1.28); lower = bigger blobs
