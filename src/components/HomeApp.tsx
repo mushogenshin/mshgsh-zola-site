@@ -336,6 +336,11 @@ export default function HomeApp({ throughline, gallery }: HomeAppProps) {
     } catch {
       // localStorage unavailable (private browsing, etc) — fall back to defaults
     }
+    // Deep-link: a Work Detail page's "trace the throughline →" points at
+    // /#throughline. Honor it here, overriding the persisted mode, so the link
+    // lands directly in Throughline mode. (setModeState, not setMode: a deep-link
+    // shouldn't rewrite the user's persisted preference — same as the restore above.)
+    if (window.location.hash === "#throughline") setModeState("through");
   }, []);
 
   // Which throughline entries are visible under the current filter toggles.
@@ -1052,7 +1057,7 @@ export default function HomeApp({ throughline, gallery }: HomeAppProps) {
               const dark = ink === "#ffffff";
               const hv = hover === it.id;
               return (
-                <a key={it.id} href={it.href} data-id={it.id} className="block text-inherit">
+                <a key={it.id} href={`/work/${it.id}`} data-id={it.id} className="block text-inherit">
                   {/* Fade + cull/enter scale live on this inner card, NOT on the <a> grid child
                       above: auto-animate measures the <a>'s box (transforms included) to detect
                       reflow, so a transform on it can read as a resize and get animated — the

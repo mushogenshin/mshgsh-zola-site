@@ -1,0 +1,389 @@
+---
+/**
+ * Work Detail page — `/work/{id}`.
+ *
+ * A calm, single-column detail page reached from every Gallery tile (each tile's
+ * <a> now routes here internally; the work's external URL lives in `links`). Ported
+ * faithfully from the approved full-page mock ("Work Detail.dc.html", Cascina) — see
+ * handoff/work-detail.md. Fully static: the only motion is the ElectricVein on the
+ * big meter (extreme works only), which is CSS/SMIL, so no client JS island is
+ * needed. A tiny progressive-enhancement <script> makes "← gallery" restore grid
+ * state via history.back() when we arrived from within the site.
+ *
+ * Related / prev / next carry NO authored data — they're derived here from the
+ * gallery collection sorted by `meter`: prev/next follow sort order, and the two
+ * meter-nearest works become the "nearby on the spectrum" cards.
+ */
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import TeslaDefs from "../../components/TeslaDefs.astro";
+import ElectricVein from "../../components/ElectricVein.astro";
+import { r2 } from "../../config/r2";
+import type { WorkItem } from "../../config/gallery";
+
+export async function getStaticPaths() {
+  // Same load+sort as index.astro (meter, then `order` tiebreak). Sorting here is
+  // what makes prev/next and the nearest-neighbor math meaningful.
+  const gallery = (await getCollection("gallery"))
+    .map((entry) => ({ ...entry.data, id: entry.id }) as WorkItem)
+    .sort((a, b) => a.meter - b.meter || (a.order ?? 0) - (b.order ?? 0));
+
+  return gallery.map((work, i) => {
+    const prev = i > 0 ? gallery[i - 1] : null;
+    const next = i < gallery.length - 1 ? gallery[i + 1] : null;
+    // The two works closest on the spectrum (by |Δmeter|), then shown art→code.
+    const nearby = gallery
+      .filter((w) => w.id !== work.id)
+      .sort(
+        (a, b) =>
+          Math.abs(a.meter - work.meter) - Math.abs(b.meter - work.meter) || a.meter - b.meter,
+      )
+      .slice(0, 2)
+      .sort((a, b) => a.meter - b.meter);
+    return { params: { id: work.id }, props: { work, prev, next, nearby } };
+  });
+}
+
+interface Props {
+  work: WorkItem;
+  prev: WorkItem | null;
+  next: WorkItem | null;
+  nearby: WorkItem[];
+}
+const { work, prev, next, nearby } = Astro.props;
+
+const standfirst = work.standfirst ?? work.blurb;
+const yearLabel = work.yearLabel ?? String(work.year);
+const paras = work.body ?? [work.blurb];
+
+// Media: [0] = hero; the rest fill the side column. With no authored media we
+// synthesize a single placeholder hero from the work's color + tile slot, so the
+// page is complete before any photography is adopted (mirrors the tile's fallback).
+const media = work.media ?? [];
+const hero = media[0] ?? { placeholder: work.slot, color: work.color };
+const side = media.slice(1, 4);
+const hasSide = side.length > 0;
+// Solo hero reads as a wide banner; with a side column it's the mock's 16/10.
+const heroAspect = hasSide ? "16 / 10" : "24 / 9";
+
+// Reused inline-style fragments (faithful port → inline styles, not utilities).
+const MONO = "font-family:'JetBrains Mono',monospace";
+const HAND = "font-family:'Gaegu',cursive";
+const WHITE_CARD =
+  "border:2px solid #1a1815;border-radius:14px;background:#fff;box-shadow:4px 5px 0 rgba(0,0,0,.13)";
+const CELL =
+  "position:relative;border:2px solid #1a1815;border-radius:14px;overflow:hidden;box-shadow:4px 5px 0 rgba(0,0,0,.13)";
+// Preflight trap (see CLAUDE.md): pin size + clear max-width so `img{max-width:100%}`
+// can't collapse the cover inside its positioned box.
+const IMG =
+  "position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;display:block";
+const CAPTION = `position:absolute;left:10px;bottom:10px;${MONO};font-size:10px;background:#1a1815;color:#fff;padding:3px 9px;border-radius:20px`;
+const PLACEHOLDER = `position:absolute;left:10px;bottom:10px;${MONO};font-size:9.5px;color:rgba(0,0,0,.5)`;
+
+/** Even spread of thread nodes between 6% and 82% (the mock's inset), matching its spacing. */
+const nodeLeft = (i: number, n: number): number => (n <= 1 ? 44 : 6 + (76 * i) / (n - 1));
+---
+
+<Layout title={`${work.title} — Hoan Nguyen`} description={standfirst} bg="bg-[#e9e4d8]">
+  {/* Turbulence filter defs + flicker keyframes the ElectricVein references by id/name. */}
+  <TeslaDefs />
+
+  <section style="display:flex;justify-content:center;padding:44px 24px">
+    <div style="position:relative;width:1160px;max-width:100%">
+      <div
+        style="background:#f4f1ea;border:2.5px solid #1a1815;border-radius:18px;overflow:hidden;box-shadow:8px 9px 0 rgba(0,0,0,.14)"
+      >
+        <div style="padding:0 44px 46px" class="wd-pad">
+          {/* 1 — compact header (the Home banner's shrunk form; no faux URL bar) */}
+          <header
+            style="display:flex;align-items:center;justify-content:space-between;gap:18px;padding:20px 0 22px;border-bottom:1.5px dashed #d8d2c4"
+          >
+            <div style="display:flex;align-items:center;gap:18px">
+              <div style={`${HAND};font-weight:700;font-size:22px;line-height:.9;transform:rotate(-2deg)`}>
+                Hoan Nguyen
+              </div>
+              <a
+                href="/"
+                data-back
+                style={`${MONO};font-size:11.5px;color:#1a1815;border:2px solid #1a1815;border-radius:20px;padding:4px 12px;background:#fff;box-shadow:2px 2px 0 rgba(0,0,0,.12)`}
+              >
+                ← gallery
+              </a>
+            </div>
+            <nav style={`display:flex;gap:16px;${MONO};font-size:11px;align-items:center`}>
+              <a href="/#about" style="color:#1a1815">about</a>
+              <a href="https://github.com/mushogenshin" style="color:#1a1815">github</a>
+              <a href="https://artstation.com/mushogenshin" style="color:#1a1815">artstation</a>
+            </nav>
+          </header>
+
+          {/* 2 — title block */}
+          <div
+            style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin:30px 0 8px;flex-wrap:wrap"
+          >
+            <div>
+              <div style="display:flex;align-items:center;gap:9px;margin-bottom:12px;flex-wrap:wrap">
+                <span style={`${MONO};font-size:10.5px;background:#1a1815;color:#fff;padding:3px 10px;border-radius:20px`}>
+                  {work.domain}
+                </span>
+                <span style={`${MONO};font-size:11px;color:#8a8378`}>{yearLabel}</span>
+                {
+                  work.status && (
+                    <span style={`${MONO};font-size:10.5px;color:#a5502f;border:1.5px solid #e78a4e;border-radius:20px;padding:2px 9px;background:#fdf3e4`}>
+                      {work.status}
+                    </span>
+                  )
+                }
+              </div>
+              <h1 style="margin:0;font-size:46px;line-height:1.02;font-weight:700;letter-spacing:-.01em">
+                {work.title}
+              </h1>
+            </div>
+            {
+              work.marginalia && (
+                <div style={`${HAND};font-weight:700;font-size:20px;color:#a5502f;transform:rotate(-1.5deg);max-width:250px;text-align:right`}>
+                  {work.marginalia}
+                </div>
+              )
+            }
+          </div>
+          <p style="font-size:16.5px;line-height:1.55;color:#4a453d;max-width:660px;margin:10px 0 26px">
+            {standfirst}
+          </p>
+
+          {/* 3 — hero media (+ optional 3-row side column) */}
+          {
+            hasSide ? (
+              <div class="wd-hero">
+                <div style={`${CELL};background:${hero.color ?? work.color};aspect-ratio:${heroAspect}`}>
+                  {hero.image && <img src={r2(hero.image)} alt={hero.alt ?? work.title} style={IMG} />}
+                  {!hero.image && hero.placeholder && <span style={PLACEHOLDER}>{hero.placeholder}</span>}
+                  {hero.caption && <span style={CAPTION}>{hero.caption}</span>}
+                </div>
+                <div style={`display:grid;grid-template-rows:repeat(${side.length},1fr);gap:14px`}>
+                  {side.map((cell) => (
+                    <div style={`${CELL};background:${cell.color ?? work.color}`}>
+                      {cell.image && <img src={r2(cell.image)} alt={cell.alt ?? work.title} style={IMG} />}
+                      {!cell.image && cell.placeholder && <span style={PLACEHOLDER}>{cell.placeholder}</span>}
+                      {cell.caption && <span style={CAPTION}>{cell.caption}</span>}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div style={`${CELL};background:${hero.color ?? work.color};aspect-ratio:${heroAspect}`}>
+                {hero.image && <img src={r2(hero.image)} alt={hero.alt ?? work.title} style={IMG} />}
+                {!hero.image && hero.placeholder && <span style={PLACEHOLDER}>{hero.placeholder}</span>}
+                {hero.caption && <span style={CAPTION}>{hero.caption}</span>}
+              </div>
+            )
+          }
+
+          {/* 4 — big annotated meter (the page's one signature effect) */}
+          <div style={`margin:34px 0 8px;padding:20px 24px 18px;${WHITE_CARD}`}>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:12px">
+              <span style={`${MONO};font-size:11px;color:#c9491a;font-weight:700;white-space:nowrap`}>
+                ART · {work.meter}/100
+              </span>
+              {
+                work.meterNote && (
+                  <span style={`${HAND};font-weight:700;font-size:17px;color:#8a8378;transform:rotate(-1deg);text-align:center`}>
+                    {work.meterNote}
+                  </span>
+                )
+              }
+              <span style={`${MONO};font-size:11px;color:#2450c9;white-space:nowrap`}>CODE</span>
+            </div>
+            <div style="position:relative;height:8px;border-radius:4px;background:linear-gradient(90deg,#e0531f,#f0c94a 50%,#2f6df0)">
+              <ElectricVein meter={work.meter} />
+              <div
+                style={`position:absolute;top:50%;left:${work.meter}%;transform:translate(-50%,-50%);width:4px;height:16px;border-radius:2px;background:#1a1815;box-shadow:0 0 0 1.5px rgba(255,255,255,.9);z-index:3`}
+              >
+              </div>
+              <div
+                style={`position:absolute;top:22px;left:${work.meter}%;transform:translateX(-50%);${MONO};font-size:9.5px;color:#8a8378;white-space:nowrap`}
+              >
+                this work
+              </div>
+            </div>
+            <div style="height:14px"></div>
+          </div>
+
+          {/* 5 — writeup + meta rail */}
+          <div class="wd-writeup">
+            <div style="font-size:15px;line-height:1.65;color:#3d3831">
+              {
+                paras.map((para, i) => (
+                  <p style={`margin:0 0 ${i === paras.length - 1 ? "0" : "14px"}`} set:html={para} />
+                ))
+              }
+            </div>
+            <div style="display:flex;flex-direction:column;gap:18px">
+              {
+                work.tools && work.tools.length > 0 && (
+                  <div>
+                    <div style={`${MONO};font-size:10.5px;color:#8a8378;margin-bottom:8px`}>MATERIALS & TOOLS</div>
+                    <div style="display:flex;flex-wrap:wrap;gap:6px">
+                      {work.tools.map((tool) => (
+                        <span style={`${MONO};font-size:10.5px;border:1.5px solid #1a1815;border-radius:16px;padding:3px 10px;background:#fff`}>
+                          {tool}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )
+              }
+              {
+                work.links && work.links.length > 0 && (
+                  <div>
+                    <div style={`${MONO};font-size:10.5px;color:#8a8378;margin-bottom:8px`}>LINKS</div>
+                    <div style="display:flex;flex-direction:column;gap:7px">
+                      {work.links.map((link) => (
+                        <a
+                          href={link.href}
+                          target="_blank"
+                          rel="noopener"
+                          style={`${MONO};font-size:11.5px;color:#1a1815;border:2px solid #1a1815;border-radius:10px;padding:8px 12px;background:#fff;box-shadow:2px 3px 0 rgba(0,0,0,.12);display:flex;justify-content:space-between;gap:12px`}
+                        >
+                          <span>{link.label}</span>
+                          <span>↗</span>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )
+              }
+            </div>
+          </div>
+
+          {/* 6 — throughline context strip (authored, optional) */}
+          {
+            work.threadContext && work.threadContext.length > 0 && (
+              <div style={`margin-top:34px;padding:16px 24px;${WHITE_CARD}`}>
+                <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px">
+                  <span style={`${MONO};font-size:10.5px;color:#8a8378`}>WHERE THIS SITS ON THE THREAD</span>
+                  <a href="/#throughline" style={`${MONO};font-size:10.5px;color:#e0531f`}>
+                    trace the throughline →
+                  </a>
+                </div>
+                <div style="position:relative;height:44px">
+                  <div style="position:absolute;left:0;right:0;top:12px;height:3px;background:#1a1815;border-radius:2px" />
+                  {work.threadContext.map((node, i) => {
+                    const left = nodeLeft(i, work.threadContext!.length);
+                    return node.active ? (
+                      <>
+                        <div style={`position:absolute;left:${left}%;top:4px;transform:translateX(-50%);width:19px;height:19px;border-radius:50%;background:${work.color};border:3px solid #1a1815;box-shadow:0 0 0 4px ${work.color}59`} />
+                        <div style={`position:absolute;left:${left}%;top:28px;transform:translateX(-50%);${MONO};font-size:10px;font-weight:700;white-space:nowrap`}>
+                          {node.year} · {node.label}
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div style={`position:absolute;left:${left}%;top:8px;transform:translateX(-50%);width:11px;height:11px;border-radius:50%;background:#f4f1ea;border:2.5px solid #1a1815`} />
+                        <div style={`position:absolute;left:${left}%;top:28px;transform:translateX(-50%);${MONO};font-size:9.5px;color:#8a8378;white-space:nowrap`}>
+                          {node.year} · {node.label}
+                        </div>
+                      </>
+                    );
+                  })}
+                </div>
+              </div>
+            )
+          }
+
+          {/* 7 — related (nearest neighbors on the spectrum) */}
+          {
+            nearby.length > 0 && (
+              <div class="wd-related">
+                {nearby.map((n) => (
+                  <a
+                    href={`/work/${n.id}`}
+                    style={`display:flex;gap:14px;align-items:center;padding:14px 16px;color:#1a1815;${WHITE_CARD}`}
+                  >
+                    <div style={`position:relative;width:64px;height:48px;border:2px solid #1a1815;border-radius:8px;overflow:hidden;background:${n.color};flex:0 0 auto`}>
+                      {n.image && <img src={r2(n.image)} alt={n.imageAlt ?? n.title} style={IMG} />}
+                    </div>
+                    <div style="flex:1">
+                      <div style={`${MONO};font-size:9.5px;color:#8a8378`}>
+                        NEARBY ON THE SPECTRUM · {n.meter}/100
+                      </div>
+                      <div style="font-weight:600;font-size:15.5px">{n.title}</div>
+                    </div>
+                    <span style={MONO}>→</span>
+                  </a>
+                ))}
+              </div>
+            )
+          }
+
+          {/* 8 — prev / next footer (end-caps at the spectrum extremes) */}
+          <div style={`display:flex;justify-content:space-between;gap:18px;margin-top:22px;${MONO};font-size:11px;color:#8a8378`}>
+            {
+              prev ? (
+                <a href={`/work/${prev.id}`} style="color:#1a1815;font-weight:700">← prev: {prev.title}</a>
+              ) : (
+                <span>← you’re at the ART end of the spectrum</span>
+              )
+            }
+            {
+              next ? (
+                <a href={`/work/${next.id}`} style="color:#1a1815;font-weight:700">next: {next.title} →</a>
+              ) : (
+                <span>you’re at the CODE end of the spectrum →</span>
+              )
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+{/* Faithful port uses fixed grids; stack them on narrow viewports (inline styles would
+    otherwise win over a class media query, so the grid lives entirely in these classes). */}
+<style>
+  .wd-hero {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 14px;
+  }
+  .wd-writeup {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 36px;
+    margin-top: 26px;
+  }
+  .wd-related {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 30px;
+  }
+  @media (max-width: 760px) {
+    .wd-hero,
+    .wd-writeup,
+    .wd-related {
+      grid-template-columns: 1fr;
+    }
+    .wd-pad {
+      padding-left: 22px;
+      padding-right: 22px;
+    }
+  }
+</style>
+
+<script>
+  // "← gallery" restores the grid with bias + filters + scroll intact. Bias/filters
+  // persist in localStorage and the browser restores scroll via bfcache, so when we
+  // arrived from within the site we prefer history.back(); otherwise the real href
+  // ("/") applies — so it still works with JS off, on direct load, or in a new tab.
+  document.querySelectorAll("a[data-back]").forEach((el) => {
+    el.addEventListener("click", (e) => {
+      const ref = document.referrer;
+      if (history.length > 1 && ref && new URL(ref).origin === location.origin) {
+        e.preventDefault();
+        history.back();
+      }
+    });
+  });
+</script>

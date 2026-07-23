@@ -1,0 +1,96 @@
+---
+/**
+ * The electric-current "vein" for the Work Detail page's big ART↔CODE meter — the
+ * single signature effect on an otherwise calm page (see handoff/work-detail.md).
+ *
+ * It reuses the Home grid's exact vein engine: `teslaForTile(meter)` (src/config/
+ * tesla.ts) returns the seeded three-stroke path, the `url(#…)` turbulence-filter
+ * reference, the glow drop-shadow, and the flicker `animation` — every value a
+ * pure function of `meter`, so a bare `<ElectricVein meter={…} />` reproduces the
+ * tile's discharge with no duplicated tuning.
+ *
+ * Two hard dependencies, both satisfied by rendering <TeslaDefs /> once on the same
+ * page (the detail template does):
+ *   1. the four turbulence `<filter>`s referenced via `filter="url(#teslaArtF)"` —
+ *      SVG filter refs resolve document-globally, but the filter element MUST live
+ *      in the page DOM (a hard-won lesson: filters inside mask/external URIs don't
+ *      render). See handoff/banner-hover-swap.md + electric-current.md.
+ *   2. the `teslaFlicker{Art,Code}` @keyframes named by the `animation` shorthand.
+ *
+ * Renders nothing for mid-spectrum meters (27–73): `teslaForTile` returns null.
+ * The `data-tesla` attribute lets global.css freeze it to a faint static vein under
+ * `prefers-reduced-motion`, matching the grid tiles.
+ */
+import { teslaForTile } from "../config/tesla";
+
+interface Props {
+  /** The work's 0–100 art↔code position (drives flavor, path, cadence). */
+  meter: number;
+}
+
+const { meter } = Astro.props;
+const tesla = teslaForTile(meter);
+
+/**
+ * Serialize `teslaForTile`'s React `CSSProperties` (camelCase) to a CSS string for
+ * an Astro inline `style`. Explicit rather than relying on Astro's own object-style
+ * support, which has varied across versions; camelCase → kebab-case, numbers pass
+ * through (e.g. `zIndex: 2` → `z-index:2`).
+ */
+function css(style: Record<string, string | number>): string {
+  return Object.entries(style)
+    .map(([k, v]) => `${k.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase())}:${v}`)
+    .join(";");
+}
+---
+
+{
+  tesla && (
+    <div
+      data-tesla
+      data-electric={tesla.kind}
+      style={css(tesla.overlayStyle as Record<string, string | number>)}
+    >
+      <svg
+        width="100%"
+        height="26"
+        viewBox="0 0 200 26"
+        preserveAspectRatio="none"
+        style="position:absolute;top:50%;left:0;transform:translateY(-50%);overflow:visible"
+      >
+        {/* glow strand */}
+        <path
+          d={tesla.veinPath}
+          fill="none"
+          stroke={tesla.strokeGlow}
+          stroke-width={tesla.veinW}
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          vector-effect="non-scaling-stroke"
+          filter={tesla.filterUrl}
+        />
+        {/* mid strand */}
+        <path
+          d={tesla.veinPath2}
+          fill="none"
+          stroke={tesla.strokeMid}
+          stroke-width={tesla.veinW2}
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          vector-effect="non-scaling-stroke"
+          filter={tesla.filterUrl}
+        />
+        {/* crisp core wire — no filter (reuses path 1) */}
+        <path
+          d={tesla.veinPath}
+          fill="none"
+          stroke={tesla.strokeCore}
+          stroke-width={tesla.veinW3}
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          vector-effect="non-scaling-stroke"
+        />
+      </svg>
+    </div>
+  )
+}
