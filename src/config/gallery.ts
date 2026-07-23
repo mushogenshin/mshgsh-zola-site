@@ -47,9 +47,71 @@ export const BANNER_NOISE = {
 } as const;
 
 /**
+ * One media cell on the Work Detail page (`/work/{id}`). The first entry in a
+ * work's {@link WorkItem.media} array is the large 16/10 hero; the rest fill the
+ * three-row side column. An entry WITHOUT an {@link image} renders as a
+ * tile-style colored placeholder (so a work can adopt real photography one cell
+ * at a time, mirroring the Gallery tile's slot→image graceful upgrade).
+ */
+export interface MediaEntry {
+  /**
+   * R2 object key (or full `http(s)://` URL) for the cell image, resolved via
+   * `r2()`. Omit to render a colored placeholder cell instead.
+   */
+  image?: string;
+  /** Alt text for {@link image}; defaults to the work title when omitted. */
+  alt?: string;
+  /**
+   * Dark caption pill, bottom-left of the cell (e.g. "figure group · 2016 state").
+   * Rendered on any cell that sets it — image or placeholder.
+   */
+  caption?: string;
+  /**
+   * Faint mono label for a placeholder (imageless) cell, e.g. "wip clay study".
+   * Ignored when {@link image} is present (use {@link caption} there instead).
+   */
+  placeholder?: string;
+  /**
+   * Background for a placeholder cell (or the letterbox behind a `contain` image).
+   * Defaults to the work's own {@link WorkItem.color} when omitted.
+   */
+  color?: string;
+}
+
+/**
+ * One node on the detail page's "where this sits on the thread" strip — a small
+ * horizontal echo of the Home Throughline. Authored per work (NOT derived: the
+ * relevant surrounding moments are an editorial choice). Exactly one node should
+ * be {@link active} — the current work — which renders enlarged and accent-colored.
+ */
+export interface ThreadNode {
+  /** Year shown beneath the node, e.g. "2014". */
+  year: string;
+  /** Short caption beneath the year, e.g. "Cascina begins". */
+  label: string;
+  /** The current work's node: enlarged (19px), work-colored, with a soft halo. */
+  active?: boolean;
+}
+
+/**
+ * An external link rendered in the detail page's LINKS rail as a bordered row
+ * with a trailing `↗`. Always a real, working URL — the Gallery tile's former
+ * external `href` moves here (relabeled) once every tile routes internally to
+ * `/work/{id}`. No `#` stubs in production.
+ */
+export interface WorkLink {
+  label: string;
+  href: string;
+}
+
+/**
  * One Gallery tile, as consumed by the UI (post content-collection load). `id` is
  * merged from the collection entry id in index.astro (not in the Zod schema), and
  * is the React key + electric-current (Tesla) lookup key + cull/prime Set key.
+ *
+ * Fields from {@link standfirst} down are consumed only by the Work Detail page
+ * (`src/pages/work/[id].astro`), never the grid; all optional, so a tile can ship
+ * with just its Gallery fields and grow a richer detail page later.
  */
 export interface WorkItem {
   id: string;
@@ -91,4 +153,49 @@ export interface WorkItem {
   href: string;
   /** Tiebreaker for items sharing a `meter` (lower sorts first). Default 0. */
   order?: number;
+
+  // ── Work Detail page only (`/work/{id}`) — all optional ─────────────────────
+
+  /**
+   * One-line deck shown under the H1 on the detail page. Seeds from {@link blurb}
+   * when omitted, so it is safe to leave unset for works whose blurb reads well
+   * as a deck.
+   */
+  standfirst?: string;
+  /**
+   * Short handwritten (Gaegu) aside in the title block's top-right, rotated −1.5°
+   * — e.g. "19 bathers, surprised mid-river." A voice beat, not a caption.
+   */
+  marginalia?: string;
+  /**
+   * Optional status chip in the title row (outline style), e.g. "resuming",
+   * "coming soon". Rendered only when present.
+   */
+  status?: string;
+  /**
+   * Display string for the year(s), e.g. "2014 — ongoing" — because {@link year}
+   * is a bare number for the tile corner. Falls back to `String(year)`.
+   */
+  yearLabel?: string;
+  /**
+   * Long-form writeup: one string per paragraph (~2–3 paragraphs). Treated as
+   * TRUSTED authored HTML and rendered via `set:html`, so a paragraph may contain
+   * light inline markup (`<em>`, `<a>`); it is committed site copy, never runtime
+   * user input. Draft from `content/career-context.md` (first person, concrete
+   * numbers, honest about gaps — the house voice).
+   */
+  body?: string[];
+  /**
+   * Handwritten (Gaegu) annotation centered over the big ART↔CODE meter, e.g.
+   * "pure sculpture — not a line of code in this one". Rendered only when present.
+   */
+  meterNote?: string;
+  /** Detail-page media cells; `media[0]` = 16/10 hero, the rest the side column. */
+  media?: MediaEntry[];
+  /** "Materials & tools" chips (e.g. "ZBrush", "Rust", "egui"). */
+  tools?: string[];
+  /** External LINKS rows (real URLs only). */
+  links?: WorkLink[];
+  /** "Where this sits on the thread" nodes (one should be {@link ThreadNode.active}). */
+  threadContext?: ThreadNode[];
 }

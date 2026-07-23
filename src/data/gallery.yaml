@@ -1,4 +1,4 @@
-# The Gallery tiles (Home page → "Gallery" mode).
+# The Gallery tiles (Home page → "Gallery" mode) and their Work Detail pages.
 #
 # Edit freely: add or remove tiles anywhere in this file. You do NOT manage grid
 # position — tiles render sorted by `meter` (art → code), the same value the bias
@@ -6,7 +6,7 @@
 #
 # Fields per tile:
 #   id       unique slug (any short kebab/lowercase string; not shown — the React
-#            key + electric-current lookup key. Does NOT affect order.)
+#            key + electric-current lookup key + the /work/{id} route. No order effect.)
 #   title    tile headline
 #   year     number, shown in the tile corner (e.g. 2024)
 #   domain   one of: sculpture | anatomy | rigging | unreal | apps | tools | verse
@@ -18,7 +18,8 @@
 #            it persists even when an image is set (may drive a color strip).
 #   blurb    one or two sentences; `>-` wraps across lines without inserting newlines
 #   slot     short placeholder text shown in the tile header until an `image` is set
-#   href     link — KEEP THE QUOTES (e.g. "#" or "https://…")
+#   href     external link datum — KEEP THE QUOTES. The tile itself now routes to
+#            /work/{id}; put the real external URL under `links` for the detail page.
 #   image    OPTIONAL cover art. Either an R2 object KEY (recommended, e.g.
 #            "cascina/cascina-2016-b.webp" → prefixed with PUBLIC_R2_BASE_URL by
 #            r2(), so it migrates with the bucket) OR a full "https://…" URL (used
@@ -30,6 +31,21 @@
 #   bannerFx OPTIONAL pin the reveal effect: wipe | mask | noise. Omit → a random
 #            effect is assigned per page load.
 #   order    OPTIONAL tiebreaker for tiles sharing a `meter` (lower sorts first)
+#
+#   ── Work Detail page (/work/{id}) — all OPTIONAL ──
+#   standfirst    one-line deck under the H1 (falls back to `blurb`)
+#   marginalia    short Gaegu handwritten aside, top-right of the title (rotated −1.5°)
+#   status        small outline chip in the title row (e.g. "resuming"); omit to hide
+#   yearLabel     display string for the year(s), e.g. "2014 — ongoing" (year is a number)
+#   meterNote     Gaegu annotation centered over the big ART↔CODE meter; omit to hide
+#   body          list of paragraphs (TRUSTED authored copy — may use inline <em>/<a>)
+#   media         list of cells; [0] = 16/10 hero, the rest = side column. Each:
+#                   image (R2 key/URL) · alt · caption (dark pill) · placeholder
+#                   (faint label for an imageless cell) · color (placeholder bg)
+#   tools         list of "materials & tools" chip strings
+#   links         list of { label, href } — REAL URLs only, shown as ↗ rows
+#   threadContext list of { year, label, active? } — the where-it-sits strip;
+#                 mark exactly one node active (the current work)
 
 - id: cascina
   title: Battle of Cascina
@@ -43,7 +59,56 @@
   slot: figurative sculpt
   image: cascina/cascina-2016-b.webp
   bannerImagePreview: cascina/cascina-2016-a.webp
+  # bannerFx: noise
   href: "#"
+  standfirst: >-
+    A reconstruction of Michelangelo’s lost cartoon as a set of 19 figurative
+    sculptures. Abandoned too soon — now resuming.
+  marginalia: "19 bathers, surprised mid-river."
+  status: "resuming"
+  yearLabel: "2014 — ongoing"
+  meterNote: "pure sculpture — not a line of code in this one"
+  body:
+    - >-
+      In 2014, fresh out of Scott Eaton’s anatomy and figure-sculpting courses, I
+      set out to reconstruct Michelangelo’s lost <em>Battle of Cascina</em> cartoon
+      — known to us only through Sangallo’s copy — as a set of nineteen figurative
+      sculptures: the Florentine bathers surprised mid-river, every figure a study
+      in torsion, urgency, and interrupted rest.
+    - >-
+      The project became my proving ground. Each figure demanded anatomical
+      vocabulary I didn’t yet have, and chasing it is what grew into three years of
+      comparative anatomy study, then into teaching it — the foundation that still
+      makes every rig and deformation I build read true.
+    - >-
+      Set down around 2016 when studio work took over — first VFX production, then
+      the character pipelines at Virtuos. Now resuming: same cartoon, better hands.
+  tools: [ZBrush, clay maquettes, écorché studies, Sangallo copy ref]
+  media:
+    - image: cascina/cascina-2016-a.webp
+      alt: Battle of Cascina — figure group
+      caption: figure group · 2016 state
+    - image: cascina/cascina-2016-b.webp
+      alt: Battle of Cascina — single figure
+    - placeholder: wip clay study
+      color: "#e78a4e"
+    - placeholder: cartoon reference
+      color: "#7bc0a0"
+  links:
+    - label: ArtStation
+      href: "https://artstation.com/mushogenshin"
+    - label: Sketchfab turntables
+      href: "https://sketchfab.com/mushogenshin"
+  threadContext:
+    - year: "2012"
+      label: architecture
+    - year: "2014"
+      label: Cascina begins
+      active: true
+    - year: "2016"
+      label: Busts
+    - year: "2019"
+      label: anatomy
 
 - id: busts
   title: Busts of Great Thinkers
@@ -56,6 +121,26 @@
     the bench.
   slot: portrait busts
   href: "#"
+  standfirst: >-
+    Portrait busts of the thinkers I grew up on — a direct extension of
+    facial-anatomy training.
+  marginalia: "Asimov, Feynman, Sagan, Tesla."
+  status: "on the bench"
+  yearLabel: "2016 — ongoing"
+  meterNote: "hands, clay, and a lot of looking"
+  body:
+    - >-
+      A set of portrait busts — Asimov, Feynman, Sagan, Tesla — sculpted straight
+      out of Scott Eaton’s Facial Anatomy &amp; Portraiture course. Likeness is
+      unforgiving: a few millimetres at the brow or the corner of a mouth and the
+      person is simply gone.
+    - >-
+      Set down mid-flight when production work took priority. They’re back on the
+      bench now, with a decade more looking behind them.
+  tools: [ZBrush, clay, facial anatomy, portrait reference]
+  links:
+    - label: ArtStation
+      href: "https://artstation.com/mushogenshin"
 
 - id: anatomy
   title: Comparative Animal Anatomy
@@ -68,6 +153,27 @@
     read true.
   slot: anatomy plates
   href: "#"
+  standfirst: >-
+    Three years teaching myself comparative animal anatomy — the bridge under every
+    rig and creature since.
+  marginalia: "the bridge to everything after."
+  status: "ongoing study"
+  yearLabel: "2016 — 2019"
+  meterNote: "study first — the code is downstream of this"
+  body:
+    - >-
+      Over roughly three years I taught myself comparative animal anatomy —
+      skeleton, musculature, and how they read in motion across species — then
+      turned it into training material for human, animal, and creature work and
+      taught it to 800+ students in Vietnam and the US.
+    - >-
+      It’s the quiet foundation the rest of the site stands on: the condor’s
+      shoulder, the jellyfish’s drift, the dragons in Control Rig, the anatomy app.
+      Nothing downstream reads true without it.
+  tools: [écorché, comparative anatomy, teaching material, Maya]
+  links:
+    - label: ArtStation
+      href: "https://artstation.com/mushogenshin"
 
 - id: reel
   title: 2024 Tech-Art Showreel
@@ -80,6 +186,29 @@
     shoulders and hips.
   slot: reel still
   href: "#"
+  standfirst: >-
+    Twelve-plus years of rigging and deformation in a single cut — the hard
+    shoulders, hips, and faces.
+  marginalia: "where anatomy meets the joints."
+  status: "2024 cut"
+  yearLabel: "2024"
+  meterNote: "rigging lives on the seam — art one frame, math the next"
+  body:
+    - >-
+      A showreel spanning twelve-plus years of character rigging and deformation:
+      pose-space deformers, RBF correctives, FACS facial systems, multi-layer
+      garment and armor, and the two joints that humble everyone — shoulders and
+      hips.
+    - >-
+      Case work behind the frames: an undead VR hero rig with wrinkle-map
+      deformation for a major TV franchise, a sole-rigged Andean condor and a
+      joint-budget jellyfish, AT-AT and AT-ST walkers for a Lucasfilm real-time
+      collab, and StripTheRig — a bake tool that lifts clean animation off a rig for
+      identical delivery into both Unity and Unreal.
+  tools: [Maya, mGear, SHAPES, ngSkinTools, RBF correctives, FACS]
+  links:
+    - label: ArtStation
+      href: "https://artstation.com/mushogenshin"
 
 - id: fossil
   title: Fossil Skater
@@ -92,6 +221,29 @@
     zero keyframes.
   slot: gameplay clip
   href: "https://fossil-skater.mushogenshin.com"
+  standfirst: >-
+    A game built solo in three weeks where every creature animation is procedural —
+    zero authored keyframes.
+  marginalia: "dinosaurs on car-shoes. yes, really."
+  status: "coming soon"
+  yearLabel: "2024"
+  meterNote: "engine-side art — animation that computes itself"
+  body:
+    - >-
+      Dinosaurs race on vehicles worn as skates, one per leg: a T-Rex on two cars
+      (eight wheels), a Triceratops on four trucks (sixteen). I built it solo during
+      Epic’s Unreal Fellowship — design, art, animation, FX, lighting — in about
+      three weeks, and showed it at Unreal Fest Seattle 2024.
+    - >-
+      Every creature animation is procedural, with zero authored keyframes:
+      FullBodyIK and DynamicChain make the legs spread under steering, the spine
+      crunch under braking, the neck wobble through direction changes. Both bodies
+      steer on four wheels, so the biped comes out twitchy and the quadruped
+      ponderous — handling falls out of anatomy rather than tuning.
+  tools: [Unreal Engine, FullBodyIK, DynamicChain, Control Rig, Niagara]
+  links:
+    - label: fossil-skater.mushogenshin.com
+      href: "https://fossil-skater.mushogenshin.com"
 
 - id: anastomia
   title: Anastomia
@@ -104,6 +256,26 @@
     15-person team.
   slot: app screens
   href: "https://anastomia.app"
+  standfirst: >-
+    A 3D animal-anatomy learning app, designed and shipped end to end on Unity,
+    Django, and Firebase.
+  marginalia: "the anatomy study, made interactive."
+  status: "shipped"
+  yearLabel: "2020 — 2022"
+  meterNote: "an art-school subject, shipped as software"
+  body:
+    - >-
+      Anastomia is a 3D artistic-anatomy learning app for animals and creatures, on
+      iOS, Android, and PC. I designed it and shipped it on Unity with a Django +
+      Firebase + AWS EC2 backend, plus an asset Git pipeline for a fifteen-person
+      2D/3D art team.
+    - >-
+      It’s the comparative-anatomy study turned into a product — the same reference
+      I built for myself and my students, now something you can rotate in your hand.
+  tools: [Unity, Django, Firebase, AWS EC2, Git LFS]
+  links:
+    - label: anastomia.app
+      href: "https://anastomia.app"
 
 - id: kineograph
   title: Kineograph
@@ -115,6 +287,21 @@
     Frame-by-frame motion & transformation study app. Flutter, five platforms.
   slot: app screens
   href: "#"
+  standfirst: >-
+    A frame-by-frame motion and transformation study app, built in Flutter for five
+    platforms.
+  marginalia: "flipbooks, taken seriously."
+  status: "in progress"
+  yearLabel: "2025"
+  meterNote: "the animation principle, rebuilt in code"
+  body:
+    - >-
+      Kineograph is a study tool for frame-by-frame motion and transformation — the
+      classical-animation habit of reading change one drawing at a time, rebuilt as
+      software. One Flutter codebase, five platforms.
+    - >-
+      An active build; more detail as it firms up.
+  tools: [Flutter, Dart]
 
 - id: kinetic
   title: KineticRPG
@@ -127,6 +314,27 @@
     byte-equal round-trip, node-graph editor.
   slot: editor UI
   href: "#"
+  standfirst: >-
+    A solo UE 5.8 C++ plugin: a designer-facing authoring layer on the Gameplay
+    Ability System, with a text DSL that round-trips byte-for-byte.
+  marginalia: "17+ releases, each with a test plan."
+  status: "R&D · MegaGrant"
+  yearLabel: "2025 — ongoing"
+  meterNote: "almost all code — but authored for artists"
+  body:
+    - >-
+      KineticRPG (working name TSUKURU) is a solo UE 5.8 plugin, built as R&amp;D: a
+      designer-facing authoring layer over the Gameplay Ability System. Abilities are
+      authored as data assets and a small command vocabulary, walked by a chain
+      runner, with structured-concurrency primitives — Branch, Defer, Race, Sync —
+      modeled on Epic’s Verse.
+    - >-
+      In-editor tools validate at save time; a text DSL round-trips byte-for-byte
+      with the graph; a node editor and both Blueprint and C++ extension surfaces sit
+      on top. No parallel runtime — everything routes through native systems.
+      Seventeen-plus incremental releases so far, each with a written decision record
+      and a per-version test plan; targeting an Epic MegaGrant.
+  tools: [Unreal Engine, C++, GAS, plugin architecture, DSL design]
 
 - id: verse
   title: A Childlike Perspective of Verse
@@ -139,6 +347,25 @@
     non-programmer’s lens.
   slot: talk poster
   href: "https://childlike-verse-lang.web.app"
+  standfirst: >-
+    A conference talk explaining Epic’s Verse language from a non-programmer’s point
+    of view.
+  marginalia: "Verse, for people who sculpt."
+  status: "Unreal Fest Bali 2025"
+  yearLabel: "2025"
+  meterNote: "a language talk — but pitched to artists"
+  body:
+    - >-
+      A talk given at Unreal Fest Bali 2025: the Verse programming language explained
+      from a non-programmer’s lens — the perspective of someone who came to code
+      through sculpture and animation rather than computer science.
+    - >-
+      The structured-concurrency work in KineticRPG is the practice behind the
+      theory; this is me trying to hand it back to the room I came from.
+  tools: [Verse, Unreal Engine, public speaking]
+  links:
+    - label: watch / slides
+      href: "https://childlike-verse-lang.web.app"
 
 - id: rusty
   title: Rusty Hunter
@@ -151,6 +378,32 @@
     100–150 artists, 30+ productions.
   slot: egui screenshot
   href: "#"
+  standfirst: >-
+    Led the Rust rewrite of a studio’s asset-management platform — 100–150 artists,
+    30+ productions.
+  marginalia: "nobody asked for this one."
+  status: "shipped · adopted studio-wide"
+  yearLabel: "2021 — 2024"
+  meterNote: "deep in the code — so the artists never have to be"
+  body:
+    - >-
+      The studio’s asset-management app was structurally stuck: a mayapy backend
+      frozen on Python 2, a Python 3 frontend, a decade of accretion across ten-plus
+      TDs, duck-typed errors surfacing at runtime in front of artists on deadline,
+      and a retained-mode UI showing stale state. Nobody asked for a rewrite. I led
+      one anyway — in Rust.
+    - >-
+      Rust so the compiler catches at build time what production was catching at
+      runtime; immediate-mode (egui) so stale UI state stopped existing by
+      construction. A headless Ubuntu WebSocket service (tokio, protobuf) became the
+      real-time shared source of truth for delivery lists — settling the
+      concurrent-write conflicts and, just as usefully, the human arguments about what
+      had actually shipped.
+    - >-
+      Random runtime errors essentially disappeared and cold start went instant. It
+      scaled to 100–150 artists and ~15 concurrent productions, adopted across 30+
+      international projects.
+  tools: [Rust, egui, MongoDB, Docker, tokio, protobuf]
 
 - id: crates
   title: Rust Crates
@@ -162,3 +415,20 @@
     mktree · mkpoi · mkutil · mk_usdcat_all. Public, on crates.io.
   slot: terminal
   href: "https://github.com/mushogenshin"
+  standfirst: >-
+    A handful of small, public Rust command-line tools — on crates.io.
+  marginalia: "small, sharp, and adopted."
+  status: "public on crates.io"
+  yearLabel: "2024 — ongoing"
+  meterNote: "as far into the code end as this site goes"
+  body:
+    - >-
+      mktree, mkpoi, mkutil, and mk_usdcat_all — small Rust command-line tools I use
+      often enough to be worth sharpening and publishing. mk_usdcat_all comes straight
+      out of the USD composition deep-dive (batch .usd→.usda, and back).
+    - >-
+      Tools designed to be adopted, not announced.
+  tools: [Rust, clap, crates.io, USD]
+  links:
+    - label: github.com/mushogenshin
+      href: "https://github.com/mushogenshin"

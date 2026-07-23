@@ -56,6 +56,30 @@ const gallery = defineCollection({
     bannerImagePreview: z.string().optional(),
     bannerFx: z.enum(BANNER_FX_VALUES).optional(),
     order: z.number().optional(),
+    // Work Detail page (`/work/{id}`) fields — all optional; see WorkItem docs in
+    // src/config/gallery.ts for semantics. `body` is trusted authored HTML.
+    standfirst: z.string().optional(),
+    marginalia: z.string().optional(),
+    status: z.string().optional(),
+    yearLabel: z.string().optional(),
+    body: z.array(z.string()).optional(),
+    meterNote: z.string().optional(),
+    media: z
+      .array(
+        z.object({
+          image: z.string().optional(),
+          alt: z.string().optional(),
+          caption: z.string().optional(),
+          placeholder: z.string().optional(),
+          color: z.string().optional(),
+        }),
+      )
+      .optional(),
+    tools: z.array(z.string()).optional(),
+    links: z.array(z.object({ label: z.string(), href: z.string() })).optional(),
+    threadContext: z
+      .array(z.object({ year: z.string(), label: z.string(), active: z.boolean().optional() }))
+      .optional(),
   }),
 });
 
