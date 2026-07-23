@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { DOMAINS, ITEMS } from "../data/items";
+import { DOMAINS, type WorkItem } from "../config/gallery";
 import { r2 } from "../config/r2";
 import { ACCENT_COLORS, sideForIndex, type ThroughlineEvent } from "../config/throughline";
 import { REFLOW_ANIMATION, SPECTRUM_CONFIG, TILE_TRANSITION } from "../config/spectrum";
@@ -23,20 +23,11 @@ function prefersReducedMotion(): boolean {
   );
 }
 
-/**
- * The electric-current overlay descriptor for each tile, keyed by id. Computed
- * once at module load: every field is a pure function of the tile's (constant)
- * `meter`, and the seeded vein paths MUST NOT be regenerated per render or the
- * wire visibly twitches on every dial move (see `tesla.ts`). Mid-spectrum tiles
- * map to `null`.
- */
-const TESLA_BY_ID: Record<string, ReturnType<typeof teslaForTile>> = Object.fromEntries(
-  ITEMS.map((it) => [it.id, teslaForTile(it.meter)]),
-);
-
 interface HomeAppProps {
   /** Throughline timeline, loaded from src/data/throughline.yaml by index.astro. */
   throughline: ThroughlineEvent[];
+  /** Gallery tiles, loaded from src/data/gallery.yaml by index.astro (sorted by meter). */
+  gallery: WorkItem[];
 }
 
 type Mode = "gallery" | "through";
@@ -123,16 +114,34 @@ function RoadIcon({ className }: { className?: string }) {
   );
 }
 
-/** Tiles whose meter sits further than cullThreshold from the dial. */
-function cullFor(dial: number): Set<string> {
-  return new Set(
-    ITEMS.filter((it) => Math.abs(it.meter - dial) > SPECTRUM_CONFIG.cullThreshold).map(
-      (it) => it.id,
-    ),
+export default function HomeApp({ throughline, gallery }: HomeAppProps) {
+  // Electric-current overlay descriptor per tile, keyed by id. Memoized on the
+  // stable `gallery` prop so it's computed ONCE: every field is a pure function of
+  // the tile's constant `meter`, and the seeded vein paths MUST NOT be regenerated
+  // per render or the wire visibly twitches on every dial move (see `tesla.ts`).
+  // `[gallery]` is safe because Astro hands the island one array identity that never
+  // changes after hydration (the array is built at build time in index.astro).
+  const teslaById = useMemo(
+    () =>
+      Object.fromEntries(gallery.map((it) => [it.id, teslaForTile(it.meter)])) as Record<
+        string,
+        ReturnType<typeof teslaForTile>
+      >,
+    [gallery],
   );
-}
 
-export default function HomeApp({ throughline }: HomeAppProps) {
+  // Tiles whose meter sits further than cullThreshold from the dial. Declared before
+  // the `useState(() => cullFor(50))` lazy initializer below, which calls it.
+  const cullFor = useCallback(
+    (dial: number): Set<string> =>
+      new Set(
+        gallery
+          .filter((it) => Math.abs(it.meter - dial) > SPECTRUM_CONFIG.cullThreshold)
+          .map((it) => it.id),
+      ),
+    [gallery],
+  );
+
   const [mode, setModeState] = useState<Mode>("gallery");
   const [bias, setBiasState] = useState(50);
   const [domain, setDomain] = useState<string>("all");
@@ -263,7 +272,7 @@ export default function HomeApp({ throughline }: HomeAppProps) {
         });
       });
     }
-  }, []);
+  }, [cullFor]);
 
   // Kick one currently-visible electric tile into an immediate discharge. Reads
   // live collapse state via the ref so it's safe to call from a timer. Rotates
@@ -271,14 +280,14 @@ export default function HomeApp({ throughline }: HomeAppProps) {
   // spark different tiles; bumping a tile's `primed` counter re-keys its overlay
   // (see the grid) to remount it with the negative-delay `primedAnimation`.
   const primeOneSpark = useCallback(() => {
-    const eligible = ITEMS.filter(
-      (it) => TESLA_BY_ID[it.id] && !collapsedRef.current.has(it.id),
+    const eligible = gallery.filter(
+      (it) => teslaById[it.id] && !collapsedRef.current.has(it.id),
     );
     if (eligible.length === 0) return;
     const chosen = eligible[primeRotor.current % eligible.length];
     primeRotor.current += 1;
     setPrimed((p) => ({ ...p, [chosen.id]: (p[chosen.id] ?? 0) + 1 }));
-  }, []);
+  }, [gallery, teslaById]);
 
   useEffect(() => {
     try {
@@ -812,11 +821,11 @@ export default function HomeApp({ throughline }: HomeAppProps) {
 
   // Live (not debounced): which tiles are past the threshold right now, so
   // they immediately start fading even before their collapse timer is set.
-  const culledSetLive = useMemo(() => cullFor(bias), [bias]);
+  const culledSetLive = useMemo(() => cullFor(bias), [bias, cullFor]);
 
   const items = useMemo(
     () =>
-      ITEMS.map((it) => {
+      gallery.map((it) => {
         const match = domain === "all" || it.domain === domain;
         const dist = Math.abs(it.meter - bias);
         // Distance from the dial is conveyed by opacity only. Visible tiles stay
@@ -836,7 +845,7 @@ export default function HomeApp({ throughline }: HomeAppProps) {
 
         return { ...it, op, phase };
       }),
-    [domain, bias, hover, collapsed, entering, culledSetLive],
+    [gallery, domain, bias, hover, collapsed, entering, culledSetLive],
   );
 
   const visibleItems = useMemo(() => items.filter((it) => it.phase !== "collapsed"), [items]);
@@ -1049,7 +1058,7 @@ export default function HomeApp({ throughline }: HomeAppProps) {
                               teslaForTile) so it never blocks the link or hides the read-only
                               position marker. See src/config/tesla.ts. */}
                           {(() => {
-                            const tesla = TESLA_BY_ID[it.id];
+                            const tesla = teslaById[it.id];
                             if (!tesla) return null;
                             // When this tile is the one primed after a reset, swap in the
                             // negative-delay animation and re-key the overlay so React

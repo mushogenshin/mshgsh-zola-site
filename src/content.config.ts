@@ -1,5 +1,6 @@
 import { defineCollection, z } from "astro:content";
 import { file } from "astro/loaders";
+import { DOMAIN_VALUES } from "./config/gallery";
 
 /**
  * Throughline timeline, loaded from a single hand-editable YAML file
@@ -30,4 +31,29 @@ const throughline = defineCollection({
   }),
 });
 
-export const collections = { throughline };
+/**
+ * Gallery tiles, loaded from a single hand-editable YAML file
+ * (`src/data/gallery.yaml`). Same `file()`-loader + Zod-validation pattern as
+ * throughline. The `domain` enum reuses DOMAIN_VALUES from `src/config/gallery.ts`
+ * directly (a readonly tuple → no literal duplication). Tiles render sorted by
+ * `meter` (art→code); `id` is merged from the entry id in index.astro, not here.
+ */
+const gallery = defineCollection({
+  loader: file("src/data/gallery.yaml"),
+  schema: z.object({
+    title: z.string(),
+    year: z.number(),
+    domain: z.enum(DOMAIN_VALUES),
+    meter: z.number(),
+    color: z.string(),
+    blurb: z.string(),
+    slot: z.string(),
+    href: z.string(),
+    // Optional: adopt R2 cover images one tile at a time; `order` breaks meter ties.
+    image: z.string().optional(),
+    imageAlt: z.string().optional(),
+    order: z.number().optional(),
+  }),
+});
+
+export const collections = { throughline, gallery };

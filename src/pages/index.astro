@@ -5,6 +5,7 @@ import HomeApp from "../components/HomeApp";
 import TeslaDefs from "../components/TeslaDefs.astro";
 import Footer from "../components/Footer.astro";
 import { parseTimelineYear, type ThroughlineEvent } from "../config/throughline";
+import type { WorkItem } from "../config/gallery";
 
 // Load the Throughline timeline from its YAML content collection at build time
 // and hand it to the interactive island as plain, serializable data. getCollection
@@ -18,13 +19,23 @@ const throughline = (await getCollection("throughline"))
     (a, b) =>
       parseTimelineYear(a.year) - parseTimelineYear(b.year) || (a.order ?? 0) - (b.order ?? 0),
   );
+
+// Gallery tiles — same pattern. getCollection returns id order, so sort by `meter`
+// (art→code) with an optional `order` tiebreaker. The id-merge is mandatory: the
+// island keys tiles (React key, electric-current lookup, cull sets) by `it.id`, and
+// the file() loader keeps id as the entry key, not in entry.data. Keep this array
+// built here (build-time, one stable identity) — never inline it in re-rendering JSX,
+// or the island's memoized electric-current veins would regenerate every render.
+const gallery = (await getCollection("gallery"))
+  .map((entry) => ({ ...entry.data, id: entry.id }) as WorkItem)
+  .sort((a, b) => a.meter - b.meter || (a.order ?? 0) - (b.order ?? 0));
 ---
 
 <Layout>
   {/* Global SVG filter defs + flicker keyframes for the tile electric-current meters. */}
   <TeslaDefs />
   <div class="max-w-[1160px] mx-auto px-[28px] pb-20 max-[600px]:px-4">
-    <HomeApp client:load throughline={throughline} />
+    <HomeApp client:load throughline={throughline} gallery={gallery} />
     <Footer />
   </div>
 </Layout>
