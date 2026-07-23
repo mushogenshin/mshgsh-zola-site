@@ -249,8 +249,20 @@ export const TESLA_FILTER_DEFS: TeslaFilterDef[] = [
  * the dial-driven render path).
  */
 export interface TeslaTile {
+  /** Which flavor this tile earned — surfaced as `data-electric` on the overlay. */
+  kind: TeslaKind;
   /** Inline style for the absolutely-positioned overlay wrapper (`inset:-8px 0`). */
   overlayStyle: CSSProperties;
+  /**
+   * The `animation` shorthand for a **primed** spark: identical to the one baked
+   * into {@link overlayStyle} except the stagger `delay` is replaced by a
+   * *negative* delay that fast-forwards the playhead straight to the ignition
+   * point, so the tile discharges immediately. Applied (via a key/remount) to the
+   * one tile kicked after a filter reset — see the prime-one-spark logic in
+   * HomeApp and `handoff/electric-current.md`. The animation is still `infinite`,
+   * so after the primed spark the tile simply continues its normal cadence.
+   */
+  primedAnimation: string;
   /** `url(#…)` reference for the two filtered strands. */
   filterUrl: string;
   /** Bundled-wire look: two independently-seeded veins (path 3 reuses path 1). */
@@ -286,7 +298,13 @@ export function teslaForTile(meter: number): TeslaTile | null {
   const dir = meter % 2 === 0 ? "F" : "B"; // adjacent tiles drift opposite ways
   // Stagger tiles so they don't pulse in unison.
   const delay = (meter % 5) * (t.cycle / 6.5);
+  // Primed delay: a negative offset equal to the dormant span, so the playhead
+  // begins right at the ignition point (`s`%) and the spark fires immediately.
+  const dormantPct = 100 - t.life - t.dim;
+  const primeDelay = -(dormantPct / 100) * t.cycle;
   return {
+    kind,
+    primedAnimation: `${t.kf} ${t.cycle}s linear ${primeDelay.toFixed(2)}s infinite both`,
     filterUrl: `url(#${t.filt}${dir})`,
     veinPath: makeVein(meter * 997 + 13, t.wander, 0),
     veinPath2: makeVein(meter * 631 + 71, t.wander * 0.77, 1.4),
