@@ -14,11 +14,17 @@ import type { WorkItem } from "../config/gallery";
 const throughline = (await getCollection("throughline"))
   // carry the collection entry id onto the data — the island uses it as the React
   // key and the FLIP row key so animated reflow can track rows across toggles. Drop
-  // `detail` (the Thread Detail payload): only `/thread/{slug}` pages read it, so
-  // keeping it out of the Home island's serialized props avoids dead weight.
+  // the heavy `detail` payload (only `/thread/{slug}` pages read it) but keep its
+  // `slug` as `threadSlug`, so a Home card can link to its moment page when one exists.
   .map((entry) => {
-    const { detail: _detail, ...rest } = entry.data;
-    return { ...rest, id: entry.id } as ThroughlineEvent;
+    const { detail, ...rest } = entry.data;
+    // Conditional spread so entries without a thread page carry no `threadSlug` key
+    // at all (rather than a serialized `undefined`) — keeps the island props lean.
+    return {
+      ...rest,
+      id: entry.id,
+      ...(detail?.slug ? { threadSlug: detail.slug } : {}),
+    } as ThroughlineEvent;
   })
   .sort(
     (a, b) =>

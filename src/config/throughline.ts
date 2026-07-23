@@ -110,6 +110,13 @@ export interface ThroughlineEvent {
   order?: number;
   /** Optional per-moment detail page payload (`/thread/{slug}`); absent → no page. */
   detail?: ThreadDetail;
+  /**
+   * Denormalized {@link ThreadDetail.slug} for the Home timeline. index.astro sets it
+   * from `detail?.slug` while dropping the heavy `detail` body, so a Home card can
+   * offer a subtle link to its `/thread/{slug}` page (present only when a page exists)
+   * without shipping the whole payload into the island's serialized props.
+   */
+  threadSlug?: string;
 }
 
 /**

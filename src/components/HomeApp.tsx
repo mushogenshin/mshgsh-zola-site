@@ -1352,6 +1352,18 @@ export default function HomeApp({ throughline, gallery }: HomeAppProps) {
                           </span>
                         </div>
                       )}
+                      {/* Subtle link to the moment's Thread Detail page, shown only for
+                          entries that have one (threadSlug set). Inline-block so it hugs
+                          the cell's spine-side text-align, like the trivia block. */}
+                      {e.threadSlug && (
+                        <a
+                          href={`/thread/${e.threadSlug}`}
+                          className="inline-block mt-[11px] font-mono text-[10px] tracking-[.04em] hover:underline"
+                          style={{ color }}
+                        >
+                          the moment →
+                        </a>
+                      )}
                     </div>
                   </div>
                   <div
