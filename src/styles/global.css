@@ -25,6 +25,28 @@
   }
 }
 
+/* Thread Detail in-place work panel (src/components/ThreadPanel.tsx): the scrim
+   fades in and the slide-over eases in from the right. */
+@keyframes dimIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes panelIn {
+  from {
+    transform: translateX(36px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
 .animate-fadeup {
   animation: fadeup 0.4s ease both;
 }

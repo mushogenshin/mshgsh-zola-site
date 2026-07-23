@@ -13,8 +13,13 @@ import type { WorkItem } from "../config/gallery";
 // the file can be authored in any order. The island derives each entry's side.
 const throughline = (await getCollection("throughline"))
   // carry the collection entry id onto the data — the island uses it as the React
-  // key and the FLIP row key so animated reflow can track rows across toggles.
-  .map((entry) => ({ ...entry.data, id: entry.id }) as ThroughlineEvent)
+  // key and the FLIP row key so animated reflow can track rows across toggles. Drop
+  // `detail` (the Thread Detail payload): only `/thread/{slug}` pages read it, so
+  // keeping it out of the Home island's serialized props avoids dead weight.
+  .map((entry) => {
+    const { detail: _detail, ...rest } = entry.data;
+    return { ...rest, id: entry.id } as ThroughlineEvent;
+  })
   .sort(
     (a, b) =>
       parseTimelineYear(a.year) - parseTimelineYear(b.year) || (a.order ?? 0) - (b.order ?? 0),

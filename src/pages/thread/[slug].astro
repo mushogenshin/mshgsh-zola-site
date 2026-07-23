@@ -1,0 +1,511 @@
+---
+/**
+ * Thread Detail page — `/thread/{slug}`.
+ *
+ * The per-moment page for a Throughline entry that has authored `detail` data. Where
+ * a Work Detail page is about *what was made*, this is about *what it was like* — the
+ * several strands running at once. Ported from "Thread Detail.dc.html" (2024 · Fossil
+ * Skater ships); see handoff/thread-detail.md. Shares the page-card / compact-header /
+ * hard-shadow DNA with work-detail.
+ *
+ * Mostly static Astro; the one interactive piece is the in-place work panel, isolated
+ * in the <ThreadPanel> island. "Produced" cards and `work:`-typed cross-section chips
+ * are real `<a href="/work/{id}" data-work-panel>` anchors — the island intercepts a
+ * plain click to open the slide-over (thread stays put), while a no-JS / new-tab /
+ * crawler click just follows the href to the full page. Thread-to-thread chips and
+ * prev/next navigate normally (same mental space). Responsive is pure CSS (scoped
+ * media queries), not the mock's JS width flag.
+ */
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import ThreadPanel, { type PanelWork } from "../../components/ThreadPanel";
+import { r2 } from "../../config/r2";
+import {
+  ACCENT_COLORS,
+  STRAND_COLORS,
+  parseTimelineYear,
+  type ThroughlineEvent,
+} from "../../config/throughline";
+import type { WorkItem } from "../../config/gallery";
+
+export async function getStaticPaths() {
+  const all = (await getCollection("throughline"))
+    .map((e) => ({ ...e.data, id: e.id }) as ThroughlineEvent)
+    .sort(
+      (a, b) => parseTimelineYear(a.year) - parseTimelineYear(b.year) || (a.order ?? 0) - (b.order ?? 0),
+    );
+  // Only entries with authored `detail` get a page — the rest have no /thread route.
+  const detailed = all.filter((e) => e.detail);
+  const gallery = (await getCollection("gallery")).map((e) => ({ ...e.data, id: e.id }) as WorkItem);
+  const byId: Record<string, WorkItem> = Object.fromEntries(gallery.map((w) => [w.id, w]));
+  // Slugs that actually resolve to a page — a `thread:` chip to anything else
+  // degrades to a plain chip rather than a dead link (supports incremental authoring).
+  const validThreadSlugs = detailed.map((e) => e.detail!.slug);
+
+  const condense = (w: WorkItem): PanelWork => ({
+    id: w.id,
+    title: w.title,
+    domain: w.domain,
+    yearLabel: w.yearLabel ?? String(w.year),
+    status: w.status,
+    standfirst: w.standfirst ?? w.blurb,
+    meter: w.meter,
+    color: w.color,
+    slot: w.slot,
+    coverImage: w.media?.[0]?.image ? r2(w.media[0].image) : undefined,
+    tools: w.tools ?? [],
+    links: w.links ?? [],
+  });
+  const nav = (e: ThroughlineEvent | null) =>
+    e ? { slug: e.detail!.slug, year: e.year, title: e.title } : null;
+
+  return detailed.map((entry, i) => {
+    const d = entry.detail!;
+    // Referenced works (produced + work-chips) → condensed panel data, passed to the island.
+    const workIds = new Set<string>();
+    d.produced?.forEach((id) => workIds.add(id));
+    d.crossSection?.forEach((lane) => lane.chips.forEach((c) => c.work && workIds.add(c.work)));
+    const works: Record<string, PanelWork> = {};
+    for (const id of workIds) {
+      const w = byId[id];
+      if (w) works[id] = condense(w);
+    }
+    return {
+      params: { slug: d.slug },
+      props: {
+        entry,
+        navPrev: nav(i > 0 ? detailed[i - 1] : null),
+        navNext: nav(i < detailed.length - 1 ? detailed[i + 1] : null),
+        works,
+        validThreadSlugs,
+      },
+    };
+  });
+}
+
+interface Props {
+  entry: ThroughlineEvent;
+  navPrev: { slug: string; year: string; title: string } | null;
+  navNext: { slug: string; year: string; title: string } | null;
+  works: Record<string, PanelWork>;
+  validThreadSlugs: string[];
+}
+const { entry, navPrev, navNext, works, validThreadSlugs } = Astro.props;
+const d = entry.detail!;
+const accent = ACCENT_COLORS[entry.accent];
+
+const MONO = "font-family:'JetBrains Mono',monospace";
+const HAND = "font-family:'Gaegu',cursive";
+const WHITE_CARD =
+  "border:2px solid #1a1815;border-radius:14px;background:#fff;box-shadow:4px 5px 0 rgba(0,0,0,.13)";
+
+// Resolve each cross-section chip's link kind + tinted style up front (mirrors the
+// mock's renderVals). A `thread:` chip whose target has no page becomes plain.
+const lanes = (d.crossSection ?? []).map((lane) => {
+  const c = STRAND_COLORS[lane.strand];
+  const tint = lane.strand === "work" ? "#f4f1ea" : c + "14";
+  return {
+    name: lane.strand,
+    color: c,
+    chips: lane.chips.map((ch) => {
+      const isWork = !!ch.work;
+      const isThread = !!ch.thread && validThreadSlugs.includes(ch.thread);
+      const isLink = isWork || isThread;
+      const bg = isLink ? (lane.strand === "work" ? "#fff" : tint) : tint;
+      return {
+        label: ch.label,
+        kind: isWork ? "work" : isThread ? "thread" : "plain",
+        workId: isWork ? ch.work! : "",
+        href: isWork ? `/work/${ch.work}` : isThread ? `/thread/${ch.thread}` : "",
+        style:
+          `border:1.5px solid ${c};background:${bg};color:#1a1815;` +
+          (isLink ? "box-shadow:2px 2px 0 rgba(0,0,0,.1);cursor:pointer" : ""),
+      };
+    }),
+  };
+});
+
+const produced = (d.produced ?? []).map((id) => works[id]).filter(Boolean) as PanelWork[];
+const hasHindsight = !!d.hindsight;
+const hasTrivia = !!entry.trivia;
+---
+
+<Layout title={`${entry.title} — Hoan Nguyen`} description={d.standfirst} bg="bg-[#e9e4d8]">
+  <section class="td-section">
+    <div style="position:relative;width:1160px;max-width:100%">
+      <div
+        style="background:#f4f1ea;border:2.5px solid #1a1815;border-radius:18px;overflow:hidden;box-shadow:8px 9px 0 rgba(0,0,0,.14)"
+      >
+        <div class="td-pad">
+          {/* compact header (no faux URL bar — design device only) */}
+          <header
+            style="display:flex;align-items:center;justify-content:space-between;gap:12px 18px;padding:20px 0 22px;border-bottom:1.5px dashed #d8d2c4;flex-wrap:wrap"
+          >
+            <div style="display:flex;align-items:center;gap:18px">
+              <div style={`${HAND};font-weight:700;font-size:22px;line-height:.9;transform:rotate(-2deg)`}>
+                Hoan Nguyen
+              </div>
+              <a
+                href="/#throughline"
+                style={`${MONO};font-size:11.5px;color:#1a1815;border:2px solid #1a1815;border-radius:20px;padding:4px 12px;background:#fff;box-shadow:2px 2px 0 rgba(0,0,0,.12)`}
+              >
+                ← throughline
+              </a>
+            </div>
+            <nav style={`display:flex;gap:16px;${MONO};font-size:11px;align-items:center`}>
+              <a href="/#about" style="color:#1a1815">about</a>
+              <a href="https://github.com/mushogenshin" style="color:#1a1815">github</a>
+              <a href="https://artstation.com/mushogenshin" style="color:#1a1815">artstation</a>
+            </nav>
+          </header>
+
+          {/* masthead: the moment as a node on the thread */}
+          <div class="td-masthead">
+            <div style="flex:0 0 auto;position:relative;width:44px;align-self:stretch">
+              <div style="position:absolute;left:20px;top:-32px;bottom:-20px;width:3px;background:#1a1815"></div>
+              <div
+                style={`position:absolute;left:10px;top:26px;width:24px;height:24px;border-radius:50%;background:${accent};border:3px solid #1a1815;box-shadow:0 0 0 5px #f4f1ea,0 0 0 7px ${accent}59`}
+              >
+              </div>
+            </div>
+            <div style="flex:1">
+              <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px;flex-wrap:wrap">
+                <span class="td-year" style={`color:${accent}`}>{entry.year}</span>
+                {
+                  d.strands?.map((s) => {
+                    const c = STRAND_COLORS[s];
+                    return (
+                      <span
+                        style={`display:inline-flex;align-items:center;gap:6px;${MONO};font-size:10.5px;border:2px solid ${c};background:${c}1f;border-radius:20px;padding:3px 10px`}
+                      >
+                        <span style={`width:7px;height:7px;border-radius:50%;background:${c};display:inline-block`} />
+                        {s}
+                      </span>
+                    );
+                  })
+                }
+              </div>
+              <h1 class="td-h1">{entry.title}</h1>
+              <p style="font-size:16.5px;line-height:1.55;color:#4a453d;max-width:640px;margin:12px 0 0">
+                {d.standfirst}
+              </p>
+            </div>
+            {d.marginalia && <div class="td-marginalia">{d.marginalia}</div>}
+          </div>
+
+          {/* narrative — hangs off the thread line */}
+          {
+            d.narrative && d.narrative.length > 0 && (
+              <div class="td-narrative">
+                {d.narrative.map((para, i) => (
+                  <p style={`margin:0 0 ${i === d.narrative!.length - 1 ? "0" : "14px"}`} set:html={para} />
+                ))}
+              </div>
+            )
+          }
+
+          {/* cross-section: one lane per strand */}
+          {
+            lanes.length > 0 && (
+              <div style={`margin-top:32px;padding:20px 24px;${WHITE_CARD}`}>
+                <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:16px">
+                  <span style={`${MONO};font-size:10.5px;color:#8a8378`}>CROSS-SECTION · WHAT RAN IN PARALLEL</span>
+                  <span style={`${HAND};font-weight:700;font-size:16px;color:#8a8378;transform:rotate(-1deg)`}>
+                    a core sample of the year
+                  </span>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  {lanes.map((lane) => (
+                    <div class="td-lane">
+                      <span style={`display:inline-flex;align-items:center;gap:7px;${MONO};font-size:10.5px;font-weight:700;color:${lane.color}`}>
+                        <span style={`width:9px;height:9px;border-radius:50%;background:${lane.color};display:inline-block`} />
+                        {lane.name}
+                      </span>
+                      <div style="display:flex;flex-wrap:wrap;gap:8px">
+                        {lane.chips.map((chip) =>
+                          chip.kind === "work" ? (
+                            <a href={chip.href} data-work-panel={chip.workId} class="td-chip" style={chip.style}>
+                              {chip.label}
+                            </a>
+                          ) : chip.kind === "thread" ? (
+                            <a href={chip.href} class="td-chip" style={chip.style}>
+                              {chip.label}
+                            </a>
+                          ) : (
+                            <span class="td-chip" style={chip.style}>
+                              {chip.label}
+                            </span>
+                          ),
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )
+          }
+
+          {/* produced in this period — opens the work panel, no navigation */}
+          {
+            produced.length > 0 && (
+              <div style="margin-top:30px">
+                <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:12px">
+                  <span style={`${MONO};font-size:10.5px;color:#8a8378`}>PRODUCED IN THIS PERIOD</span>
+                  <span style={`${MONO};font-size:10px;color:#b3ab9c`}>opens in place — the thread stays put</span>
+                </div>
+                <div class="td-produced">
+                  {produced.map((p) => (
+                    <a
+                      href={`/work/${p.id}`}
+                      data-work-panel={p.id}
+                      style={`display:block;overflow:hidden;color:#1a1815;cursor:pointer;${WHITE_CARD}`}
+                    >
+                      <div style={`position:relative;height:86px;border-bottom:2px solid #1a1815;display:flex;align-items:flex-end;padding:8px;background:${p.color}`}>
+                        {p.coverImage ? (
+                          <img
+                            src={p.coverImage}
+                            alt={p.title}
+                            style="position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;display:block"
+                          />
+                        ) : (
+                          <span style={`${MONO};font-size:9px;color:rgba(0,0,0,.5)`}>{p.slot}</span>
+                        )}
+                      </div>
+                      <div style="padding:12px 14px">
+                        <div style={`${MONO};font-size:9.5px;color:#8a8378`}>ON THE SPECTRUM · {p.meter}/100</div>
+                        <div style="font-weight:600;font-size:15px">{p.title} →</div>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )
+          }
+
+          {/* hindsight (retrospective) + trivia */}
+          {
+            (hasHindsight || hasTrivia) && (
+              <div class={`td-reflect${hasHindsight && hasTrivia ? "" : " solo"}`}>
+                {hasHindsight && (
+                  <div style="border:2px solid #1a1815;border-radius:14px;background:#fdf3e4;padding:20px 24px;box-shadow:4px 5px 0 rgba(0,0,0,.13);transform:rotate(-.4deg)">
+                    <div style={`${MONO};font-size:10.5px;color:#a5502f;margin-bottom:8px`}>
+                      HINDSIGHT · WRITTEN FROM {d.hindsight!.from}
+                    </div>
+                    <div
+                      style={`${HAND};font-weight:700;font-size:22px;line-height:1.35;color:#1a1815`}
+                      set:html={d.hindsight!.text}
+                    />
+                  </div>
+                )}
+                {hasTrivia && (
+                  <div style="border-top:1.5px dashed #d8d2c4;padding-top:14px">
+                    <div style={`display:inline-flex;align-items:center;gap:7px;${MONO};font-size:10.5px;color:#a8842c;margin-bottom:8px`}>
+                      <span style="width:7px;height:7px;border-radius:50%;background:#e0a92e;box-shadow:0 0 7px 1px #e0a92e;display:inline-block" />
+                      TRIVIA
+                    </div>
+                    <div style="font-size:13px;line-height:1.55;color:#5c574e">{entry.trivia}</div>
+                  </div>
+                )}
+              </div>
+            )
+          }
+
+          {/* prev / next along the thread */}
+          <div class="td-foot">
+            {
+              navPrev ? (
+                <a href={`/thread/${navPrev.slug}`} class="td-foot-prev">
+                  <span style={`${MONO};font-size:14px`}>←</span>
+                  <span>
+                    <span style={`display:block;${MONO};font-size:9.5px;color:#8a8378`}>EARLIER · {navPrev.year}</span>
+                    <span style="display:block;font-weight:600;font-size:14px">{navPrev.title}</span>
+                  </span>
+                </a>
+              ) : (
+                <span></span>
+              )
+            }
+            <a href="/#throughline" class="td-foot-thread">see the whole thread</a>
+            {
+              navNext ? (
+                <a href={`/thread/${navNext.slug}`} class="td-foot-next">
+                  <span>
+                    <span style={`display:block;${MONO};font-size:9.5px;color:#8a8378`}>LATER · {navNext.year}</span>
+                    <span style="display:block;font-weight:600;font-size:14px">{navNext.title}</span>
+                  </span>
+                  <span style={`${MONO};font-size:14px`}>→</span>
+                </a>
+              ) : (
+                <span></span>
+              )
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* the in-place work panel (renders nothing until a trigger is clicked) */}
+    <ThreadPanel client:load works={works} />
+  </section>
+</Layout>
+
+<style>
+  .td-section {
+    display: flex;
+    justify-content: center;
+    padding: 44px 24px;
+  }
+  .td-pad {
+    padding: 0 44px 46px;
+  }
+  .td-masthead {
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    margin: 32px 0 6px;
+  }
+  .td-year {
+    font-family: "JetBrains Mono", monospace;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    font-size: 34px;
+  }
+  .td-h1 {
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+    font-size: 44px;
+    text-wrap: balance;
+  }
+  .td-marginalia {
+    flex: 0 0 auto;
+    font-family: "Gaegu", cursive;
+    font-weight: 700;
+    font-size: 20px;
+    color: #a5502f;
+    transform: rotate(-1.5deg);
+    max-width: 220px;
+    text-align: right;
+    padding-top: 14px;
+  }
+  .td-narrative {
+    max-width: 720px;
+    margin: 22px 0 0;
+    font-size: 15px;
+    line-height: 1.65;
+    color: #3d3831;
+    padding-left: 72px;
+  }
+  .td-lane {
+    display: grid;
+    grid-template-columns: 92px 1fr;
+    gap: 14px;
+    align-items: center;
+  }
+  /* Desktop chips are single-line pills; mobile lets them wrap as a tag cloud. */
+  .td-chip {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    border-radius: 16px;
+    padding: 4px 12px;
+    white-space: nowrap;
+  }
+  .td-produced {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .td-reflect {
+    margin-top: 30px;
+    display: grid;
+    gap: 24px;
+    align-items: start;
+    grid-template-columns: 1fr 320px;
+  }
+  .td-reflect.solo {
+    grid-template-columns: 1fr;
+  }
+  .td-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 34px;
+    border-top: 1.5px dashed #d8d2c4;
+    padding-top: 18px;
+  }
+  .td-foot-prev,
+  .td-foot-next {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    color: #1a1815;
+  }
+  .td-foot-next {
+    text-align: right;
+  }
+  .td-foot-thread {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: #e0531f;
+  }
+
+  @media (max-width: 760px) {
+    .td-section {
+      padding: 18px 10px;
+    }
+    .td-pad {
+      padding: 0 18px 34px;
+    }
+    .td-masthead {
+      gap: 12px;
+      margin: 24px 0 6px;
+    }
+    .td-year {
+      font-size: 26px;
+    }
+    .td-h1 {
+      font-size: 30px;
+    }
+    .td-marginalia {
+      display: none;
+    }
+    .td-narrative {
+      padding-left: 0;
+    }
+    .td-lane {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      align-items: flex-start;
+    }
+    .td-chip {
+      white-space: normal;
+      line-height: 1.5;
+    }
+    .td-produced {
+      grid-template-columns: 1fr;
+    }
+    .td-reflect {
+      grid-template-columns: 1fr;
+    }
+    .td-foot {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .td-foot-prev {
+      order: 1;
+    }
+    .td-foot-next {
+      order: 2;
+      justify-content: flex-end;
+    }
+    .td-foot-thread {
+      order: 3;
+      align-self: center;
+      margin-top: 4px;
+    }
+  }
+</style>
