@@ -19,8 +19,10 @@
 #   blurb    one or two sentences; `>-` wraps across lines without inserting newlines
 #   slot     short placeholder text shown in the tile header until an `image` is set
 #   href     link — KEEP THE QUOTES (e.g. "#" or "https://…")
-#   image    OPTIONAL R2 object key, e.g. "work/fossil/cover.webp" — replaces the
-#            slot placeholder (resolved to a URL via r2())
+#   image    OPTIONAL cover art. Either an R2 object KEY (recommended, e.g.
+#            "cascina/cascina-2016-b.webp" → prefixed with PUBLIC_R2_BASE_URL by
+#            r2(), so it migrates with the bucket) OR a full "https://…" URL (used
+#            as-is). Replaces the slot placeholder.
 #   imageAlt OPTIONAL alt text for the image; defaults to `title`
 #   order    OPTIONAL tiebreaker for tiles sharing a `meter` (lower sorts first)
 
@@ -34,6 +36,7 @@
     19 figurative sculptures after Michelangelo’s lost cartoon. Abandoned too soon
     — now resuming.
   slot: figurative sculpt
+  image: cascina/cascina-2016-b.webp
   href: "#"
 
 - id: busts

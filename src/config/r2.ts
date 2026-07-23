@@ -25,15 +25,21 @@
 const BASE = import.meta.env.PUBLIC_R2_BASE_URL ?? "";
 
 /**
- * Build a full CDN URL from an R2 bucket key.
+ * Resolve a Gallery/asset image reference to a URL.
  *
- * @param key  Object key within the bucket, e.g. `"work/fossil/cover.webp"`.
- *             A leading slash is tolerated and stripped so callers can write
- *             either `"work/x.webp"` or `"/work/x.webp"`.
- * @returns    Absolute URL, or a root-relative path if `PUBLIC_R2_BASE_URL` is
- *             unset (keeps local dev from producing `undefined/...` URLs).
+ * @param key  Either an R2 object key (recommended, e.g. `"cascina/cover.webp"`)
+ *             or a full `http(s)://` URL. A key is prefixed with
+ *             `PUBLIC_R2_BASE_URL` so it migrates with the bucket (one env change,
+ *             no data edits); a leading slash is tolerated and stripped. A full
+ *             URL is returned **as-is** — an escape hatch for one-off covers on a
+ *             different host, at the cost of not auto-migrating with the base.
+ * @returns    Absolute URL (or a root-relative path if `PUBLIC_R2_BASE_URL` is
+ *             unset, so local dev never produces `undefined/...`).
  *
- * @example r2("work/fossil/cover.webp")
- *   → "https://<bucket>.r2.dev/work/fossil/cover.webp"
+ * @example r2("cascina/cascina-2016-b.webp")
+ *   → "https://cdn.mushogenshin.com/cascina/cascina-2016-b.webp"  (base prefixed)
+ * @example r2("https://cdn.mushogenshin.com/cascina/cascina-2016-b.webp")
+ *   → unchanged
  */
-export const r2 = (key: string): string => `${BASE}/${key.replace(/^\/+/, "")}`;
+export const r2 = (key: string): string =>
+  /^https?:\/\//i.test(key) ? key : `${BASE}/${key.replace(/^\/+/, "")}`;
