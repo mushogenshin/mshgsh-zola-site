@@ -83,6 +83,7 @@ const gallery = defineCollection({
     imageAlt: z.string().optional(),
     bannerImagePreview: z.string().optional(),
     bannerFx: z.enum(BANNER_FX_VALUES).optional(),
+    bannerSwapTaglineRetained: z.boolean().optional(),
     order: z.number().optional(),
     // Work Detail page (`/work/{id}`) fields — all optional; see WorkItem docs in
     // src/config/gallery.ts for semantics. `body` is trusted authored HTML.

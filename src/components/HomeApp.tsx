@@ -3,7 +3,6 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import {
   BANNER_FX_DEFAULT,
   BANNER_FX_VALUES,
-  BANNER_SWAP_TAGLINE_RETAINED,
   DOMAINS,
   type BannerFx,
   type WorkItem,
@@ -765,10 +764,11 @@ export default function HomeApp({ throughline, gallery }: HomeAppProps) {
   );
   const hoveredItem = useMemo(() => gallery.find((g) => g.id === hover) ?? null, [gallery, hover]);
   const bannerOn = isGallery && !!hoveredItem?.bannerImagePreview;
-  // When BANNER_SWAP_TAGLINE_RETAINED is false, fade the centered tagline card out
-  // while a hover-banner covers the hero so the cover reads clean (default retains it,
-  // so this is normally false). `!== false` ⇒ undefined counts as retained.
-  const taglineHidden = bannerOn && BANNER_SWAP_TAGLINE_RETAINED === false;
+  // Fade the centered tagline card out while the HOVERED tile's banner covers the
+  // hero, but only for tiles that opt in with `bannerSwapTaglineRetained: false` (so
+  // their cover reads clean). Omitted/true ⇒ retained (default). Per-tile, read off
+  // the hovered item — see handoff/banner-swap-tagline-retained.md.
+  const taglineHidden = bannerOn && hoveredItem?.bannerSwapTaglineRetained === false;
   // Update the sticky banner src+fx only when hovering a tile that HAS a preview, so
   // leaving a tile keeps the last image on screen while `on` fades it out.
   useEffect(() => {
