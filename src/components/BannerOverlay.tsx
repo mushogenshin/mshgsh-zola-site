@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { BANNER_NOISE, type BannerFx } from "../config/gallery";
 
 interface BannerOverlayProps {
@@ -75,12 +75,47 @@ function variantStyle(fx: BannerFx, on: boolean): React.CSSProperties {
 export default function BannerOverlay({ src, on, fx }: BannerOverlayProps) {
   const funcRef = useRef<SVGFEFuncAElement>(null);
   const blobRaf = useRef(0);
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  // GOTCHA #3 — tile-to-tile hover never passes through `on === false`. Crossing
+  // straight from tile B to tile A fires mouseleave(B) + mouseenter(A) in one React
+  // batch (both are synthesized from a single native mouseout/mouseover), so `hover`
+  // goes B→A in ONE render and `on` stays true throughout. The wipe/mask geometry
+  // then never revisits its hidden resting pose, no computed-style change occurs,
+  // and the new image hard-swaps with no reveal. (Even unbatched, both renders can
+  // land before one style recalc — same outcome.)
+  //
+  // Fix: `armed` gates the visual on-state. When `src` changes while `on`, disarm —
+  // committing one pre-paint render at the hidden geometry — then force a style
+  // recalc so the browser actually *computes* that pose, and re-arm. The rearmed
+  // render transitions hidden→revealed, replaying the full effect. Both renders
+  // happen before paint (setState in a layout effect flushes synchronously), so
+  // nothing flickers. Same-tile enter/exit and the sticky exit fade are untouched:
+  // they never change `src` mid-hover, so they never disarm.
+  const [armed, setArmed] = useState(true);
+  const prevSrc = useRef(src);
+
+  useLayoutEffect(() => {
+    if (prevSrc.current === src) return;
+    prevSrc.current = src;
+    if (on) setArmed(false);
+  }, [src, on]);
+
+  useLayoutEffect(() => {
+    if (armed) return;
+    // Forced reflow: makes the just-committed hidden pose the transition's start
+    // point. Without this, both renders share one style recalc and nothing animates.
+    rootRef.current?.getBoundingClientRect();
+    setArmed(true);
+  }, [armed]);
+
+  const shown = on && armed;
 
   // noise dissolve: flip the 12 discrete alpha bands 0→1 over BANNER_NOISE.dur so
   // the cover blooms in as organic blobs. Driven directly off the hover state
   // change (GOTCHA #2: a lifecycle-hook trigger silently never fired in the mock).
   useEffect(() => {
-    if (fx !== "noise" || !on) return;
+    if (fx !== "noise" || !shown) return;
     const fn = funcRef.current;
     if (!fn) return;
     cancelAnimationFrame(blobRaf.current);
@@ -99,10 +134,11 @@ export default function BannerOverlay({ src, on, fx }: BannerOverlayProps) {
     fn.setAttribute("tableValues", Array(N).fill("0").join(" "));
     blobRaf.current = requestAnimationFrame(step);
     return () => cancelAnimationFrame(blobRaf.current);
-  }, [on, src, fx]);
+  }, [shown, src, fx]);
 
   return (
     <div
+      ref={rootRef}
       aria-hidden="true"
       style={{
         position: "absolute",
@@ -113,8 +149,8 @@ export default function BannerOverlay({ src, on, fx }: BannerOverlayProps) {
         backgroundImage: src ? `url(${src})` : undefined,
         backgroundSize: "cover",
         backgroundPosition: "center",
-        opacity: on ? 1 : 0,
-        ...variantStyle(fx, on),
+        opacity: shown ? 1 : 0,
+        ...variantStyle(fx, shown),
       }}
     >
       <div style={SCRIM_STYLE} />
