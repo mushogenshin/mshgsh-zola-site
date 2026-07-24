@@ -30,6 +30,8 @@
 #            DIFFERENT asset from `image` (never the thumbnail).
 #   bannerFx OPTIONAL pin the reveal effect: wipe | mask | noise. Omit → a random
 #            effect is assigned per page load.
+#   bannerSwapTaglineRetained  OPTIONAL `false` = fade the centered hero tagline card
+#            out while THIS tile's banner covers the hero (default keeps it shown)
 #   order    OPTIONAL tiebreaker for tiles sharing a `meter` (lower sorts first)
 #
 #   ── Work Detail page (/work/{id}) — all OPTIONAL ──
@@ -59,6 +61,7 @@
   slot: figurative sculpt
   image: cascina/cascina-2016-b.webp
   bannerImagePreview: cascina/cascina-2016-a.webp
+  bannerSwapTaglineRetained: false
   # bannerFx: noise
   href: "#"
   standfirst: >-
@@ -117,20 +120,23 @@
   meter: 12
   color: "#e78a4e"
   blurb: >-
-    Portrait sculpts: Asimov, Feynman, Sagan, Tesla. Set down mid-flight; back on
+    Portrait sculpts: Asimov, Sagan, Tesla. Set down mid-flight; back on
     the bench.
   slot: portrait busts
+  image: likeness/nikola-tesla-2017-side.webp
+  bannerImagePreview: likeness/nikola-tesla-carl-sagan-isaac-asimov.webp
+  bannerSwapTaglineRetained: false
   href: "#"
   standfirst: >-
     Portrait busts of the thinkers I grew up on — a direct extension of
     facial-anatomy training.
-  marginalia: "Asimov, Feynman, Sagan, Tesla."
+  marginalia: "Asimov, Sagan, Tesla."
   status: "on the bench"
   yearLabel: "2016 — ongoing"
   meterNote: "hands, clay, and a lot of looking"
   body:
     - >-
-      A set of portrait busts — Asimov, Feynman, Sagan, Tesla — sculpted straight
+      A set of portrait busts — Asimov, Sagan, Tesla — sculpted straight
       out of Scott Eaton’s Facial Anatomy &amp; Portraiture course. Likeness is
       unforgiving: a few millimetres at the brow or the corner of a mouth and the
       person is simply gone.
@@ -138,6 +144,16 @@
       Set down mid-flight when production work took priority. They’re back on the
       bench now, with a decade more looking behind them.
   tools: [ZBrush, clay, facial anatomy, portrait reference]
+  media:
+    - image: likeness/nikola-tesla-2017-front.webp
+      alt: Nikola Tesla — front view
+      caption: Nikola Tesla portrait bust
+    - image: likeness/nikola-tesla-metahuman-2023-solver-b.webp
+      alt: Nikola Tesla — front view, Metahuman solver
+      caption: Metahuman solver
+    - image: likeness/nikola-tesla-2017-bottom.webp
+      alt: Nikola Tesla — lower angle view
+      caption: Skull placement for fat tissue study
   links:
     - label: ArtStation
       href: "https://artstation.com/mushogenshin"
@@ -346,6 +362,10 @@
     A talk at Unreal Fest Bali 2025 — the Verse language explained from a
     non-programmer’s lens.
   slot: talk poster
+  image: verse-bali/verse-why.webp
+  bannerImagePreview: verse-bali/verse-subscription-pitfall.webp
+  bannerSwapTaglineRetained: false
+  bannerFx: noise
   href: "https://childlike-verse-lang.web.app"
   standfirst: >-
     A conference talk explaining Epic’s Verse language from a non-programmer’s point
@@ -363,6 +383,11 @@
       The structured-concurrency work in KineticRPG is the practice behind the
       theory; this is me trying to hand it back to the room I came from.
   tools: [Verse, Unreal Engine, public speaking]
+  media:
+    - image: verse-bali/verse-failure-kid.webp
+      alt: Verse failure kid
+    - image: verse-bali/verse-mutability.webp
+      alt: Verse mutability 
   links:
     - label: watch / slides
       href: "https://childlike-verse-lang.web.app"
