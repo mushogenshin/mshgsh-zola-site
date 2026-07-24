@@ -103,12 +103,12 @@ const nodeLeft = (i: number, n: number): number => (n <= 1 ? 44 : 6 + (76 * i) /
   {/* Turbulence filter defs + flicker keyframes the ElectricVein references by id/name. */}
   <TeslaDefs />
 
-  <section style="display:flex;justify-content:center;padding:44px 24px">
+  <section class="wd-section" style="display:flex;justify-content:center">
     <div style="position:relative;width:1160px;max-width:100%">
       <div
         style="background:#f4f1ea;border:2.5px solid #1a1815;border-radius:18px;overflow:hidden;box-shadow:8px 9px 0 rgba(0,0,0,.14)"
       >
-        <div style="padding:0 44px 46px" class="wd-pad">
+        <div class="wd-pad">
           {/* 1 — compact header (the Home banner's shrunk form; no faux URL bar) */}
           <header
             style="display:flex;align-items:center;justify-content:space-between;gap:18px;padding:20px 0 22px;border-bottom:1.5px dashed #d8d2c4"
@@ -149,13 +149,13 @@ const nodeLeft = (i: number, n: number): number => (n <= 1 ? 44 : 6 + (76 * i) /
                   )
                 }
               </div>
-              <h1 style="margin:0;font-size:46px;line-height:1.02;font-weight:700;letter-spacing:-.01em">
+              <h1 class="wd-h1" style="margin:0;line-height:1.02;font-weight:700;letter-spacing:-.01em">
                 {work.title}
               </h1>
             </div>
             {
               work.marginalia && (
-                <div style={`${HAND};font-weight:700;font-size:20px;color:#a5502f;transform:rotate(-1.5deg);max-width:250px;text-align:right`}>
+                <div class="wd-marginalia" style={`${HAND};font-weight:700;font-size:20px;color:#a5502f`}>
                   {work.marginalia}
                 </div>
               )
@@ -174,9 +174,9 @@ const nodeLeft = (i: number, n: number): number => (n <= 1 ? 44 : 6 + (76 * i) /
                   {!hero.image && hero.placeholder && <span style={PLACEHOLDER}>{hero.placeholder}</span>}
                   {hero.caption && <span style={CAPTION}>{hero.caption}</span>}
                 </div>
-                <div style={`display:grid;grid-template-rows:repeat(${side.length},1fr);gap:14px`}>
+                <div class="wd-side" style={`--wd-side-n:${side.length}`}>
                   {side.map((cell) => (
-                    <div style={`${CELL};background:${cell.color ?? work.color}`}>
+                    <div class="wd-side-cell" style={`${CELL};background:${cell.color ?? work.color}`}>
                       {cell.image && <img src={r2(cell.image)} alt={cell.alt ?? work.title} style={IMG} />}
                       {!cell.image && cell.placeholder && <span style={PLACEHOLDER}>{cell.placeholder}</span>}
                       {cell.caption && <span style={CAPTION}>{cell.caption}</span>}
@@ -195,18 +195,18 @@ const nodeLeft = (i: number, n: number): number => (n <= 1 ? 44 : 6 + (76 * i) /
 
           {/* 4 — big annotated meter (the page's one signature effect) */}
           <div style={`margin:34px 0 8px;padding:20px 24px 18px;${WHITE_CARD}`}>
-            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:12px">
-              <span style={`${MONO};font-size:11px;color:#c9491a;font-weight:700;white-space:nowrap`}>
+            <div class="wd-meter-head" style="align-items:baseline;gap:16px;margin-bottom:12px">
+              <span class="wd-meter-art" style={`${MONO};font-size:11px;color:#c9491a;font-weight:700;white-space:nowrap`}>
                 ART · {work.meter}/100
               </span>
               {
                 work.meterNote && (
-                  <span style={`${HAND};font-weight:700;font-size:17px;color:#8a8378;transform:rotate(-1deg);text-align:center`}>
+                  <span class="wd-meter-note" style={`${HAND};font-weight:700;color:#8a8378;text-align:center`}>
                     {work.meterNote}
                   </span>
                 )
               }
-              <span style={`${MONO};font-size:11px;color:#2450c9;white-space:nowrap`}>CODE</span>
+              <span class="wd-meter-code" style={`${MONO};font-size:11px;color:#2450c9;white-space:nowrap`}>CODE</span>
             </div>
             <div style="position:relative;height:8px;border-radius:4px;background:linear-gradient(90deg,#e0531f,#f0c94a 50%,#2f6df0)">
               <ElectricVein meter={work.meter} />
@@ -274,32 +274,38 @@ const nodeLeft = (i: number, n: number): number => (n <= 1 ? 44 : 6 + (76 * i) /
           {
             work.threadContext && work.threadContext.length > 0 && (
               <div style={`margin-top:34px;padding:16px 24px;${WHITE_CARD}`}>
-                <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px">
+                <div class="wd-thread-head" style="align-items:baseline;margin-bottom:12px">
                   <span style={`${MONO};font-size:10.5px;color:#8a8378`}>WHERE THIS SITS ON THE THREAD</span>
                   <a href="/#throughline" style={`${MONO};font-size:10.5px;color:#e0531f`}>
                     trace the throughline →
                   </a>
                 </div>
-                <div style="position:relative;height:44px">
-                  <div style="position:absolute;left:0;right:0;top:12px;height:3px;background:#1a1815;border-radius:2px" />
-                  {work.threadContext.map((node, i) => {
-                    const left = nodeLeft(i, work.threadContext!.length);
-                    return node.active ? (
-                      <>
-                        <div style={`position:absolute;left:${left}%;top:4px;transform:translateX(-50%);width:19px;height:19px;border-radius:50%;background:${work.color};border:3px solid #1a1815;box-shadow:0 0 0 4px ${work.color}59`} />
-                        <div style={`position:absolute;left:${left}%;top:28px;transform:translateX(-50%);${MONO};font-size:10px;font-weight:700;white-space:nowrap`}>
-                          {node.year} · {node.label}
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div style={`position:absolute;left:${left}%;top:8px;transform:translateX(-50%);width:11px;height:11px;border-radius:50%;background:#f4f1ea;border:2.5px solid #1a1815`} />
-                        <div style={`position:absolute;left:${left}%;top:28px;transform:translateX(-50%);${MONO};font-size:9.5px;color:#8a8378;white-space:nowrap`}>
-                          {node.year} · {node.label}
-                        </div>
-                      </>
-                    );
-                  })}
+                {/* Wide labels collide when milestones sit close, so labels stagger onto two
+                    rows (alternating top offsets) at every viewport; on mobile the track
+                    additionally keeps a min-width and scrolls sideways instead of squashing. */}
+                <div class="wd-thread-scroll">
+                  <div class="wd-thread-track" style="position:relative;height:58px">
+                    <div style="position:absolute;left:0;right:0;top:12px;height:3px;background:#1a1815;border-radius:2px" />
+                    {work.threadContext.map((node, i) => {
+                      const left = nodeLeft(i, work.threadContext!.length);
+                      const labelTop = i % 2 === 0 ? 26 : 40;
+                      return node.active ? (
+                        <>
+                          <div style={`position:absolute;left:${left}%;top:4px;transform:translateX(-50%);width:19px;height:19px;border-radius:50%;background:${work.color};border:3px solid #1a1815;box-shadow:0 0 0 4px ${work.color}59`} />
+                          <div style={`position:absolute;left:${left}%;top:${labelTop}px;transform:translateX(-50%);${MONO};font-size:10px;font-weight:700;white-space:nowrap`}>
+                            {node.year} · {node.label}
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div style={`position:absolute;left:${left}%;top:8px;transform:translateX(-50%);width:11px;height:11px;border-radius:50%;background:#f4f1ea;border:2.5px solid #1a1815`} />
+                          <div style={`position:absolute;left:${left}%;top:${labelTop}px;transform:translateX(-50%);${MONO};font-size:9.5px;color:#8a8378;white-space:nowrap`}>
+                            {node.year} · {node.label}
+                          </div>
+                        </>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             )
@@ -331,7 +337,7 @@ const nodeLeft = (i: number, n: number): number => (n <= 1 ? 44 : 6 + (76 * i) /
           }
 
           {/* 8 — prev / next footer (end-caps at the spectrum extremes) */}
-          <div style={`display:flex;justify-content:space-between;gap:18px;margin-top:22px;${MONO};font-size:11px;color:#8a8378`}>
+          <div class="wd-prevnext" style={`gap:18px;margin-top:22px;${MONO};font-size:11px;color:#8a8378`}>
             {
               prev ? (
                 <a href={`/work/${prev.id}`} style="color:#1a1815;font-weight:700">← prev: {prev.title}</a>
@@ -353,13 +359,49 @@ const nodeLeft = (i: number, n: number): number => (n <= 1 ? 44 : 6 + (76 * i) /
   </section>
 </Layout>
 
-{/* Faithful port uses fixed grids; stack them on narrow viewports (inline styles would
-    otherwise win over a class media query, so the grid lives entirely in these classes). */}
+{/* Faithful port uses fixed grids + inline styles; anything that must change across
+    viewports lives entirely in these classes, because an inline style would win over
+    a class media query and silently pin the desktop layout. Breakpoint: 680px, same
+    as Home / Thread Detail (see handoff/work-detail-mobile.md). */}
 <style>
+  .wd-section {
+    padding: 44px 24px;
+  }
+  .wd-pad {
+    padding: 0 44px 46px;
+  }
+  .wd-h1 {
+    font-size: 46px;
+  }
+  .wd-marginalia {
+    font-size: 20px;
+    transform: rotate(-1.5deg);
+    max-width: 250px;
+    text-align: right;
+  }
   .wd-hero {
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: 14px;
+  }
+  /* Desktop: the side rail stacks its tiles as equal rows beside the hero;
+     mobile flips it to a 3-up (n-up) strip under the hero. */
+  .wd-side {
+    display: grid;
+    grid-template-rows: repeat(var(--wd-side-n), 1fr);
+    gap: 14px;
+  }
+  .wd-meter-head {
+    display: flex;
+    justify-content: space-between;
+  }
+  .wd-meter-note {
+    font-size: 17px;
+    transform: rotate(-1deg);
+  }
+  .wd-thread-head {
+    display: flex;
+    justify-content: space-between;
   }
   .wd-writeup {
     display: grid;
@@ -378,15 +420,71 @@ const nodeLeft = (i: number, n: number): number => (n <= 1 ? 44 : 6 + (76 * i) /
   .wd-related.solo {
     grid-template-columns: 1fr;
   }
-  @media (max-width: 760px) {
+  .wd-prevnext {
+    display: flex;
+    justify-content: space-between;
+  }
+  @media (max-width: 680px) {
+    .wd-section {
+      padding: 24px 12px;
+    }
+    .wd-pad {
+      padding: 0 22px 32px;
+    }
+    .wd-h1 {
+      font-size: 32px;
+    }
+    .wd-marginalia {
+      transform: none;
+      max-width: none;
+      text-align: left;
+    }
     .wd-hero,
     .wd-writeup,
     .wd-related {
       grid-template-columns: 1fr;
     }
-    .wd-pad {
-      padding-left: 22px;
-      padding-right: 22px;
+    /* Side tiles become a horizontal strip; aspect-ratio keeps them from
+       squashing to thin bars now that no hero row height stretches them. */
+    .wd-side {
+      grid-template-rows: none;
+      grid-template-columns: repeat(var(--wd-side-n), 1fr);
+    }
+    .wd-side-cell {
+      aspect-ratio: 1 / 1;
+    }
+    /* ART pinned left, CODE right, handwritten note on its own centered row —
+       instead of the desktop space-between flex that let the note balloon tall. */
+    .wd-meter-head {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .wd-meter-art {
+      justify-self: start;
+    }
+    .wd-meter-code {
+      justify-self: end;
+    }
+    .wd-meter-note {
+      grid-column: 1 / -1;
+      grid-row: 2;
+      transform: none;
+      font-size: 15px;
+    }
+    .wd-thread-head {
+      flex-direction: column;
+      gap: 4px;
+    }
+    /* Milestones keep their spacing and scroll sideways instead of colliding. */
+    .wd-thread-scroll {
+      overflow-x: auto;
+    }
+    .wd-thread-track {
+      min-width: 360px;
+    }
+    .wd-prevnext {
+      flex-direction: column;
+      gap: 10px;
     }
   }
 </style>
