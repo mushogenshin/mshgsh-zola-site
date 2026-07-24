@@ -62,7 +62,7 @@
   image: cascina/cascina-2016-b.webp
   bannerImagePreview: cascina/cascina-2016-a.webp
   bannerSwapTaglineRetained: false
-  # bannerFx: noise
+  # bannerFx: wipe
   href: "#"
   standfirst: >-
     A reconstruction of Michelangelo’s lost cartoon as a set of 19 figurative
@@ -169,6 +169,10 @@
     read true.
   slot: anatomy plates
   href: "#"
+  image: animals/anastomia-human-on-four.webp
+  bannerImagePreview: animals/anastomia-comparative.webp
+  bannerSwapTaglineRetained: false
+  # bannerFx: noise
   standfirst: >-
     Three years teaching myself comparative animal anatomy — the bridge under every
     rig and creature since.
@@ -187,6 +191,14 @@
       shoulder, the jellyfish’s drift, the dragons in Control Rig, the anatomy app.
       Nothing downstream reads true without it.
   tools: [écorché, comparative anatomy, teaching material, Maya]
+  media:
+    - image: animals/anastomia-k006-forelimbs-ribcage-slingshot.webp
+      alt: Ribcage as slingshot
+      caption: Ribcage as slingshot
+    - image: animals/anastomia-s005-cat-slap-vs-dog.webp
+      alt: Cat slap vs dog
+    - image: animals/anastomia-s001-the-three-grades.webp
+      alt: The three grades of animal anatomy
   links:
     - label: ArtStation
       href: "https://artstation.com/mushogenshin"
